@@ -86,9 +86,7 @@
 - Referer      来源（少）
 - X-Forwarded-For 获取ip（高）
 - client_ip   获取ip（高）
--cookie      获取cookie值（高）&amp;lt;!--more--&amp;gt;
-一. cookie注入
-原理： 在ASP中,request对象获取客户端提交数据常用的是g">
+-cookie      获取cookie值（高）">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HTTP请求头信息的注入">
 <meta property="og:url" content="http://yoursite.com/2015/04/06/HTTP请求头信息的注入/index.html">
@@ -99,10 +97,8 @@
 - Referer      来源（少）
 - X-Forwarded-For 获取ip（高）
 - client_ip   获取ip（高）
--cookie      获取cookie值（高）&amp;lt;!--more--&amp;gt;
-一. cookie注入
-原理： 在ASP中,request对象获取客户端提交数据常用的是g">
-<meta property="og:updated_time" content="2016-04-13T08:17:43.499Z">
+-cookie      获取cookie值（高）">
+<meta property="og:updated_time" content="2016-04-13T08:29:17.346Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTTP请求头信息的注入">
 <meta name="twitter:description" content="常见http可能被污染的参数有这些
@@ -111,9 +107,7 @@
 - Referer      来源（少）
 - X-Forwarded-For 获取ip（高）
 - client_ip   获取ip（高）
--cookie      获取cookie值（高）&amp;lt;!--more--&amp;gt;
-一. cookie注入
-原理： 在ASP中,request对象获取客户端提交数据常用的是g">
+-cookie      获取cookie值（高）">
 
 
 
@@ -337,8 +331,9 @@
 - Referer      来源（少）
 - X-Forwarded-For 获取ip（高）
 - client_ip   获取ip（高）
--cookie      获取cookie值（高）&lt;!--more--&gt;
-</code></pre><h3 id="一-cookie注入"><a href="#一-cookie注入" class="headerlink" title="一. cookie注入"></a>一. cookie注入</h3><ol>
+-cookie      获取cookie值（高）
+</code></pre><a id="more"></a>
+<h3 id="一-cookie注入"><a href="#一-cookie注入" class="headerlink" title="一. cookie注入"></a>一. cookie注入</h3><ol>
 <li>原理： 在ASP中,request对象获取客户端提交数据常用的是get和post两种方式,同时request对象可以不通过集合来获得数据,即直接使用”request(“name”)”. 但它效率低下,容易出错,当我们省略具体的集合名称时,asp是按QueryString(get),Form(post),Cookie,Severvariable,集合的顺序来搜索的.cookie是保存在客户端的一个文本文件,可以进行修改,这样一来,就可以利用Request.cookie方式来提交变量的值,从而利用系统的漏洞进行注入攻击.</li>
 <li>条件1是程序对get和post方式提交的数据进行了过滤，但未对cookie提交的数据库进行过滤。条件2，在1的基础上还需要程序对提交数据获取方式是直接request(“xxx”)的方式，未指明使用request对象的具体方法进行获取。</li>
 <li><p>首先 我们需要找到一个注入点，如果是使用get方式提交的参数，要更改成cookie方式提交，我们首先要访问正常的存在注入点的页面，等页面完全打开之后，在开发者环境的console栏中，输入alert(document.cookie=”id=”+escape(“x”)); 这里的“id=”便是注入点中注入参数，x便是页面的参数的数值了，这两处要根据实际情况来定义。写完之后按下回车网页中会弹出一个对话框现在更改好了cookie后我们就要试下能不能正常访问了，现在在另外一个窗口中重新打开那个注入点既是将“id=x”去掉后的，然后看是否能正常访问。如果去掉之后能够继续访问 那么说明可以进行cookie注入，这样就说明程序在使用request对象获取数据的时候并未指明具体使用什么方法来获取，而是直接使用request(“xx”)的方式。<br>4.实例 <a href="http://sef.xjtu.edu.cn/news_content.asp?id=2074" target="_blank" rel="external">http://sef.xjtu.edu.cn/news_content.asp?id=2074</a></p>
@@ -495,6 +490,37 @@
         
 
         
+        
+          <div class="links-of-blogroll motion-element">
+            <div class="links-of-blogroll-title">Links</div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://oroot.com/" title="oroot" target="_blank">oroot</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.ourren.com/" title="ourren" target="_blank">ourren</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.pang0lin.com/" title="pang0lin" target="_blank">pang0lin</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://jinglingshu.org/" title="精灵鼠" target="_blank">精灵鼠</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.sccsec.com/" title="CCScan" target="_blank">CCScan</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.anquanquan.info/" title="安全圈" target="_blank">安全圈</a>
+                </li>
+              
+            </ul>
+          </div>
         
 
       </section>
