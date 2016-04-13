@@ -80,19 +80,16 @@
 
 
 
-<meta name="description" content="转：http://windkeepblow.blog.163.com/blog/static/1914883312013988185783/
-如题，其实我的问题很简单，就是在写爬虫的时候拿到网页的信息包含类似“\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c”的字符串，实际上这是unicode的中文编码，对应的中文为“新浪微博注册”。其实我就是想找一个函数让这一串东西显示中">
+<meta name="description" content="&amp;emsp;&amp;emsp;如题，其实我的问题很简单，就是在写爬虫的时候拿到网页的信息包含类似”\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c”的字符串，实际上这是unicode的中文编码，对应的中文为“新浪微博注册”。其实我就是想找一个函数让这一串东西显示中文而已，没想到百度了白天找到合适的。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="python unicode字节串转成中文问题  （转）">
 <meta property="og:url" content="http://yoursite.com/2015/06/18/python unicode字节串转成中文问题/index.html">
 <meta property="og:site_name" content="wps2015的博客">
-<meta property="og:description" content="转：http://windkeepblow.blog.163.com/blog/static/1914883312013988185783/
-如题，其实我的问题很简单，就是在写爬虫的时候拿到网页的信息包含类似“\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c”的字符串，实际上这是unicode的中文编码，对应的中文为“新浪微博注册”。其实我就是想找一个函数让这一串东西显示中">
-<meta property="og:updated_time" content="2016-04-13T01:36:32.903Z">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;如题，其实我的问题很简单，就是在写爬虫的时候拿到网页的信息包含类似”\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c”的字符串，实际上这是unicode的中文编码，对应的中文为“新浪微博注册”。其实我就是想找一个函数让这一串东西显示中文而已，没想到百度了白天找到合适的。">
+<meta property="og:updated_time" content="2016-04-13T08:04:27.322Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python unicode字节串转成中文问题  （转）">
-<meta name="twitter:description" content="转：http://windkeepblow.blog.163.com/blog/static/1914883312013988185783/
-如题，其实我的问题很简单，就是在写爬虫的时候拿到网页的信息包含类似“\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c”的字符串，实际上这是unicode的中文编码，对应的中文为“新浪微博注册”。其实我就是想找一个函数让这一串东西显示中">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;如题，其实我的问题很简单，就是在写爬虫的时候拿到网页的信息包含类似”\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c”的字符串，实际上这是unicode的中文编码，对应的中文为“新浪微博注册”。其实我就是想找一个函数让这一串东西显示中文而已，没想到百度了白天找到合适的。">
 
 
 
@@ -309,12 +306,12 @@
       
 
       
-        <p>转：<a href="http://windkeepblow.blog.163.com/blog/static/1914883312013988185783/" target="_blank" rel="external">http://windkeepblow.blog.163.com/blog/static/1914883312013988185783/</a></p>
-<p>如题，其实我的问题很简单，就是在写爬虫的时候拿到网页的信息包含类似“\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c”的字符串，实际上这是unicode的中文编码，对应的中文为“新浪微博注册”。其实我就是想找一个函数让这一串东西显示中文而已，没想到百度了白天找到合适的。遇到这种问题千万不要用什么 “python编码” “unicode中文编码” “unicode解码”这样的关键字去搜，一大堆网页出来毫不相关。</p>
-<p>其实这个问题一个函数搞定，如下：</p>
-<p>Example 1:<br>&gt;&gt;&gt; s = r”\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c”<br>&gt;&gt;&gt; s<br>‘\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c’<br>&gt;&gt;&gt; print s<br>\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c<br>&gt;&gt;&gt; s = s.decode(“unicode_escape”); #就是这个函数<br>&gt;&gt;&gt; print s</p>
-<p>Example 2:<br>&gt;&gt;&gt; str<em> = “Russopho\xe9bic, clichd and just pl\xe9ain stupid.”<br>&gt;&gt;&gt; print str</em><br>Russopho?bic, clichd and just pl?ain stupid.<br>&gt;&gt;&gt; str<em> = str</em>.decode(“unicode<em>escape”)<br>&gt;&gt;&gt; print str</em></p>
-<div><br><div></div><br><div>(这个方法解决了我在插入数据到mongodb时遇到的“bson.errors.InvalidStringData: strings in documents must be valid UTF-8”问题)</div><br><div></div><br><div>    附上关于这个问题的相关博客链接：<a href="http://www.cnblogs.com/yangze/archive/2010/11/16/1878469.html" target="_blank" rel="external">http://www.cnblogs.com/yangze/archive/2010/11/16/1878469.html</a></div><br><div></div><br><div>        另外还有一个与unicode字节串有关的问题，遇到这样的错误提示：Unicode equal comparison failed to convert both arguments to Unicode - interpreting them as being unequal。说明我们在对两个字符（串）进行对比的时候等号两边的类型</div><br><div>不一样，可能是一边是unicode字节串，一边是字符串。详见<a href="http://stackoverflow.com/questions/3400171/python-utf-8-comparison。" target="_blank" rel="external">http://stackoverflow.com/questions/3400171/python-utf-8-comparison。</a></div><br><div></div><br><div>小结：<br>以后遇到奇葩问题要想好关键字再搜，不然很有可能一无所获。</div><br></div>
+        <p>&emsp;&emsp;如题，其实我的问题很简单，就是在写爬虫的时候拿到网页的信息包含类似”\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c”的字符串，实际上这是unicode的中文编码，对应的中文为“新浪微博注册”。其实我就是想找一个函数让这一串东西显示中文而已，没想到百度了白天找到合适的。<a id="more"></a>遇到这种问题千万不要用什么 “python编码” “unicode中文编码” “unicode解码”这样的关键字去搜，一大堆网页出来毫不相关。<br>&emsp;&emsp;其实这个问题一个函数搞定，如下：<br>Example 1:<br>&gt;&gt;&gt; s = r”\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c”<br>&gt;&gt;&gt; s<br>‘\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c’<br>&gt;&gt;&gt; print s<br>\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c<br>&gt;&gt;&gt; s = s.decode(“unicode_escape”); #就是这个函数<br>&gt;&gt;&gt; print s</p>
+<p>Example 2:<br>&gt;&gt;&gt; str<em> = “Russopho\xe9bic, clichd and just pl\xe9ain stupid.”<br>&gt;&gt;&gt; print str</em><br>Russopho?bic, clichd and just pl?ain stupid.<br>&gt;&gt;&gt; str<em> = str</em>.decode(“unicode<em>escape”)<br>&gt;&gt;&gt; print str</em><br>&emsp;&emsp;这个方法解决了我在插入数据到mongodb时遇到的“bson.errors.InvalidStringData: strings in documents must be valid UTF-8”问题。<br>&emsp;&emsp;附上关于这个问题的相关博客链接：<a href="http://www.cnblogs.com/yangze/archive/2010/11/16/1878469.html" target="_blank" rel="external">戳这里</a>。另外还有一个与unicode字节串有关的问题，遇到这样的错误提示：Unicode equal comparison failed to convert both arguments to Unicode - interpreting them as being unequal。说明我们在对两个字符（串）进行对比的时候等号两边的类型<br>不一样，可能是一边是unicode字节串，一边是字符串。详见<a href="http://stackoverflow.com/questions/3400171/python-utf-8-comparison。" target="_blank" rel="external">http://stackoverflow.com/questions/3400171/python-utf-8-comparison。</a></p>
+<p>小结：<br>以后遇到奇葩问题要想好关键字再搜，不然很有可能一无所获。</p>
+<hr>
+<p>转：<a href="http://windkeepblow.blog.163.com/blog/static/1914883312013988185783/" target="_blank" rel="external">http://windkeepblow.blog.163.com/blog/static/1914883312013988185783/</a></p>
+
       
     </div>
     
@@ -343,8 +340,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/05/28/忘记密码咋办？本地密码检索工具 – LaZagne Project/" rel="next" title="忘记密码咋办？本地密码检索工具 – LaZagne Project">
-                <i class="fa fa-chevron-left"></i> 忘记密码咋办？本地密码检索工具 – LaZagne Project
+              <a href="/2015/05/21/PHP5.5使用Bcrypt加密密码/" rel="next" title="PHP5.5使用Bcrypt加密密码">
+                <i class="fa fa-chevron-left"></i> PHP5.5使用Bcrypt加密密码
               </a>
             
           </div>
@@ -421,7 +418,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">12</span>
+              <span class="site-state-item-count">9</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -429,7 +426,7 @@
           
             <div class="site-state-item site-state-categories">
               
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">分类</span>
               
             </div>
@@ -438,7 +435,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

