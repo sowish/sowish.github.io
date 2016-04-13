@@ -80,28 +80,37 @@
 
 
 
-<meta name="description" content="在php5.5中，加入了一个新的密码哈希函数，可使用Bcrypt轻松实现加盐的安全密码。
-bcrypt和其他对称或非对称加密方式不同的是，不是直接解密得到明文，也不是二次加密比较密文，而是把明文和存储的密文一块运算得到另一个密文，如果这两个密文相同则验证成功。
-官方手册在这里： http://cn2.php.net/manual/zh/book.password.php
-生成密钥
-[php]$ha">
+<meta name="description" content="1. 首先我们需要明白正向代理和反向代理的区别
+1.1 正向代理(Forward Proxy)
+
+[python]Lhost－－&amp;gt;proxy－－&amp;gt;Rhost[/python]
+Lhost为了访问到Rhost，向proxy发送了一个请求并且指定目标是Rhost，然后proxy向Rhost转交请求并将获得的内容返回给Lhost，简单来说正向代理就是proxy代替了我们去访问Rhost。
+1">
 <meta property="og:type" content="article">
-<meta property="og:title" content="PHP5.5使用Bcrypt加密密码">
-<meta property="og:url" content="http://yoursite.com/2015/05/21/php5-5-e4-bd-bf-e7-94-a8bcrypt-e5-8a-a0-e5-af-86-e5-af-86-e7-a0-81/index.html">
+<meta property="og:title" content="内网渗透之socks5代理（reGeorg+proxifier详细配置说明）">
+<meta property="og:url" content="http://yoursite.com/2016/03/02/内网渗透之socks5代理（reGeorg+proxifier详细配置说明）/index.html">
 <meta property="og:site_name" content="wps2015的博客">
-<meta property="og:description" content="在php5.5中，加入了一个新的密码哈希函数，可使用Bcrypt轻松实现加盐的安全密码。
-bcrypt和其他对称或非对称加密方式不同的是，不是直接解密得到明文，也不是二次加密比较密文，而是把明文和存储的密文一块运算得到另一个密文，如果这两个密文相同则验证成功。
-官方手册在这里： http://cn2.php.net/manual/zh/book.password.php
-生成密钥
-[php]$ha">
+<meta property="og:description" content="1. 首先我们需要明白正向代理和反向代理的区别
+1.1 正向代理(Forward Proxy)
+
+[python]Lhost－－&amp;gt;proxy－－&amp;gt;Rhost[/python]
+Lhost为了访问到Rhost，向proxy发送了一个请求并且指定目标是Rhost，然后proxy向Rhost转交请求并将获得的内容返回给Lhost，简单来说正向代理就是proxy代替了我们去访问Rhost。
+1">
+<meta property="og:image" content="http://wps2015.jinglingshu.org/wp-content/uploads/2016/03/clipboard.png">
+<meta property="og:image" content="http://wps2015.jinglingshu.org/wp-content/uploads/2016/03/clipboard-1.png">
+<meta property="og:image" content="http://wps2015.jinglingshu.org/wp-content/uploads/2016/03/clipboard-2.png">
+<meta property="og:image" content="http://wps2015.jinglingshu.org/wp-content/uploads/2016/03/clipboard-3.png">
+<meta property="og:image" content="http://wps2015.jinglingshu.org/wp-content/uploads/2016/03/clipboard-4.png">
 <meta property="og:updated_time" content="2016-04-13T01:36:32.903Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="PHP5.5使用Bcrypt加密密码">
-<meta name="twitter:description" content="在php5.5中，加入了一个新的密码哈希函数，可使用Bcrypt轻松实现加盐的安全密码。
-bcrypt和其他对称或非对称加密方式不同的是，不是直接解密得到明文，也不是二次加密比较密文，而是把明文和存储的密文一块运算得到另一个密文，如果这两个密文相同则验证成功。
-官方手册在这里： http://cn2.php.net/manual/zh/book.password.php
-生成密钥
-[php]$ha">
+<meta name="twitter:title" content="内网渗透之socks5代理（reGeorg+proxifier详细配置说明）">
+<meta name="twitter:description" content="1. 首先我们需要明白正向代理和反向代理的区别
+1.1 正向代理(Forward Proxy)
+
+[python]Lhost－－&amp;gt;proxy－－&amp;gt;Rhost[/python]
+Lhost为了访问到Rhost，向proxy发送了一个请求并且指定目标是Rhost，然后proxy向Rhost转交请求并将获得的内容返回给Lhost，简单来说正向代理就是proxy代替了我们去访问Rhost。
+1">
+<meta name="twitter:image" content="http://wps2015.jinglingshu.org/wp-content/uploads/2016/03/clipboard.png">
 
 
 
@@ -119,7 +128,7 @@ bcrypt和其他对称或非对称加密方式不同的是，不是直接解密�
   };
 </script>
 
-  <title> PHP5.5使用Bcrypt加密密码 | wps2015的博客 </title>
+  <title> 内网渗透之socks5代理（reGeorg+proxifier详细配置说明） | wps2015的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -259,7 +268,7 @@ bcrypt和其他对称或非对称加密方式不同的是，不是直接解密�
             
             
               
-                PHP5.5使用Bcrypt加密密码
+                内网渗透之socks5代理（reGeorg+proxifier详细配置说明）
               
             
           </h1>
@@ -271,8 +280,8 @@ bcrypt和其他对称或非对称加密方式不同的是，不是直接解密�
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-05-21T14:58:55+08:00" content="2015-05-21">
-              2015-05-21
+            <time itemprop="dateCreated" datetime="2016-03-02T16:48:10+08:00" content="2016-03-02">
+              2016-03-02
             </time>
           </span>
 
@@ -285,8 +294,8 @@ bcrypt和其他对称或非对称加密方式不同的是，不是直接解密�
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/PHP/" itemprop="url" rel="index">
-                    <span itemprop="name">PHP</span>
+                  <a href="/categories/工具/" itemprop="url" rel="index">
+                    <span itemprop="name">工具</span>
                   </a>
                 </span>
 
@@ -318,32 +327,37 @@ bcrypt和其他对称或非对称加密方式不同的是，不是直接解密�
       
 
       
-        <p>在php5.5中，加入了一个新的密码哈希函数，可使用Bcrypt轻松实现加盐的安全密码。</p>
-<p>bcrypt和其他对称或非对称加密方式不同的是，不是直接解密得到明文，也不是二次加密比较密文，而是把明文和存储的密文一块运算得到另一个密文，如果这两个密文相同则验证成功。</p>
-<p>官方手册在这里： <a href="http://cn2.php.net/manual/zh/book.password.php" target="_blank" rel="external">http://cn2.php.net/manual/zh/book.password.php</a></p>
-<p>生成密钥</p>
-<p>[php]<br>$hash = password_hash(‘password’,PASSWORD_BCRYPT,[‘cost’ =&gt; 10]);<br>echo $hash;<br>[/php]</p>
-<p>password_hash() —-加密密码<br>第一个参数：需要加密的密码<br>第二个参数：密码算法常量 (<a href="http://cn2.php.net/manual/zh/password.constants.php" target="_blank" rel="external">http://cn2.php.net/manual/zh/password.constants.php</a>)<br>第三个参数：数组类型。支持两个选项：salt在散列密码时加的盐（干扰字符串）。cost用来指明算法递归的层数。</p>
-<p>上面代码每次运行生成的密钥不同，大致效果如下。</p>
-<p>[php]<br>$2y$10$bWNfw6QbjmjyCDBc9lrZRuBjraxBzN7eAuozS6D3r4QxJn0tgXRwe<br>[/php]</p>
-<p>生成的密钥长度为60位，所以设计数据库的时候需要注意。</p>
-<p>验证密钥</p>
-<p>懒得存数据库再去取了，直接把刚生成的密钥复制过来了~~</p>
-<p>[php]<br>$hash = ‘$2y$10$bWNfw6QbjmjyCDBc9lrZRuBjraxBzN7eAuozS6D3r4QxJn0tgXRwe’;<br>$res = password_verify(‘password’,$hash);<br>var_dump($res);<br>[/php]</p>
-<p>如果没有天灾人祸意外发生的话。你会看到下面的输出</p>
-<p>[php]bool(true)[/php]</p>
-<p>这就成功了。</p>
-<p>性能</p>
-<p>下面我们来看看Bcrypt的性能，安全性的提升，肯定是以性能为代价。bcrypt要加强密码安全性，增加运行时间也是肯定的。那我们现在就测试一下Bcrypt与普通md5的速度。</p>
-<p>测试机性能：</p>
-<p>CPU I7 4核 2.3G主频<br>内存 16G ddr3 内存<br>系统 Mac<br>PHP 5.5.15</p>
-<p>现在用下面这段代码分别测试一下md5和Bcrypt在不加盐的情况下的运行速度<br>[php]<br>&lt;!–?php<br> $s_time = microtime(true);</p>
-<p>password_hash(‘password’,PASSWORD_BCRYPT,[‘cost’ =&gt; 10]);<br>// md5(‘password’);<br>$e_time = microtime(true);<br>$run_time = $e_time-$s_time;</p>
-<p>echo ($run_time*1000).’ms’;<br>[/php]<br>Bcrypt 5次运行结果<br>[php]<br>68.569183349609ms<br>68.006992340088ms<br>69.074869155884ms<br>68.211078643799ms<br>68.757057189941ms<br>[/php]<br>md5 5次运行结果<br>[php]<br>0.0040531158447266ms<br>0.0040531158447266ms<br>0.0050067901611328ms<br>0.0040531158447266ms<br>0.003814697265625ms<br>[/php]<br>测试结果</p>
-<p>Bcrypt 加密一个密文平均值在68毫秒左右，<br>md5 加密一个密文平均值在0.004毫秒左右，</p>
-<p>性能大约差距16000倍</p>
-<p>采用md5 一秒大约能加密 250000个密文<br>采用Bcrypt 一秒大约能加密 14个密文</p>
-<p>所以，如果你要将Bcrypt用到你的程序中去的话。小应用还好，如果是大应用。您就得按倍数增加服务器了。<br>如果不是给五角大楼写程序，其实md5+salt安全性已经足够了。</p>
+        <p><span style="font-family: 'Microsoft Yahei'; font-size: medium;">1. 首先我们需要明白正向代理和反向代理的区别</span></p>
+<p><span style="font-family: 'Microsoft Yahei'; font-size: medium;">1.1 正向代理(Forward Proxy)</span></p>
+<hr>
+<p>[python]Lhost－－&gt;proxy－－&gt;Rhost[/python]</p>
+<p><span style="font-family: 'Microsoft Yahei';">Lhost为了访问到Rhost，向proxy发送了一个请求并且指定目标是Rhost，然后proxy向Rhost转交请求并将获得的内容返回给Lhost，简单来说正向代理就是proxy代替了我们去访问Rhost。</span></p>
+<p><span style="font-family: 'Microsoft Yahei'; font-size: medium;">1.2 反向代理（reverse proxy）</span></p>
+<hr>
+<p>[python]Lhost&lt;－－&gt;proxy&lt;－－&gt;firewall&lt;－－&gt;Rhost[/python]</p>
+<p><span style="font-family: 'Microsoft Yahei';">和正向代理相反（废话），Lhost只向proxy发送普通的请求，具体让他转到哪里，proxy自己判断，然后将返回的数据递交回来，这样的好处就是在某些防火墙只允许proxy数据进出的时候可以有效的进行穿透。</span></p>
+<p><span style="font-family: 'Microsoft Yahei';">而我们平常使用的reDuh、tunna，和reGeorg一样，都是正向代理。一般都是用户上传一个代理脚本到服务器端，本地的程序去连接服务器上的脚本，脚本程序做代理转发端口和流量。<br></span></p>
+<p><span style="font-family: 'Microsoft Yahei'; font-size: medium;">2. 工具介绍</span></p>
+<p><span style="font-family: 'Microsoft Yahei'; font-size: medium;">2.1 reGeorg</span></p>
+<p><span style="font-family: 'Microsoft Yahei';">    reGeorg是reDuh的继承者，利用了会话层的socks5协议，效率更高。</span></p>
+<p><span style="font-family: 'Microsoft Yahei';">    reGeorg下载地址：<a href="https://github.com/sensepost/reGeorg" target="_blank" rel="external">下载</a></span></p>
+<p><span style="font-family: 'Microsoft Yahei'; font-size: medium;">2.2 proxifier</span></p>
+<p><span style="font-family: 'Microsoft Yahei';">   Proxifier是一款功能非常强大的socks5客户端，可以让不支持通过代理服务器工作的网络程序能通过HTTPS或SOCKS代理或代理链。<br></span></p>
+<p><span style="font-family: 'Microsoft Yahei';">   下载地址：<a href="https://www.proxifier.com/" target="_blank" rel="external">下载</a></span></p>
+<p><span style="font-family: 'Microsoft Yahei';">   激活码：   <a href="http://wenku.baidu.com/link?url=T9od33JuA7jjxzfyV-wOjsYyARbVXwuXs2GwWwXLkX6vxRU4Rj0p_e2_0l1A0-WT9NOs3sh1OqDbYBgFYXLyjfconba4FF4iqdoz-tV5GH_" target="_blank" rel="external">查看</a></span></p>
+<p><span style="font-family: 'Microsoft Yahei'; font-size: medium;">3. 工具配置</span></p>
+<p><span style="font-family: 'Microsoft Yahei'; font-size: medium;">   先将reGeorg的对应脚本上传到服务器端，直接访问显示“Georg says, ‘All seems fine’”，表示脚本运行正常</span></p>
+<p><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2016/03/clipboard.png" alt="clipboard"></p>
+<p><span style="font-family: 'Microsoft Yahei';">运行py程序：<code>python reGeorgSocksProxy.py -p 8888 -u http:``//[www.exemple.com/test/tunnel.jsp](http://www.exemple.com/test/tunnel.jsp)</code></span></p>
+<p><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2016/03/clipboard-1.png" alt="clipboard (1)"></p>
+<p>将proxifier打开，在Proxy Server中这样配置</p>
+<p><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2016/03/clipboard-2.png" alt="clipboard (2)"></p>
+<p><span style="font-family: 'Microsoft Yahei';">然后在远程桌面程序上右键，以Proxifier选择“Proxy SOCKS5 127.0.0.1”打开。ipconfig查询内网机器的ip</span></p>
+<p><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2016/03/clipboard-3.png" alt="clipboard (3)"></p>
+<p><span style="font-family: 'Microsoft Yahei';">直接在远程连接上输入内网机器的内网ip</span></p>
+<p><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2016/03/clipboard-4.png" alt="clipboard (4)"></p>
+<p><span style="font-family: 'Microsoft Yahei';">点击连接即可。</span></p>
+<p>&nbsp;</p>
 
       
     </div>
@@ -367,16 +381,16 @@ bcrypt和其他对称或非对称加密方式不同的是，不是直接解密�
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/04/07/e5-9f-ba-e4-ba-8emssql-e7-9a-84-e6-8a-a5-e9-94-99-e6-b3-a8-e5-85-a5-e7-9a-84-e8-84-9a-e6-9c-acget/" rel="next" title="基于mssql的报错注入的脚本(get)">
-                <i class="fa fa-chevron-left"></i> 基于mssql的报错注入的脚本(get)
+              <a href="/2015/11/10/傻瓜式通用钓鱼工具Weeman1.5-GreenTree/" rel="next" title="傻瓜式通用钓鱼工具Weeman1.5-GreenTree">
+                <i class="fa fa-chevron-left"></i> 傻瓜式通用钓鱼工具Weeman1.5-GreenTree
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/05/28/e5-bf-98-e8-ae-b0-e5-af-86-e7-a0-81-e5-92-8b-e5-8a-9e-ef-bc-9f-e6-9c-ac-e5-9c-b0-e5-af-86-e7-a0-81-e6-a3-80-e7-b4-a2-e5-b7-a5-e5-85-b7-lazagne-project/" rel="prev" title="忘记密码咋办？本地密码检索工具 – LaZagne Project">
-                忘记密码咋办？本地密码检索工具 – LaZagne Project <i class="fa fa-chevron-right"></i>
+              <a href="/2016/03/11/浅谈企业网络边界/" rel="prev" title="浅谈企业网络边界">
+                浅谈企业网络边界 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>

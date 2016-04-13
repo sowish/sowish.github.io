@@ -80,22 +80,28 @@
 
 
 
-<meta name="description" content="1、host主机头host主机头绑定是很多网站常用的一种一机多站的实现方法,相对于使用不同端口来实现一机多站要安全许多,因为端口可以通过暴力手段找到,而host绑定就要难破解很多,因为需要IP和主机名的对应.
-2、漏洞成因及危害很多网站为了方便管理和节省服务器成本,将内网管理站点和外网站点放置在同一服务器下,使用一机多站来进行隔离.
-很多情况下一台服务器安装两块网卡,分别接入外网和内网,方便公网访">
+<meta name="description" content="在php5.5中，加入了一个新的密码哈希函数，可使用Bcrypt轻松实现加盐的安全密码。
+bcrypt和其他对称或非对称加密方式不同的是，不是直接解密得到明文，也不是二次加密比较密文，而是把明文和存储的密文一块运算得到另一个密文，如果这两个密文相同则验证成功。
+官方手册在这里： http://cn2.php.net/manual/zh/book.password.php
+生成密钥
+[php]$ha">
 <meta property="og:type" content="article">
-<meta property="og:title" content="关于服务器的host绑定的不安全因素">
-<meta property="og:url" content="http://yoursite.com/2015/09/29/e5-85-b3-e4-ba-8e-e6-9c-8d-e5-8a-a1-e5-99-a8-e7-9a-84host-e7-bb-91-e5-ae-9a-e7-9a-84-e4-b8-8d-e5-ae-89-e5-85-a8-e5-9b-a0-e7-b4-a0/index.html">
+<meta property="og:title" content="PHP5.5使用Bcrypt加密密码">
+<meta property="og:url" content="http://yoursite.com/2015/05/21/PHP5.5使用Bcrypt加密密码/index.html">
 <meta property="og:site_name" content="wps2015的博客">
-<meta property="og:description" content="1、host主机头host主机头绑定是很多网站常用的一种一机多站的实现方法,相对于使用不同端口来实现一机多站要安全许多,因为端口可以通过暴力手段找到,而host绑定就要难破解很多,因为需要IP和主机名的对应.
-2、漏洞成因及危害很多网站为了方便管理和节省服务器成本,将内网管理站点和外网站点放置在同一服务器下,使用一机多站来进行隔离.
-很多情况下一台服务器安装两块网卡,分别接入外网和内网,方便公网访">
+<meta property="og:description" content="在php5.5中，加入了一个新的密码哈希函数，可使用Bcrypt轻松实现加盐的安全密码。
+bcrypt和其他对称或非对称加密方式不同的是，不是直接解密得到明文，也不是二次加密比较密文，而是把明文和存储的密文一块运算得到另一个密文，如果这两个密文相同则验证成功。
+官方手册在这里： http://cn2.php.net/manual/zh/book.password.php
+生成密钥
+[php]$ha">
 <meta property="og:updated_time" content="2016-04-13T01:36:32.903Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="关于服务器的host绑定的不安全因素">
-<meta name="twitter:description" content="1、host主机头host主机头绑定是很多网站常用的一种一机多站的实现方法,相对于使用不同端口来实现一机多站要安全许多,因为端口可以通过暴力手段找到,而host绑定就要难破解很多,因为需要IP和主机名的对应.
-2、漏洞成因及危害很多网站为了方便管理和节省服务器成本,将内网管理站点和外网站点放置在同一服务器下,使用一机多站来进行隔离.
-很多情况下一台服务器安装两块网卡,分别接入外网和内网,方便公网访">
+<meta name="twitter:title" content="PHP5.5使用Bcrypt加密密码">
+<meta name="twitter:description" content="在php5.5中，加入了一个新的密码哈希函数，可使用Bcrypt轻松实现加盐的安全密码。
+bcrypt和其他对称或非对称加密方式不同的是，不是直接解密得到明文，也不是二次加密比较密文，而是把明文和存储的密文一块运算得到另一个密文，如果这两个密文相同则验证成功。
+官方手册在这里： http://cn2.php.net/manual/zh/book.password.php
+生成密钥
+[php]$ha">
 
 
 
@@ -113,7 +119,7 @@
   };
 </script>
 
-  <title> 关于服务器的host绑定的不安全因素 | wps2015的博客 </title>
+  <title> PHP5.5使用Bcrypt加密密码 | wps2015的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -253,7 +259,7 @@
             
             
               
-                关于服务器的host绑定的不安全因素
+                PHP5.5使用Bcrypt加密密码
               
             
           </h1>
@@ -265,8 +271,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-09-29T16:24:59+08:00" content="2015-09-29">
-              2015-09-29
+            <time itemprop="dateCreated" datetime="2015-05-21T14:58:55+08:00" content="2015-05-21">
+              2015-05-21
             </time>
           </span>
 
@@ -279,8 +285,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/漏洞利用/" itemprop="url" rel="index">
-                    <span itemprop="name">漏洞利用</span>
+                  <a href="/categories/PHP/" itemprop="url" rel="index">
+                    <span itemprop="name">PHP</span>
                   </a>
                 </span>
 
@@ -312,24 +318,32 @@
       
 
       
-        <p>1、host主机头<br>host主机头绑定是很多网站常用的一种一机多站的实现方法,相对于使用不同端口来实现一机多站要安全许多,因为端口可以通过暴力手段找到,而host绑定就要难破解很多,因为需要IP和主机名的对应.</p>
-<p>2、漏洞成因及危害<br>很多网站为了方便管理和节省服务器成本,将内网管理站点和外网站点放置在同一服务器下,使用一机多站来进行隔离.</p>
-<p>很多情况下一台服务器安装两块网卡,分别接入外网和内网,方便公网访问公开站点,内网访问管理站点.并绑定host.</p>
-<p>例如:</p>
-<p><pre class="lang:default highlight:0 decode:true">xxx.com为公开站点,并且指向IP为公网网卡.<br>admin.xxx.com为管理站点,并且指向内网网卡.</pre><br>看上去好像管理站点admin.xxx.com必须在内网才能访问但是却忽略了host绑定的问题.</p>
-<p>但是当我们将外网IP地址强制绑定到admin.xxx.com的时候web服务器又没有做来源检查,那么我们就可以通过外网访问到本来应该只有内网才能访问的管理站点了.</p>
-<p>并且由于是内网站点很多情况下管理员为了方便都是弱密码,或者直接未授权访问等</p>
-<p>3、漏洞的利用<br>利用的话可以直接使用域名的一个暴力猜解</p>
-<p>将外网IP和内网IP的域名全部记录下来</p>
-<p>例如</p>
-<p><pre class="lang:default highlight:0 decode:true">xxx.com ip 1.1.1.1<br>admin.xxx.com ip 10.0.0.1</pre><br>再使用工具将内网域名绑定到外网站点的IP上</p>
-<p>写入hosts文件</p>
-<p><pre class="lang:default highlight:0 decode:true">1.1.1.1 admin.xxx.com</pre><br>即可访问到内网站点了</p>
-<p>4、漏洞案例<br><a href="http://www.wooyun.org/bugs/wooyun-2014-081180" target="_blank" rel="external">途牛另类方式导致内网部分敏感系统泄露</a></p>
-<p><a href="http://www.wooyun.org/bugs/wooyun-2010-093577" target="_blank" rel="external">盛大某游戏GM工具注入进入后台</a></p>
-<p><a href="http://www.wooyun.org/bugs/wooyun-2010-088352" target="_blank" rel="external">傲游内网不完整漫游(大量内外网源码可被泄漏)</a></p>
-<p><a href="http://www.wooyun.org/bugs/wooyun-2010-0134151" target="_blank" rel="external">一下科技运维不当导致内部敏感信息泄漏</a></p>
-<p>转自：<a href="http://wiki.wooyun.org/server:host" target="_blank" rel="external">http://wiki.wooyun.org/server:host</a></p>
+        <p>在php5.5中，加入了一个新的密码哈希函数，可使用Bcrypt轻松实现加盐的安全密码。</p>
+<p>bcrypt和其他对称或非对称加密方式不同的是，不是直接解密得到明文，也不是二次加密比较密文，而是把明文和存储的密文一块运算得到另一个密文，如果这两个密文相同则验证成功。</p>
+<p>官方手册在这里： <a href="http://cn2.php.net/manual/zh/book.password.php" target="_blank" rel="external">http://cn2.php.net/manual/zh/book.password.php</a></p>
+<p>生成密钥</p>
+<p>[php]<br>$hash = password_hash(‘password’,PASSWORD_BCRYPT,[‘cost’ =&gt; 10]);<br>echo $hash;<br>[/php]</p>
+<p>password_hash() —-加密密码<br>第一个参数：需要加密的密码<br>第二个参数：密码算法常量 (<a href="http://cn2.php.net/manual/zh/password.constants.php" target="_blank" rel="external">http://cn2.php.net/manual/zh/password.constants.php</a>)<br>第三个参数：数组类型。支持两个选项：salt在散列密码时加的盐（干扰字符串）。cost用来指明算法递归的层数。</p>
+<p>上面代码每次运行生成的密钥不同，大致效果如下。</p>
+<p>[php]<br>$2y$10$bWNfw6QbjmjyCDBc9lrZRuBjraxBzN7eAuozS6D3r4QxJn0tgXRwe<br>[/php]</p>
+<p>生成的密钥长度为60位，所以设计数据库的时候需要注意。</p>
+<p>验证密钥</p>
+<p>懒得存数据库再去取了，直接把刚生成的密钥复制过来了~~</p>
+<p>[php]<br>$hash = ‘$2y$10$bWNfw6QbjmjyCDBc9lrZRuBjraxBzN7eAuozS6D3r4QxJn0tgXRwe’;<br>$res = password_verify(‘password’,$hash);<br>var_dump($res);<br>[/php]</p>
+<p>如果没有天灾人祸意外发生的话。你会看到下面的输出</p>
+<p>[php]bool(true)[/php]</p>
+<p>这就成功了。</p>
+<p>性能</p>
+<p>下面我们来看看Bcrypt的性能，安全性的提升，肯定是以性能为代价。bcrypt要加强密码安全性，增加运行时间也是肯定的。那我们现在就测试一下Bcrypt与普通md5的速度。</p>
+<p>测试机性能：</p>
+<p>CPU I7 4核 2.3G主频<br>内存 16G ddr3 内存<br>系统 Mac<br>PHP 5.5.15</p>
+<p>现在用下面这段代码分别测试一下md5和Bcrypt在不加盐的情况下的运行速度<br>[php]<br>&lt;!–?php<br> $s_time = microtime(true);</p>
+<p>password_hash(‘password’,PASSWORD_BCRYPT,[‘cost’ =&gt; 10]);<br>// md5(‘password’);<br>$e_time = microtime(true);<br>$run_time = $e_time-$s_time;</p>
+<p>echo ($run_time*1000).’ms’;<br>[/php]<br>Bcrypt 5次运行结果<br>[php]<br>68.569183349609ms<br>68.006992340088ms<br>69.074869155884ms<br>68.211078643799ms<br>68.757057189941ms<br>[/php]<br>md5 5次运行结果<br>[php]<br>0.0040531158447266ms<br>0.0040531158447266ms<br>0.0050067901611328ms<br>0.0040531158447266ms<br>0.003814697265625ms<br>[/php]<br>测试结果</p>
+<p>Bcrypt 加密一个密文平均值在68毫秒左右，<br>md5 加密一个密文平均值在0.004毫秒左右，</p>
+<p>性能大约差距16000倍</p>
+<p>采用md5 一秒大约能加密 250000个密文<br>采用Bcrypt 一秒大约能加密 14个密文</p>
+<p>所以，如果你要将Bcrypt用到你的程序中去的话。小应用还好，如果是大应用。您就得按倍数增加服务器了。<br>如果不是给五角大楼写程序，其实md5+salt安全性已经足够了。</p>
 
       
     </div>
@@ -353,16 +367,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/07/15/mysql-e5-b8-83-e5-b0-94-e7-9b-b2-e6-b3-a8/" rel="next" title="Mysql布尔盲注脚本">
-                <i class="fa fa-chevron-left"></i> Mysql布尔盲注脚本
+              <a href="/2015/04/07/基于mssql的报错注入的脚本(get)/" rel="next" title="基于mssql的报错注入的脚本(get)">
+                <i class="fa fa-chevron-left"></i> 基于mssql的报错注入的脚本(get)
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/11/10/e5-82-bb-e7-93-9c-e5-bc-8f-e9-80-9a-e7-94-a8-e9-92-93-e9-b1-bc-e5-b7-a5-e5-85-b7weeman1-5-greentree/" rel="prev" title="傻瓜式通用钓鱼工具Weeman1.5-GreenTree">
-                傻瓜式通用钓鱼工具Weeman1.5-GreenTree <i class="fa fa-chevron-right"></i>
+              <a href="/2015/05/28/忘记密码咋办？本地密码检索工具 – LaZagne Project/" rel="prev" title="忘记密码咋办？本地密码检索工具 – LaZagne Project">
+                忘记密码咋办？本地密码检索工具 – LaZagne Project <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
