@@ -3,21 +3,24 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Hello World | Hexo</title>
+  <title>关于服务器的host绑定的不安全因素 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+  <meta name="description" content="1、host主机头host主机头绑定是很多网站常用的一种一机多站的实现方法,相对于使用不同端口来实现一机多站要安全许多,因为端口可以通过暴力手段找到,而host绑定就要难破解很多,因为需要IP和主机名的对应.
+2、漏洞成因及危害很多网站为了方便管理和节省服务器成本,将内网管理站点和外网站点放置在同一服务器下,使用一机多站来进行隔离.
+很多情况下一台服务器安装两块网卡,分别接入外网和内网,方便公网访">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://yoursite.com/2016/04/12/hello-world/index.html">
+<meta property="og:title" content="关于服务器的host绑定的不安全因素">
+<meta property="og:url" content="http://yoursite.com/2015/09/29/e5-85-b3-e4-ba-8e-e6-9c-8d-e5-8a-a1-e5-99-a8-e7-9a-84host-e7-bb-91-e5-ae-9a-e7-9a-84-e4-b8-8d-e5-ae-89-e5-85-a8-e5-9b-a0-e7-b4-a0/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
-<meta property="og:updated_time" content="2016-04-12T13:07:10.876Z">
+<meta property="og:description" content="1、host主机头host主机头绑定是很多网站常用的一种一机多站的实现方法,相对于使用不同端口来实现一机多站要安全许多,因为端口可以通过暴力手段找到,而host绑定就要难破解很多,因为需要IP和主机名的对应.
+2、漏洞成因及危害很多网站为了方便管理和节省服务器成本,将内网管理站点和外网站点放置在同一服务器下,使用一机多站来进行隔离.
+很多情况下一台服务器安装两块网卡,分别接入外网和内网,方便公网访">
+<meta property="og:updated_time" content="2016-04-13T01:36:32.903Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+<meta name="twitter:title" content="关于服务器的host绑定的不安全因素">
+<meta name="twitter:description" content="1、host主机头host主机头绑定是很多网站常用的一种一机多站的实现方法,相对于使用不同端口来实现一机多站要安全许多,因为端口可以通过暴力手段找到,而host绑定就要难破解很多,因为需要IP和主机名的对应.
+2、漏洞成因及危害很多网站为了方便管理和节省服务器成本,将内网管理站点和外网站点放置在同一服务器下,使用一机多站来进行隔离.
+很多情况下一台服务器安装两块网卡,分别接入外网和内网,方便公网访">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -66,12 +69,16 @@ Quick">
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-e5-85-b3-e4-ba-8e-e6-9c-8d-e5-8a-a1-e5-99-a8-e7-9a-84host-e7-bb-91-e5-ae-9a-e7-9a-84-e4-b8-8d-e5-ae-89-e5-85-a8-e5-9b-a0-e7-b4-a0" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/04/12/hello-world/" class="article-date">
-  <time datetime="2016-04-12T13:07:10.876Z" itemprop="datePublished">2016-04-12</time>
+    <a href="/2015/09/29/e5-85-b3-e4-ba-8e-e6-9c-8d-e5-8a-a1-e5-99-a8-e7-9a-84host-e7-bb-91-e5-ae-9a-e7-9a-84-e4-b8-8d-e5-ae-89-e5-85-a8-e5-9b-a0-e7-b4-a0/" class="article-date">
+  <time datetime="2015-09-29T08:24:59.000Z" itemprop="datePublished">2015-09-29</time>
 </a>
     
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/漏洞利用/">漏洞利用</a>
+  </div>
+
   </div>
   <div class="article-inner">
     
@@ -80,7 +87,7 @@ Quick">
         
   
     <h1 class="article-title" itemprop="name">
-      Hello World
+      关于服务器的host绑定的不安全因素
     </h1>
   
 
@@ -88,20 +95,29 @@ Quick">
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+        <p>1、host主机头<br>host主机头绑定是很多网站常用的一种一机多站的实现方法,相对于使用不同端口来实现一机多站要安全许多,因为端口可以通过暴力手段找到,而host绑定就要难破解很多,因为需要IP和主机名的对应.</p>
+<p>2、漏洞成因及危害<br>很多网站为了方便管理和节省服务器成本,将内网管理站点和外网站点放置在同一服务器下,使用一机多站来进行隔离.</p>
+<p>很多情况下一台服务器安装两块网卡,分别接入外网和内网,方便公网访问公开站点,内网访问管理站点.并绑定host.</p>
+<p>例如:</p>
+<p><pre class="lang:default highlight:0 decode:true">xxx.com为公开站点,并且指向IP为公网网卡.<br>admin.xxx.com为管理站点,并且指向内网网卡.</pre><br>看上去好像管理站点admin.xxx.com必须在内网才能访问但是却忽略了host绑定的问题.</p>
+<p>但是当我们将外网IP地址强制绑定到admin.xxx.com的时候web服务器又没有做来源检查,那么我们就可以通过外网访问到本来应该只有内网才能访问的管理站点了.</p>
+<p>并且由于是内网站点很多情况下管理员为了方便都是弱密码,或者直接未授权访问等</p>
+<p>3、漏洞的利用<br>利用的话可以直接使用域名的一个暴力猜解</p>
+<p>将外网IP和内网IP的域名全部记录下来</p>
+<p>例如</p>
+<p><pre class="lang:default highlight:0 decode:true">xxx.com ip 1.1.1.1<br>admin.xxx.com ip 10.0.0.1</pre><br>再使用工具将内网域名绑定到外网站点的IP上</p>
+<p>写入hosts文件</p>
+<p><pre class="lang:default highlight:0 decode:true">1.1.1.1 admin.xxx.com</pre><br>即可访问到内网站点了</p>
+<p>4、漏洞案例<br><a href="http://www.wooyun.org/bugs/wooyun-2014-081180" target="_blank" rel="external">途牛另类方式导致内网部分敏感系统泄露</a></p>
+<p><a href="http://www.wooyun.org/bugs/wooyun-2010-093577" target="_blank" rel="external">盛大某游戏GM工具注入进入后台</a></p>
+<p><a href="http://www.wooyun.org/bugs/wooyun-2010-088352" target="_blank" rel="external">傲游内网不完整漫游(大量内外网源码可被泄漏)</a></p>
+<p><a href="http://www.wooyun.org/bugs/wooyun-2010-0134151" target="_blank" rel="external">一下科技运维不当导致内部敏感信息泄漏</a></p>
+<p>转自：<a href="http://wiki.wooyun.org/server:host" target="_blank" rel="external">http://wiki.wooyun.org/server:host</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/12/hello-world/" data-id="cimy6sd5e000er0gcg1m0qywb" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/09/29/e5-85-b3-e4-ba-8e-e6-9c-8d-e5-8a-a1-e5-99-a8-e7-9a-84host-e7-bb-91-e5-ae-9a-e7-9a-84-e4-b8-8d-e5-ae-89-e5-85-a8-e5-9b-a0-e7-b4-a0/" data-id="cimy6sd500004r0gcohszv65h" class="article-share-link">Share</a>
       
       
     </footer>
@@ -110,19 +126,19 @@ Quick">
     
 <nav id="article-nav">
   
-    <a href="/2016/04/12/test/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2015/11/10/e5-82-bb-e7-93-9c-e5-bc-8f-e9-80-9a-e7-94-a8-e9-92-93-e9-b1-bc-e5-b7-a5-e5-85-b7weeman1-5-greentree/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          test
+          傻瓜式通用钓鱼工具Weeman1.5-GreenTree
         
       </div>
     </a>
   
   
-    <a href="/2016/03/11/e6-b5-85-e8-b0-88-e4-bc-81-e4-b8-9a-e7-bd-91-e7-bb-9c-e8-be-b9-e7-95-8c-3/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2015/07/15/mysql-e5-b8-83-e5-b0-94-e7-9b-b2-e6-b3-a8/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">浅谈企业网络边界</div>
+      <div class="article-nav-title">Mysql布尔盲注脚本</div>
     </a>
   
 </nav>

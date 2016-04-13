@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>HTTP请求头信息的注入 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="常见http可能被污染的参数有这些    - User-agent 浏览器版本 （少）    - Referer      来源（少）    - X-Forwarded-For 获取ip（高）    - client_ip   获取ip（高）    -cookie      获取cookie值（高）一. cookie注入    1. 原理： 在ASP中,request对象获取客户端提交数据常用的是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTTP请求头信息的注入">
+<meta property="og:url" content="http://yoursite.com/2015/04/06/http-e8-af-b7-e6-b1-82-e5-a4-b4-e4-bf-a1-e6-81-af-e7-9a-84-e6-b3-a8-e5-85-a5-3/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="常见http可能被污染的参数有这些    - User-agent 浏览器版本 （少）    - Referer      来源（少）    - X-Forwarded-For 获取ip（高）    - client_ip   获取ip（高）    -cookie      获取cookie值（高）一. cookie注入    1. 原理： 在ASP中,request对象获取客户端提交数据常用的是">
+<meta property="og:image" content="http://wps2015.jinglingshu.org/wp-content/uploads/2015/04/QQ截图20141226164615-1024x730.png">
+<meta property="og:image" content="http://wps2015.jinglingshu.org/wp-content/uploads/2015/04/clipboard2.png">
+<meta property="og:image" content="http://wps2015.jinglingshu.org/wp-content/uploads/2015/04/2.png">
+<meta property="og:image" content="http://wps2015.jinglingshu.org/wp-content/uploads/2015/04/clipboard-1024x238.png">
+<meta property="og:updated_time" content="2016-04-13T01:36:32.902Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HTTP请求头信息的注入">
+<meta name="twitter:description" content="常见http可能被污染的参数有这些    - User-agent 浏览器版本 （少）    - Referer      来源（少）    - X-Forwarded-For 获取ip（高）    - client_ip   获取ip（高）    -cookie      获取cookie值（高）一. cookie注入    1. 原理： 在ASP中,request对象获取客户端提交数据常用的是">
+<meta name="twitter:image" content="http://wps2015.jinglingshu.org/wp-content/uploads/2015/04/QQ截图20141226164615-1024x730.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-http-e8-af-b7-e6-b1-82-e5-a4-b4-e4-bf-a1-e6-81-af-e7-9a-84-e6-b3-a8-e5-85-a5-3" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/04/06/http-e8-af-b7-e6-b1-82-e5-a4-b4-e4-bf-a1-e6-81-af-e7-9a-84-e6-b3-a8-e5-85-a5-3/" class="article-date">
+  <time datetime="2015-04-06T04:37:49.000Z" itemprop="datePublished">2015-04-06</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/注入/">注入</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      HTTP请求头信息的注入
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <div><br><br><span style="font-size: medium;">常见http可能被污染的参数有这些</span><br><div><br><div><span style="font-size: medium;">    - User-agent 浏览器版本 （少）</span></div><br><div><span style="font-size: medium;">    - Referer      来源（少）</span></div><br><div><span style="font-size: medium;">    - X-Forwarded-For 获取ip（高）</span></div><br><div><span style="font-size: medium;">    - client_ip   获取ip（高）</span></div><br><div><span style="font-size: medium;">    -cookie      获取cookie值（高）</span></div><br><div></div><br><div></div><br></div><br></div><br><div><strong><span style="font-size: medium;">一. cookie注入</span></strong></div><br><div><span style="font-family: SimHei;">  </span><span style="font-family: 'Microsoft Yahei';"> <span style="font-size: medium;"> 1. 原理： 在ASP中,request对象获取客户端提交数据常用的是get和post两种方式,同时request对象可以不通过集合来获得数据,即直接使用”request(“name”)”. 但它效率低下,容易出错,当我们省略具体的集合名称时,asp是按QueryString(get),Form(post),Cookie,Severvariable,集合的顺序来搜索的.cookie是保存在客户端的一个文本文件,可以进行修改,这样一来,就可以利用Request.cookie方式来提交变量的值,从而利用系统的漏洞进行注入攻击.</span></span></div><br><div><span style="font-family: 'Microsoft Yahei';"><span style="font-size: medium;">   2.  条件1是程序对get和post方式提交的数据进行了过滤，但未对cookie提交的<a href="http://www.2cto.com/database/" target="_blank" rel="external">数据库</a>进行过滤。</span>条件2，在1的基础上还需要程序对提交数据获取方式是直接request(“xxx”)的方式，未指明使用request对象的具体方法进行获取。</span></div><br><div><span style="font-family: 'Microsoft Yahei';"><span style="font-size: medium;">   3.  首先 我们需要找到一个注入点，如果是使用get方式提交的参数，要更改成cookie方式提交，我们首先要访问正常的存在注入点的页面，等页面完全打开之后，在开发者环境的console栏中，输入alert(document.cookie=”id=”+escape(“x”)); 这里的“id=”便是注入点中注入参数，x便是页面的参数的数值了，这两处要根据实际情况来定义。写完之后按下回车网页中会弹出一个对话框</span></span>现在更改好了cookie后我们就要试下能不能正常访问了，现在在另外一个窗口中重新打开那个注入点既是将“id=x”去掉后的，然后看是否能正常访问。如果去掉之后能够继续访问 那么说明可以进行cookie注入，这样就说明程序在使用request对象获取数据的时候并未指明具体使用什么方法来获取，而是直接使用request(“xx”)的方式。</div><br><div></div><br><div><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2015/04/QQ截图20141226164615-1024x730.png" alt="QQ截图20141226164615"></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div><br><div><span style="font-size: medium;">4.实例 </span><span style="font-size: medium;"><a href="http://sef.xjtu.edu.cn/news_content.asp?id=2074" target="_blank" rel="external">http://sef.xjtu.edu.cn/news_content.asp?id=2074</a></span></div><br><div></div><br><div></div><br><div></div><br><div><span style="font-size: medium;"><strong>二.  X-Forwarded-For注入()</strong></span></div><br><div><span style="font-size: medium;">  1.  X-Forwarded-For是HTTP头的一个字段。它被认为是客户端通过HTTP代理或者负载均衡器连接到web服务端获取源ip地址的一个标准。<br></span></div><br><div><span style="font-size: medium;">  2.  X-Forwarded-For注入常见于检测用户ip是否合法，进行sql查询的时没有过滤获取ip的参数。</span></div><br><div><span style="font-size: medium;">  3.  利用方法，可以用firefox中的X-Forwarded-For Header插件</span></div><br></div><br><div><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2015/04/clipboard2.png" alt="clipboard"></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div>或者将抓的头信息的包保存在sqlmap的根路径，比如test.txt，python sqlmap.py -r test.txt –level 3</div><br><div><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2015/04/2.png" alt="2"></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div>4. 实例：<a href="http://www.alexa.cn/" target="_blank" rel="external">http://www.alexa.cn/</a></div><br><div></div><br><div></div><br><div></div><br><div><br><div><span style="font-size: medium;">三.  <strong>User-agent注入</strong></span><span style="font-size: medium;">用户代理（user agent）是记录软件程序的客户端信息的HTTP头字段，他可以用来统计目标和违规协议。在HTTP头中应该包含它，这个字段的第一个空格前面是软件的产品名称，后面有一个可选的斜杠和版本号。</span><span style="font-size: medium;">并不是所有的应用程序都会被获取到user-agent信息，但是有些应用程序利用它存储一些信息（如：购物车）。在这种情况下，我们就有必要研究下user-agent头存在的问题了。</span><span style="font-size: medium;">HTTP查询实例：</span><span style="font-size: medium;">GET /index.php HTTP/1.1<br>Host: [host]<br>User-Agent: aaa’ or 1/<em></em></span>&nbsp;<br><br><span style="font-size: medium;">四. <strong>Referer注入</strong></span><br><br><span style="font-size: medium;">Referer是另外一个当应用程序没有过滤存储到数据库时，容易发生SQL注入的HTTP头。它是一个允许客户端指定的可选头部字段，通过它我们可以获取到提交请求URI的服务器情况。它允许服务器产生一系列的回退链接文档，像感兴趣的内容，日志等。它也允许跟踪那些坏链接以便维护。</span><br><br><span style="font-size: medium;">例如：</span><br><br><span style="font-size: medium;">GET /index.php HTTP/1.1<br>Host: [host]<br>User-Agent</span>: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.101 Safari/537.36<br><br></div><br><div><br><br><span style="font-size: medium;">Referer: <a href="http://www.yaboukir.com" target="_blank" rel="external">http://www.yaboukir.com</a>‘</span><br><br><span style="font-size: medium;">实例：</span><a href="http://baike.cardbaobao.com/index.php?user-login" target="_blank" rel="external">http://baike.cardbaobao.com/index.php?user-login</a><br><br></div><br></div><br><div><br><br><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2015/04/clipboard-1024x238.png" alt="clipboard"><br><br>&nbsp;<br><br>&nbsp;<br><br>&nbsp;<br><br>&nbsp;<br><br>&nbsp;<br><br>五<em>*. 防止消息头注入漏洞</em><br><br><span style="font-size: medium;">       防止HTTP消息头注入漏洞的最有效方法是，不将用户控制的输入插入到应用程序返回的HTTP消息头中。通常我们可以用一些较为安全的方法代替这种行为。</span><br><br><span style="font-size: medium;">如果不可避免地要在HTTP消息头中插入用户控制的数据，那么应用程序应采取以下这种双重深层防御方法防止漏洞产生。</span><br><br>输入确认。应用程序应根据情形，对插入的数据进行尽可能严格的确认。例如，如果根据用户输入设定一个cookie值，那么应当限制这个值仅包含字母字符，最大长度为6B。<br><br>输出确认。应对插入消息头的每一个数据进行过滤，检测可能的恶意字符。实际上，任何ASCII码小于0x20的字符都应被视为可疑的恶意字符，应用程序应拒绝包含这些字符的请求。通过对所有应用程序内容使用 HTTPS，应用程序即可防止攻击者利用任何残留的消息头注入漏洞”毒害”代理服务器缓存。<br><div></div><br>&nbsp;<br><br>&nbsp;<br><br></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/04/06/http-e8-af-b7-e6-b1-82-e5-a4-b4-e4-bf-a1-e6-81-af-e7-9a-84-e6-b3-a8-e5-85-a5-3/" data-id="cimy6sd5h000ir0gc62ira2j0" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/注入，注入技巧/">注入，注入技巧</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/04/07/e5-9f-ba-e4-ba-8emssql-e7-9a-84-e6-8a-a5-e9-94-99-e6-b3-a8-e5-85-a5-e7-9a-84-e8-84-9a-e6-9c-acget/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          基于mssql的报错注入的脚本(get)
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/PHP/">PHP</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/内网/">内网</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/工具/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/注入/">注入</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/漏洞利用/">漏洞利用</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/漏洞挖掘/">漏洞挖掘</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/">test</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/注入，注入技巧/">注入，注入技巧</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/test/" style="font-size: 10px;">test</a> <a href="/tags/工具/" style="font-size: 10px;">工具</a> <a href="/tags/注入，注入技巧/" style="font-size: 10px;">注入，注入技巧</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/04/12/test/">test</a>
+          </li>
+        
+          <li>
+            <a href="/2016/04/12/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2016/03/11/e6-b5-85-e8-b0-88-e4-bc-81-e4-b8-9a-e7-bd-91-e7-bb-9c-e8-be-b9-e7-95-8c-3/">浅谈企业网络边界</a>
+          </li>
+        
+          <li>
+            <a href="/2016/03/02/e5-86-85-e7-bd-91-e6-b8-97-e9-80-8f-e4-b9-8bsocks5-e4-bb-a3-e7-90-86-ef-bc-88regeorgproxifier-e8-af-a6-e7-bb-86-e9-85-8d-e7-bd-ae-e8-af-b4-e6-98-8e-ef-bc-89/">内网渗透之socks5代理（reGeorg+proxifier详细配置说明）</a>
+          </li>
+        
+          <li>
+            <a href="/2015/11/10/e5-82-bb-e7-93-9c-e5-bc-8f-e9-80-9a-e7-94-a8-e9-92-93-e9-b1-bc-e5-b7-a5-e5-85-b7weeman1-5-greentree/">傻瓜式通用钓鱼工具Weeman1.5-GreenTree</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

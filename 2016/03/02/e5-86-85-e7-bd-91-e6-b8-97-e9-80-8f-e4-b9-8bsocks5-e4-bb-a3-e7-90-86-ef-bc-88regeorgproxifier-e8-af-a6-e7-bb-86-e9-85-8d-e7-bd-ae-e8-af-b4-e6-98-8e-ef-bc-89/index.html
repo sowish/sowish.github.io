@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>内网渗透之socks5代理（reGeorg+proxifier详细配置说明） | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="1. 首先我们需要明白正向代理和反向代理的区别
+1.1 正向代理(Forward Proxy)
+
+[python]Lhost－－&amp;gt;proxy－－&amp;gt;Rhost[/python]
+Lhost为了访问到Rhost，向proxy发送了一个请求并且指定目标是Rhost，然后proxy向Rhost转交请求并将获得的内容返回给Lhost，简单来说正向代理就是proxy代替了我们去访问Rhost。
+1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="内网渗透之socks5代理（reGeorg+proxifier详细配置说明）">
+<meta property="og:url" content="http://yoursite.com/2016/03/02/e5-86-85-e7-bd-91-e6-b8-97-e9-80-8f-e4-b9-8bsocks5-e4-bb-a3-e7-90-86-ef-bc-88regeorgproxifier-e8-af-a6-e7-bb-86-e9-85-8d-e7-bd-ae-e8-af-b4-e6-98-8e-ef-bc-89/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="1. 首先我们需要明白正向代理和反向代理的区别
+1.1 正向代理(Forward Proxy)
+
+[python]Lhost－－&amp;gt;proxy－－&amp;gt;Rhost[/python]
+Lhost为了访问到Rhost，向proxy发送了一个请求并且指定目标是Rhost，然后proxy向Rhost转交请求并将获得的内容返回给Lhost，简单来说正向代理就是proxy代替了我们去访问Rhost。
+1">
+<meta property="og:image" content="http://wps2015.jinglingshu.org/wp-content/uploads/2016/03/clipboard.png">
+<meta property="og:image" content="http://wps2015.jinglingshu.org/wp-content/uploads/2016/03/clipboard-1.png">
+<meta property="og:image" content="http://wps2015.jinglingshu.org/wp-content/uploads/2016/03/clipboard-2.png">
+<meta property="og:image" content="http://wps2015.jinglingshu.org/wp-content/uploads/2016/03/clipboard-3.png">
+<meta property="og:image" content="http://wps2015.jinglingshu.org/wp-content/uploads/2016/03/clipboard-4.png">
+<meta property="og:updated_time" content="2016-04-13T01:36:32.903Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="内网渗透之socks5代理（reGeorg+proxifier详细配置说明）">
+<meta name="twitter:description" content="1. 首先我们需要明白正向代理和反向代理的区别
+1.1 正向代理(Forward Proxy)
+
+[python]Lhost－－&amp;gt;proxy－－&amp;gt;Rhost[/python]
+Lhost为了访问到Rhost，向proxy发送了一个请求并且指定目标是Rhost，然后proxy向Rhost转交请求并将获得的内容返回给Lhost，简单来说正向代理就是proxy代替了我们去访问Rhost。
+1">
+<meta name="twitter:image" content="http://wps2015.jinglingshu.org/wp-content/uploads/2016/03/clipboard.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-e5-86-85-e7-bd-91-e6-b8-97-e9-80-8f-e4-b9-8bsocks5-e4-bb-a3-e7-90-86-ef-bc-88regeorgproxifier-e8-af-a6-e7-bb-86-e9-85-8d-e7-bd-ae-e8-af-b4-e6-98-8e-ef-bc-89" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/03/02/e5-86-85-e7-bd-91-e6-b8-97-e9-80-8f-e4-b9-8bsocks5-e4-bb-a3-e7-90-86-ef-bc-88regeorgproxifier-e8-af-a6-e7-bb-86-e9-85-8d-e7-bd-ae-e8-af-b4-e6-98-8e-ef-bc-89/" class="article-date">
+  <time datetime="2016-03-02T08:48:10.000Z" itemprop="datePublished">2016-03-02</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/工具/">工具</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      内网渗透之socks5代理（reGeorg+proxifier详细配置说明）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><span style="font-family: 'Microsoft Yahei'; font-size: medium;">1. 首先我们需要明白正向代理和反向代理的区别</span></p>
+<p><span style="font-family: 'Microsoft Yahei'; font-size: medium;">1.1 正向代理(Forward Proxy)</span></p>
+<hr>
+<p>[python]Lhost－－&gt;proxy－－&gt;Rhost[/python]</p>
+<p><span style="font-family: 'Microsoft Yahei';">Lhost为了访问到Rhost，向proxy发送了一个请求并且指定目标是Rhost，然后proxy向Rhost转交请求并将获得的内容返回给Lhost，简单来说正向代理就是proxy代替了我们去访问Rhost。</span></p>
+<p><span style="font-family: 'Microsoft Yahei'; font-size: medium;">1.2 反向代理（reverse proxy）</span></p>
+<hr>
+<p>[python]Lhost&lt;－－&gt;proxy&lt;－－&gt;firewall&lt;－－&gt;Rhost[/python]</p>
+<p><span style="font-family: 'Microsoft Yahei';">和正向代理相反（废话），Lhost只向proxy发送普通的请求，具体让他转到哪里，proxy自己判断，然后将返回的数据递交回来，这样的好处就是在某些防火墙只允许proxy数据进出的时候可以有效的进行穿透。</span></p>
+<p><span style="font-family: 'Microsoft Yahei';">而我们平常使用的reDuh、tunna，和reGeorg一样，都是正向代理。一般都是用户上传一个代理脚本到服务器端，本地的程序去连接服务器上的脚本，脚本程序做代理转发端口和流量。<br></span></p>
+<p><span style="font-family: 'Microsoft Yahei'; font-size: medium;">2. 工具介绍</span></p>
+<p><span style="font-family: 'Microsoft Yahei'; font-size: medium;">2.1 reGeorg</span></p>
+<p><span style="font-family: 'Microsoft Yahei';">    reGeorg是reDuh的继承者，利用了会话层的socks5协议，效率更高。</span></p>
+<p><span style="font-family: 'Microsoft Yahei';">    reGeorg下载地址：<a href="https://github.com/sensepost/reGeorg" target="_blank" rel="external">下载</a></span></p>
+<p><span style="font-family: 'Microsoft Yahei'; font-size: medium;">2.2 proxifier</span></p>
+<p><span style="font-family: 'Microsoft Yahei';">   Proxifier是一款功能非常强大的socks5客户端，可以让不支持通过代理服务器工作的网络程序能通过HTTPS或SOCKS代理或代理链。<br></span></p>
+<p><span style="font-family: 'Microsoft Yahei';">   下载地址：<a href="https://www.proxifier.com/" target="_blank" rel="external">下载</a></span></p>
+<p><span style="font-family: 'Microsoft Yahei';">   激活码：   <a href="http://wenku.baidu.com/link?url=T9od33JuA7jjxzfyV-wOjsYyARbVXwuXs2GwWwXLkX6vxRU4Rj0p_e2_0l1A0-WT9NOs3sh1OqDbYBgFYXLyjfconba4FF4iqdoz-tV5GH_" target="_blank" rel="external">查看</a></span></p>
+<p><span style="font-family: 'Microsoft Yahei'; font-size: medium;">3. 工具配置</span></p>
+<p><span style="font-family: 'Microsoft Yahei'; font-size: medium;">   先将reGeorg的对应脚本上传到服务器端，直接访问显示“Georg says, ‘All seems fine’”，表示脚本运行正常</span></p>
+<p><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2016/03/clipboard.png" alt="clipboard"></p>
+<p><span style="font-family: 'Microsoft Yahei';">运行py程序：<code>python reGeorgSocksProxy.py -p 8888 -u http:``//[www.exemple.com/test/tunnel.jsp](http://www.exemple.com/test/tunnel.jsp)</code></span></p>
+<p><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2016/03/clipboard-1.png" alt="clipboard (1)"></p>
+<p>将proxifier打开，在Proxy Server中这样配置</p>
+<p><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2016/03/clipboard-2.png" alt="clipboard (2)"></p>
+<p><span style="font-family: 'Microsoft Yahei';">然后在远程桌面程序上右键，以Proxifier选择“Proxy SOCKS5 127.0.0.1”打开。ipconfig查询内网机器的ip</span></p>
+<p><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2016/03/clipboard-3.png" alt="clipboard (3)"></p>
+<p><span style="font-family: 'Microsoft Yahei';">直接在远程连接上输入内网机器的内网ip</span></p>
+<p><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2016/03/clipboard-4.png" alt="clipboard (4)"></p>
+<p><span style="font-family: 'Microsoft Yahei';">点击连接即可。</span></p>
+<p>&nbsp;</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/03/02/e5-86-85-e7-bd-91-e6-b8-97-e9-80-8f-e4-b9-8bsocks5-e4-bb-a3-e7-90-86-ef-bc-88regeorgproxifier-e8-af-a6-e7-bb-86-e9-85-8d-e7-bd-ae-e8-af-b4-e6-98-8e-ef-bc-89/" data-id="cimy6sd510005r0gcd8ev21tm" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/03/11/e6-b5-85-e8-b0-88-e4-bc-81-e4-b8-9a-e7-bd-91-e7-bb-9c-e8-be-b9-e7-95-8c-3/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          浅谈企业网络边界
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/11/10/e5-82-bb-e7-93-9c-e5-bc-8f-e9-80-9a-e7-94-a8-e9-92-93-e9-b1-bc-e5-b7-a5-e5-85-b7weeman1-5-greentree/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">傻瓜式通用钓鱼工具Weeman1.5-GreenTree</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/PHP/">PHP</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/内网/">内网</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/工具/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/注入/">注入</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/漏洞利用/">漏洞利用</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/漏洞挖掘/">漏洞挖掘</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/">test</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/注入，注入技巧/">注入，注入技巧</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/test/" style="font-size: 10px;">test</a> <a href="/tags/工具/" style="font-size: 10px;">工具</a> <a href="/tags/注入，注入技巧/" style="font-size: 10px;">注入，注入技巧</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/04/12/test/">test</a>
+          </li>
+        
+          <li>
+            <a href="/2016/04/12/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2016/03/11/e6-b5-85-e8-b0-88-e4-bc-81-e4-b8-9a-e7-bd-91-e7-bb-9c-e8-be-b9-e7-95-8c-3/">浅谈企业网络边界</a>
+          </li>
+        
+          <li>
+            <a href="/2016/03/02/e5-86-85-e7-bd-91-e6-b8-97-e9-80-8f-e4-b9-8bsocks5-e4-bb-a3-e7-90-86-ef-bc-88regeorgproxifier-e8-af-a6-e7-bb-86-e9-85-8d-e7-bd-ae-e8-af-b4-e6-98-8e-ef-bc-89/">内网渗透之socks5代理（reGeorg+proxifier详细配置说明）</a>
+          </li>
+        
+          <li>
+            <a href="/2015/11/10/e5-82-bb-e7-93-9c-e5-bc-8f-e9-80-9a-e7-94-a8-e9-92-93-e9-b1-bc-e5-b7-a5-e5-85-b7weeman1-5-greentree/">傻瓜式通用钓鱼工具Weeman1.5-GreenTree</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

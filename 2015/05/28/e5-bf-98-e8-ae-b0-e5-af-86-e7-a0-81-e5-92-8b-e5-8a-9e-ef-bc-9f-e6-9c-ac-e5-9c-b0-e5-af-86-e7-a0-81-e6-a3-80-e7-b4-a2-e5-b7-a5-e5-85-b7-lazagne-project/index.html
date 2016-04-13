@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>忘记密码咋办？本地密码检索工具 – LaZagne Project | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="转自freebuf：http://www.freebuf.com/tools/68229.html简介
+LaZagne project 是一款用于检索大量存储在本地计算机上密码的开源应用程序。每款软件他们保存密码的方法或许不尽相同（明文，API，算法，数据库等等），我开发这款工具的目的是为了寻找计算机中最常用软件的密码。截至目前，该工具支持Windows上的22款软件，Linux/Unix-Lik">
+<meta property="og:type" content="article">
+<meta property="og:title" content="忘记密码咋办？本地密码检索工具 – LaZagne Project">
+<meta property="og:url" content="http://yoursite.com/2015/05/28/e5-bf-98-e8-ae-b0-e5-af-86-e7-a0-81-e5-92-8b-e5-8a-9e-ef-bc-9f-e6-9c-ac-e5-9c-b0-e5-af-86-e7-a0-81-e6-a3-80-e7-b4-a2-e5-b7-a5-e5-85-b7-lazagne-project/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="转自freebuf：http://www.freebuf.com/tools/68229.html简介
+LaZagne project 是一款用于检索大量存储在本地计算机上密码的开源应用程序。每款软件他们保存密码的方法或许不尽相同（明文，API，算法，数据库等等），我开发这款工具的目的是为了寻找计算机中最常用软件的密码。截至目前，该工具支持Windows上的22款软件，Linux/Unix-Lik">
+<meta property="og:image" content="http://image.3001.net/images/20150524/14324360298957.png!small">
+<meta property="og:updated_time" content="2016-04-13T01:36:32.903Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="忘记密码咋办？本地密码检索工具 – LaZagne Project">
+<meta name="twitter:description" content="转自freebuf：http://www.freebuf.com/tools/68229.html简介
+LaZagne project 是一款用于检索大量存储在本地计算机上密码的开源应用程序。每款软件他们保存密码的方法或许不尽相同（明文，API，算法，数据库等等），我开发这款工具的目的是为了寻找计算机中最常用软件的密码。截至目前，该工具支持Windows上的22款软件，Linux/Unix-Lik">
+<meta name="twitter:image" content="http://image.3001.net/images/20150524/14324360298957.png!small">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-e5-bf-98-e8-ae-b0-e5-af-86-e7-a0-81-e5-92-8b-e5-8a-9e-ef-bc-9f-e6-9c-ac-e5-9c-b0-e5-af-86-e7-a0-81-e6-a3-80-e7-b4-a2-e5-b7-a5-e5-85-b7-lazagne-project" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/05/28/e5-bf-98-e8-ae-b0-e5-af-86-e7-a0-81-e5-92-8b-e5-8a-9e-ef-bc-9f-e6-9c-ac-e5-9c-b0-e5-af-86-e7-a0-81-e6-a3-80-e7-b4-a2-e5-b7-a5-e5-85-b7-lazagne-project/" class="article-date">
+  <time datetime="2015-05-28T01:59:16.000Z" itemprop="datePublished">2015-05-28</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/工具/">工具</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      忘记密码咋办？本地密码检索工具 – LaZagne Project
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>转自freebuf：<a href="http://www.freebuf.com/tools/68229.html" target="_blank" rel="external">http://www.freebuf.com/tools/68229.html</a><br>简介</p>
+<p>LaZagne project 是一款用于检索大量存储在本地计算机上密码的开源应用程序。每款软件他们保存密码的方法或许不尽相同（明文，API，算法，数据库等等），我开发这款工具的目的是为了寻找计算机中最常用软件的密码。截至目前，该工具支持Windows上的22款软件，Linux/Unix-Like OS上的12款软件。</p>
+<p>使用方法：</p>
+<p>启用所有模块</p>
+<p><pre class="brush: actionscript3; gutter: true">cmd: laZagne.exe all<br></pre><br>启用特殊模块</p>
+<p><pre class="brush: actionscript3; gutter: true">cmd: laZagne.exe<br>example: laZagne.exe browsers<br>help: laZagne.exe -h</pre><br>仅启动一个特殊软件脚本</p>
+<p><pre class="brush: actionscript3; gutter: true">cmd: laZagne.exe<br>example: laZagne.exe browsers -f<br>help: laZagne.exe browsers -h</pre><br>将所有的密码写入文件（-w选项）</p>
+<p><pre class="brush: actionscript3; gutter: true">cmd: laZagne.exe all -w</pre><br><strong>注意：WI-FI密码/Windows密码需要启动管理员权限（UAC验证/sudo）</strong></p>
+<p><strong>支持软件</strong></p>
+<p><a href="http://image.3001.net/images/20150524/14324360298957.png!small" target="_blank" rel="external"><img src="http://image.3001.net/images/20150524/14324360298957.png!small" alt="" title="softwares.png"></a></p>
+<p>(*) 有些软件可能存在使用插件等方式保存密码：Chrome, Owncloud, Evolution, KMail</p>
+<p><strong>IE浏览器历史记录</strong></p>
+<p>IE浏览器密码（从IE7到早前的Windows8）只能使用网站URL进行解密，只是作为Win32CryptUnprotectData api的一个参数。因此，使用IE浏览器历史记录能够将密码破解出来。要做到这一点，我需要使用一个C语言编写的DLL（代码在browser_history_dll目录下）且作为一个Base64字符串直接嵌入python代码中。加载之后，DLL会写入磁盘，其中一个包装类是用来调用DLL函数的然后这个DLL文件会从磁盘删除。</p>
+<p><strong>构建属于你自己的密码恢复脚本</strong></p>
+<p>你可以自由的为你选择的软件编写一个脚本。并且不用担心，编写一个模块十分简单。<strong>
+</strong></p>
+<p>要做到这一点，我们需要满足一些代码标准。</p>
+<p>1.使用软件名创建一个类包含两个重要的函数：</p>
+<p><pre class="brush: actionscript3; gutter: true">init:用于定义启动类的所有参数<br>run:主函数</pre><br>2.将类名和相关信息添加到config.manageModules.py文件</p>
+<p>3.所有包含密码的输出都必须发送到”print_output”函数</p>
+<p><pre class="brush: actionscript3; gutter: true">举例：print_output(software_name, password_list)</pre><br>4.可选项：你可以使用”print_debug” 函数打印出输出结果</p>
+<p>5.也可以参考现有脚本，用以理解。</p>
+<p>要求</p>
+<p>为了编译源代码，需要一些外部库</p>
+<p>Windows：</p>
+<p><pre class="brush: actionscript3; gutter: true">colorama(<a href="https://pypi.python.org/pypi/colorama" target="_blank" rel="external">https://pypi.python.org/pypi/colorama</a>) Python Windows扩展(<a href="http://sourceforge.net/projects/pywin32/）" target="_blank" rel="external">http://sourceforge.net/projects/pywin32/）</a> pycrypto（pip安装pycrypto） Impacket（<a href="https://github.com/CoreSecurity/impacket）" target="_blank" rel="external">https://github.com/CoreSecurity/impacket）</a></pre><br>Linux：</p>
+<p>对于Ubuntu 14.04</p>
+<p><pre class="brush: actionscript3; gutter: true">python-kde4 (Kwallet)</pre><br>其他发行版</p>
+<p><pre class="brush: actionscript3; gutter: true ">Python 2.7<br>argparse<br>Crypto<br>dbus (Pidgin)<br>python-kde4 (Kwallet)</pre><br>项目地址：<a href="https://github.com/AlessandroZ/LaZagne" target="_blank" rel="external">https://github.com/AlessandroZ/LaZagne</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/05/28/e5-bf-98-e8-ae-b0-e5-af-86-e7-a0-81-e5-92-8b-e5-8a-9e-ef-bc-9f-e6-9c-ac-e5-9c-b0-e5-af-86-e7-a0-81-e6-a3-80-e7-b4-a2-e5-b7-a5-e5-85-b7-lazagne-project/" data-id="cimy6sd550009r0gcqmoi7mue" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/工具/">工具</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/06/18/python-unicode-e5-ad-97-e8-8a-82-e4-b8-b2-e8-bd-ac-e6-88-90-e4-b8-ad-e6-96-87-e9-97-ae-e9-a2-98-ef-bc-88-e8-bd-ac-ef-bc-89/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          python unicode字节串转成中文问题  （转）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/05/21/php5-5-e4-bd-bf-e7-94-a8bcrypt-e5-8a-a0-e5-af-86-e5-af-86-e7-a0-81/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">PHP5.5使用Bcrypt加密密码</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/PHP/">PHP</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/内网/">内网</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/工具/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/注入/">注入</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/漏洞利用/">漏洞利用</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/漏洞挖掘/">漏洞挖掘</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/">test</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/注入，注入技巧/">注入，注入技巧</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/test/" style="font-size: 10px;">test</a> <a href="/tags/工具/" style="font-size: 10px;">工具</a> <a href="/tags/注入，注入技巧/" style="font-size: 10px;">注入，注入技巧</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/04/12/test/">test</a>
+          </li>
+        
+          <li>
+            <a href="/2016/04/12/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2016/03/11/e6-b5-85-e8-b0-88-e4-bc-81-e4-b8-9a-e7-bd-91-e7-bb-9c-e8-be-b9-e7-95-8c-3/">浅谈企业网络边界</a>
+          </li>
+        
+          <li>
+            <a href="/2016/03/02/e5-86-85-e7-bd-91-e6-b8-97-e9-80-8f-e4-b9-8bsocks5-e4-bb-a3-e7-90-86-ef-bc-88regeorgproxifier-e8-af-a6-e7-bb-86-e9-85-8d-e7-bd-ae-e8-af-b4-e6-98-8e-ef-bc-89/">内网渗透之socks5代理（reGeorg+proxifier详细配置说明）</a>
+          </li>
+        
+          <li>
+            <a href="/2015/11/10/e5-82-bb-e7-93-9c-e5-bc-8f-e9-80-9a-e7-94-a8-e9-92-93-e9-b1-bc-e5-b7-a5-e5-85-b7weeman1-5-greentree/">傻瓜式通用钓鱼工具Weeman1.5-GreenTree</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

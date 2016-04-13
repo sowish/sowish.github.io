@@ -3,21 +3,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Hello World | Hexo</title>
+  <title>python unicode字节串转成中文问题  （转） | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+  <meta name="description" content="转：http://windkeepblow.blog.163.com/blog/static/1914883312013988185783/
+如题，其实我的问题很简单，就是在写爬虫的时候拿到网页的信息包含类似“\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c”的字符串，实际上这是unicode的中文编码，对应的中文为“新浪微博注册”。其实我就是想找一个函数让这一串东西显示中">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://yoursite.com/2016/04/12/hello-world/index.html">
+<meta property="og:title" content="python unicode字节串转成中文问题  （转）">
+<meta property="og:url" content="http://yoursite.com/2015/06/18/python-unicode-e5-ad-97-e8-8a-82-e4-b8-b2-e8-bd-ac-e6-88-90-e4-b8-ad-e6-96-87-e9-97-ae-e9-a2-98-ef-bc-88-e8-bd-ac-ef-bc-89/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
-<meta property="og:updated_time" content="2016-04-12T13:07:10.876Z">
+<meta property="og:description" content="转：http://windkeepblow.blog.163.com/blog/static/1914883312013988185783/
+如题，其实我的问题很简单，就是在写爬虫的时候拿到网页的信息包含类似“\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c”的字符串，实际上这是unicode的中文编码，对应的中文为“新浪微博注册”。其实我就是想找一个函数让这一串东西显示中">
+<meta property="og:updated_time" content="2016-04-13T01:36:32.903Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+<meta name="twitter:title" content="python unicode字节串转成中文问题  （转）">
+<meta name="twitter:description" content="转：http://windkeepblow.blog.163.com/blog/static/1914883312013988185783/
+如题，其实我的问题很简单，就是在写爬虫的时候拿到网页的信息包含类似“\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c”的字符串，实际上这是unicode的中文编码，对应的中文为“新浪微博注册”。其实我就是想找一个函数让这一串东西显示中">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -66,12 +66,16 @@ Quick">
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-python-unicode-e5-ad-97-e8-8a-82-e4-b8-b2-e8-bd-ac-e6-88-90-e4-b8-ad-e6-96-87-e9-97-ae-e9-a2-98-ef-bc-88-e8-bd-ac-ef-bc-89" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/04/12/hello-world/" class="article-date">
-  <time datetime="2016-04-12T13:07:10.876Z" itemprop="datePublished">2016-04-12</time>
+    <a href="/2015/06/18/python-unicode-e5-ad-97-e8-8a-82-e4-b8-b2-e8-bd-ac-e6-88-90-e4-b8-ad-e6-96-87-e9-97-ae-e9-a2-98-ef-bc-88-e8-bd-ac-ef-bc-89/" class="article-date">
+  <time datetime="2015-06-18T02:14:26.000Z" itemprop="datePublished">2015-06-18</time>
 </a>
     
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Python/">Python</a>
+  </div>
+
   </div>
   <div class="article-inner">
     
@@ -80,7 +84,7 @@ Quick">
         
   
     <h1 class="article-title" itemprop="name">
-      Hello World
+      python unicode字节串转成中文问题  （转）
     </h1>
   
 
@@ -88,41 +92,39 @@ Quick">
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
+        <p>转：<a href="http://windkeepblow.blog.163.com/blog/static/1914883312013988185783/" target="_blank" rel="external">http://windkeepblow.blog.163.com/blog/static/1914883312013988185783/</a></p>
+<p>如题，其实我的问题很简单，就是在写爬虫的时候拿到网页的信息包含类似“\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c”的字符串，实际上这是unicode的中文编码，对应的中文为“新浪微博注册”。其实我就是想找一个函数让这一串东西显示中文而已，没想到百度了白天找到合适的。遇到这种问题千万不要用什么 “python编码” “unicode中文编码” “unicode解码”这样的关键字去搜，一大堆网页出来毫不相关。</p>
+<p>其实这个问题一个函数搞定，如下：</p>
+<p>Example 1:<br>&gt;&gt;&gt; s = r”\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c”<br>&gt;&gt;&gt; s<br>‘\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c’<br>&gt;&gt;&gt; print s<br>\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c<br>&gt;&gt;&gt; s = s.decode(“unicode_escape”); #就是这个函数<br>&gt;&gt;&gt; print s</p>
+<p>Example 2:<br>&gt;&gt;&gt; str<em> = “Russopho\xe9bic, clichd and just pl\xe9ain stupid.”<br>&gt;&gt;&gt; print str</em><br>Russopho?bic, clichd and just pl?ain stupid.<br>&gt;&gt;&gt; str<em> = str</em>.decode(“unicode<em>escape”)<br>&gt;&gt;&gt; print str</em></p>
+<div><br><div></div><br><div>(这个方法解决了我在插入数据到mongodb时遇到的“bson.errors.InvalidStringData: strings in documents must be valid UTF-8”问题)</div><br><div></div><br><div>    附上关于这个问题的相关博客链接：<a href="http://www.cnblogs.com/yangze/archive/2010/11/16/1878469.html" target="_blank" rel="external">http://www.cnblogs.com/yangze/archive/2010/11/16/1878469.html</a></div><br><div></div><br><div>        另外还有一个与unicode字节串有关的问题，遇到这样的错误提示：Unicode equal comparison failed to convert both arguments to Unicode - interpreting them as being unequal。说明我们在对两个字符（串）进行对比的时候等号两边的类型</div><br><div>不一样，可能是一边是unicode字节串，一边是字符串。详见<a href="http://stackoverflow.com/questions/3400171/python-utf-8-comparison。" target="_blank" rel="external">http://stackoverflow.com/questions/3400171/python-utf-8-comparison。</a></div><br><div></div><br><div>小结：<br>以后遇到奇葩问题要想好关键字再搜，不然很有可能一无所获。</div><br></div>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/12/hello-world/" data-id="cimy6sd5e000er0gcg1m0qywb" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/06/18/python-unicode-e5-ad-97-e8-8a-82-e4-b8-b2-e8-bd-ac-e6-88-90-e4-b8-ad-e6-96-87-e9-97-ae-e9-a2-98-ef-bc-88-e8-bd-ac-ef-bc-89/" data-id="cimy6sd5k000nr0gcj3f1f856" class="article-share-link">Share</a>
       
       
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
+
     </footer>
   </div>
   
     
 <nav id="article-nav">
   
-    <a href="/2016/04/12/test/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2015/07/13/dns-e5-9f-9f-e4-bc-a0-e9-80-81-e6-bc-8f-e6-b4-9e-e5-88-a9-e7-94-a8-e6-96-b9-e6-b3-95/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          test
+          DNS域传送漏洞利用方法
         
       </div>
     </a>
   
   
-    <a href="/2016/03/11/e6-b5-85-e8-b0-88-e4-bc-81-e4-b8-9a-e7-bd-91-e7-bb-9c-e8-be-b9-e7-95-8c-3/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2015/05/28/e5-bf-98-e8-ae-b0-e5-af-86-e7-a0-81-e5-92-8b-e5-8a-9e-ef-bc-9f-e6-9c-ac-e5-9c-b0-e5-af-86-e7-a0-81-e6-a3-80-e7-b4-a2-e5-b7-a5-e5-85-b7-lazagne-project/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">浅谈企业网络边界</div>
+      <div class="article-nav-title">忘记密码咋办？本地密码检索工具 – LaZagne Project</div>
     </a>
   
 </nav>

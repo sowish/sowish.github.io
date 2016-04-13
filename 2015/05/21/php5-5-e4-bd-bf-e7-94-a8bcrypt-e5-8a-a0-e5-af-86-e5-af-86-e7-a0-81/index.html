@@ -3,21 +3,30 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Hello World | Hexo</title>
+  <title>PHP5.5使用Bcrypt加密密码 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+  <meta name="description" content="在php5.5中，加入了一个新的密码哈希函数，可使用Bcrypt轻松实现加盐的安全密码。
+bcrypt和其他对称或非对称加密方式不同的是，不是直接解密得到明文，也不是二次加密比较密文，而是把明文和存储的密文一块运算得到另一个密文，如果这两个密文相同则验证成功。
+官方手册在这里： http://cn2.php.net/manual/zh/book.password.php
+生成密钥
+[php]$ha">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://yoursite.com/2016/04/12/hello-world/index.html">
+<meta property="og:title" content="PHP5.5使用Bcrypt加密密码">
+<meta property="og:url" content="http://yoursite.com/2015/05/21/php5-5-e4-bd-bf-e7-94-a8bcrypt-e5-8a-a0-e5-af-86-e5-af-86-e7-a0-81/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
-<meta property="og:updated_time" content="2016-04-12T13:07:10.876Z">
+<meta property="og:description" content="在php5.5中，加入了一个新的密码哈希函数，可使用Bcrypt轻松实现加盐的安全密码。
+bcrypt和其他对称或非对称加密方式不同的是，不是直接解密得到明文，也不是二次加密比较密文，而是把明文和存储的密文一块运算得到另一个密文，如果这两个密文相同则验证成功。
+官方手册在这里： http://cn2.php.net/manual/zh/book.password.php
+生成密钥
+[php]$ha">
+<meta property="og:updated_time" content="2016-04-13T01:36:32.903Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+<meta name="twitter:title" content="PHP5.5使用Bcrypt加密密码">
+<meta name="twitter:description" content="在php5.5中，加入了一个新的密码哈希函数，可使用Bcrypt轻松实现加盐的安全密码。
+bcrypt和其他对称或非对称加密方式不同的是，不是直接解密得到明文，也不是二次加密比较密文，而是把明文和存储的密文一块运算得到另一个密文，如果这两个密文相同则验证成功。
+官方手册在这里： http://cn2.php.net/manual/zh/book.password.php
+生成密钥
+[php]$ha">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -66,12 +75,16 @@ Quick">
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-php5-5-e4-bd-bf-e7-94-a8bcrypt-e5-8a-a0-e5-af-86-e5-af-86-e7-a0-81" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/04/12/hello-world/" class="article-date">
-  <time datetime="2016-04-12T13:07:10.876Z" itemprop="datePublished">2016-04-12</time>
+    <a href="/2015/05/21/php5-5-e4-bd-bf-e7-94-a8bcrypt-e5-8a-a0-e5-af-86-e5-af-86-e7-a0-81/" class="article-date">
+  <time datetime="2015-05-21T06:58:55.000Z" itemprop="datePublished">2015-05-21</time>
 </a>
     
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PHP/">PHP</a>
+  </div>
+
   </div>
   <div class="article-inner">
     
@@ -80,7 +93,7 @@ Quick">
         
   
     <h1 class="article-title" itemprop="name">
-      Hello World
+      PHP5.5使用Bcrypt加密密码
     </h1>
   
 
@@ -88,20 +101,37 @@ Quick">
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+        <p>在php5.5中，加入了一个新的密码哈希函数，可使用Bcrypt轻松实现加盐的安全密码。</p>
+<p>bcrypt和其他对称或非对称加密方式不同的是，不是直接解密得到明文，也不是二次加密比较密文，而是把明文和存储的密文一块运算得到另一个密文，如果这两个密文相同则验证成功。</p>
+<p>官方手册在这里： <a href="http://cn2.php.net/manual/zh/book.password.php" target="_blank" rel="external">http://cn2.php.net/manual/zh/book.password.php</a></p>
+<p>生成密钥</p>
+<p>[php]<br>$hash = password_hash(‘password’,PASSWORD_BCRYPT,[‘cost’ =&gt; 10]);<br>echo $hash;<br>[/php]</p>
+<p>password_hash() —-加密密码<br>第一个参数：需要加密的密码<br>第二个参数：密码算法常量 (<a href="http://cn2.php.net/manual/zh/password.constants.php" target="_blank" rel="external">http://cn2.php.net/manual/zh/password.constants.php</a>)<br>第三个参数：数组类型。支持两个选项：salt在散列密码时加的盐（干扰字符串）。cost用来指明算法递归的层数。</p>
+<p>上面代码每次运行生成的密钥不同，大致效果如下。</p>
+<p>[php]<br>$2y$10$bWNfw6QbjmjyCDBc9lrZRuBjraxBzN7eAuozS6D3r4QxJn0tgXRwe<br>[/php]</p>
+<p>生成的密钥长度为60位，所以设计数据库的时候需要注意。</p>
+<p>验证密钥</p>
+<p>懒得存数据库再去取了，直接把刚生成的密钥复制过来了~~</p>
+<p>[php]<br>$hash = ‘$2y$10$bWNfw6QbjmjyCDBc9lrZRuBjraxBzN7eAuozS6D3r4QxJn0tgXRwe’;<br>$res = password_verify(‘password’,$hash);<br>var_dump($res);<br>[/php]</p>
+<p>如果没有天灾人祸意外发生的话。你会看到下面的输出</p>
+<p>[php]bool(true)[/php]</p>
+<p>这就成功了。</p>
+<p>性能</p>
+<p>下面我们来看看Bcrypt的性能，安全性的提升，肯定是以性能为代价。bcrypt要加强密码安全性，增加运行时间也是肯定的。那我们现在就测试一下Bcrypt与普通md5的速度。</p>
+<p>测试机性能：</p>
+<p>CPU I7 4核 2.3G主频<br>内存 16G ddr3 内存<br>系统 Mac<br>PHP 5.5.15</p>
+<p>现在用下面这段代码分别测试一下md5和Bcrypt在不加盐的情况下的运行速度<br>[php]<br>&lt;!–?php<br> $s_time = microtime(true);</p>
+<p>password_hash(‘password’,PASSWORD_BCRYPT,[‘cost’ =&gt; 10]);<br>// md5(‘password’);<br>$e_time = microtime(true);<br>$run_time = $e_time-$s_time;</p>
+<p>echo ($run_time*1000).’ms’;<br>[/php]<br>Bcrypt 5次运行结果<br>[php]<br>68.569183349609ms<br>68.006992340088ms<br>69.074869155884ms<br>68.211078643799ms<br>68.757057189941ms<br>[/php]<br>md5 5次运行结果<br>[php]<br>0.0040531158447266ms<br>0.0040531158447266ms<br>0.0050067901611328ms<br>0.0040531158447266ms<br>0.003814697265625ms<br>[/php]<br>测试结果</p>
+<p>Bcrypt 加密一个密文平均值在68毫秒左右，<br>md5 加密一个密文平均值在0.004毫秒左右，</p>
+<p>性能大约差距16000倍</p>
+<p>采用md5 一秒大约能加密 250000个密文<br>采用Bcrypt 一秒大约能加密 14个密文</p>
+<p>所以，如果你要将Bcrypt用到你的程序中去的话。小应用还好，如果是大应用。您就得按倍数增加服务器了。<br>如果不是给五角大楼写程序，其实md5+salt安全性已经足够了。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/12/hello-world/" data-id="cimy6sd5e000er0gcg1m0qywb" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/05/21/php5-5-e4-bd-bf-e7-94-a8bcrypt-e5-8a-a0-e5-af-86-e5-af-86-e7-a0-81/" data-id="cimy6sd5m000qr0gciczbq2zx" class="article-share-link">Share</a>
       
       
     </footer>
@@ -110,19 +140,19 @@ Quick">
     
 <nav id="article-nav">
   
-    <a href="/2016/04/12/test/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2015/05/28/e5-bf-98-e8-ae-b0-e5-af-86-e7-a0-81-e5-92-8b-e5-8a-9e-ef-bc-9f-e6-9c-ac-e5-9c-b0-e5-af-86-e7-a0-81-e6-a3-80-e7-b4-a2-e5-b7-a5-e5-85-b7-lazagne-project/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          test
+          忘记密码咋办？本地密码检索工具 – LaZagne Project
         
       </div>
     </a>
   
   
-    <a href="/2016/03/11/e6-b5-85-e8-b0-88-e4-bc-81-e4-b8-9a-e7-bd-91-e7-bb-9c-e8-be-b9-e7-95-8c-3/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2015/04/07/e5-9f-ba-e4-ba-8emssql-e7-9a-84-e6-8a-a5-e9-94-99-e6-b3-a8-e5-85-a5-e7-9a-84-e8-84-9a-e6-9c-acget/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">浅谈企业网络边界</div>
+      <div class="article-nav-title">基于mssql的报错注入的脚本(get)</div>
     </a>
   
 </nav>
