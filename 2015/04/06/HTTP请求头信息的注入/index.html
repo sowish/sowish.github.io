@@ -86,9 +86,9 @@
 - Referer      来源（少）
 - X-Forwarded-For 获取ip（高）
 - client_ip   获取ip（高）
--cookie      获取cookie值（高）
+-cookie      获取cookie值（高）&amp;lt;!--more--&amp;gt;
 一. cookie注入
-原理： 在ASP中,request对象获取客户端提交数据常用的是get和post两种方式,同时req">
+原理： 在ASP中,request对象获取客户端提交数据常用的是g">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HTTP请求头信息的注入">
 <meta property="og:url" content="http://yoursite.com/2015/04/06/HTTP请求头信息的注入/index.html">
@@ -99,10 +99,10 @@
 - Referer      来源（少）
 - X-Forwarded-For 获取ip（高）
 - client_ip   获取ip（高）
--cookie      获取cookie值（高）
+-cookie      获取cookie值（高）&amp;lt;!--more--&amp;gt;
 一. cookie注入
-原理： 在ASP中,request对象获取客户端提交数据常用的是get和post两种方式,同时req">
-<meta property="og:updated_time" content="2016-04-13T08:16:20.773Z">
+原理： 在ASP中,request对象获取客户端提交数据常用的是g">
+<meta property="og:updated_time" content="2016-04-13T08:17:43.499Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTTP请求头信息的注入">
 <meta name="twitter:description" content="常见http可能被污染的参数有这些
@@ -111,9 +111,9 @@
 - Referer      来源（少）
 - X-Forwarded-For 获取ip（高）
 - client_ip   获取ip（高）
--cookie      获取cookie值（高）
+-cookie      获取cookie值（高）&amp;lt;!--more--&amp;gt;
 一. cookie注入
-原理： 在ASP中,request对象获取客户端提交数据常用的是get和post两种方式,同时req">
+原理： 在ASP中,request对象获取客户端提交数据常用的是g">
 
 
 
@@ -337,7 +337,7 @@
 - Referer      来源（少）
 - X-Forwarded-For 获取ip（高）
 - client_ip   获取ip（高）
--cookie      获取cookie值（高）
+-cookie      获取cookie值（高）&lt;!--more--&gt;
 </code></pre><h3 id="一-cookie注入"><a href="#一-cookie注入" class="headerlink" title="一. cookie注入"></a>一. cookie注入</h3><ol>
 <li>原理： 在ASP中,request对象获取客户端提交数据常用的是get和post两种方式,同时request对象可以不通过集合来获得数据,即直接使用”request(“name”)”. 但它效率低下,容易出错,当我们省略具体的集合名称时,asp是按QueryString(get),Form(post),Cookie,Severvariable,集合的顺序来搜索的.cookie是保存在客户端的一个文本文件,可以进行修改,这样一来,就可以利用Request.cookie方式来提交变量的值,从而利用系统的漏洞进行注入攻击.</li>
 <li>条件1是程序对get和post方式提交的数据进行了过滤，但未对cookie提交的数据库进行过滤。条件2，在1的基础上还需要程序对提交数据获取方式是直接request(“xxx”)的方式，未指明使用request对象的具体方法进行获取。</li>
@@ -477,7 +477,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
