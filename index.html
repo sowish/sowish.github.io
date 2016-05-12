@@ -259,6 +259,134 @@
             
               
                 
+                <a class="post-title-link" href="/2016/05/12/利用phantomjs+selenium抓取js执行后的结果/" itemprop="url">
+                  利用phantomjs+selenium抓取js执行后的结果
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-12T10:29:30+08:00" content="2016-05-12">
+              2016-05-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/编程/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/12/利用phantomjs+selenium抓取js执行后的结果/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/12/利用phantomjs+selenium抓取js执行后的结果/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>0x01 问题需求<br>有需要写一个接口需要可以抓取360webscan的网站评分及漏洞情况，本来以为一个简单的爬虫就能搞定的。哪想到把网页抓下来后一下子就懵逼了，先看获取分数的地方<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$.ajax(&#123;  	</span><br><span class="line"></span><br><span class="line">				url : <span class="string">"/webscore/index"</span>,</span><br><span class="line"></span><br><span class="line">				type: <span class="string">'POST'</span>,</span><br><span class="line"></span><br><span class="line">				dataType:  <span class="string">'json'</span>,</span><br><span class="line"></span><br><span class="line">				data:<span class="string">'isxujia='</span>+isxujia+<span class="string">'&amp;iscuangai='</span>+iscuangai+<span class="string">'&amp;isviolation='</span>+isviolation+<span class="string">'&amp;isguama='</span>+isguama+<span class="string">'&amp;high='</span>+high+<span class="string">'&amp;mid='</span>+mid+<span class="string">'&amp;low='</span>+low+<span class="string">'&amp;info='</span>+info+<span class="string">'&amp;domain=www.natco.top&amp;pangzhu='</span>+pangzhu,</span><br><span class="line"></span><br><span class="line">				success: <span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</span><br></pre></td></tr></table></figure></p>
+<p>先看这一段ajax请求，把url的参数连同isxujia（是否虚假）等参数向服务器请求后，获取得分。那么isxujia等参数从哪里来？再往上看<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">$.ajax(&#123;</span><br><span class="line"></span><br><span class="line">			  url: <span class="string">"/index/gettrojan"</span>,</span><br><span class="line"></span><br><span class="line">			  type:<span class="string">"POST"</span>,</span><br><span class="line"></span><br><span class="line">			  dataType:<span class="string">"json"</span>,</span><br><span class="line"></span><br><span class="line">			  data:<span class="string">"url="</span>+url+<span class="string">"&amp;token=34e08ea449361738107148de883678c4&amp;time=1462934864"</span>,</span><br><span class="line"></span><br><span class="line">			  success: <span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;	</span><br><span class="line"></span><br><span class="line">			        <span class="keyword">var</span> type = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line">					<span class="keyword">var</span> st = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line">					<span class="keyword">var</span> sc = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line">					<span class="keyword">var</span> ssc = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line">					<span class="keyword">var</span> trojan_list = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line">					<span class="keyword">var</span> isxujia = <span class="number">0</span>;</span><br></pre></td></tr></table></figure></p>
+<p>简单的看了下，就是这个ajax请求（带token）返回的type，st等参数经过一些条件判断，计算isxujia是否为1。由于有token，这个地方就没办法自己在python里将计算过程复现了。剩下的路就是要抓取js渲染过后的页面值了，网上最成熟的方法就是phantomjs+selenium。</p>
+<hr>
+<p>0x02 环境配置<br>==Selenium==是一个用于Web应用程序测试的工具。Selenium测试直接运行在浏览器中，就像真正的用户在操作一样。支持的浏览器包括IE、Mozilla Firefox、Chrome等。<br>==Phantom JS==是一个服务器端的 JavaScript API 的 WebKit。其支持各种Web标准： DOM 处理, CSS 选择器, JSON, Canvas, 和 SVG。</p>
+<hr>
+<p>在kali2.0环境下，先安装Selenium <figure class="highlight plain"><figcaption><span>apt-get install selenium``` </span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">再安装Phantom JS，官方网站下载页面：[传送门](http://phantomjs.org/download.html)，根据自己的系统版本下载，并配置</span><br></pre></td></tr></table></figure></p>
+<p>cd /usr/local/share<br>sudo wget <a href="https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2" target="_blank" rel="external">https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2</a><br>sudo tar -xvf phantomjs-2.1.1-linux-x86_64.tar.bz2<br>sudo ln -s /usr/local/share/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/local/share/phantomjs<br>sudo ln -s /usr/local/share/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/local/bin/phantomjs<br>sudo ln -s /usr/local/share/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/bin/phantomjs<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">这里phantomjs的可执行路径为&apos;/usr/bin/phantomjs&apos;，下面是个小的demo</span><br><span class="line">```python</span><br><span class="line">#coding=utf-8</span><br><span class="line">from selenium import webdriver</span><br><span class="line"></span><br><span class="line">driver = webdriver.PhantomJS(executable_path=&apos;/usr/bin/phantomjs&apos;) #注意这里的执行路径</span><br><span class="line">driver.get(&quot;http://phperz.com/&quot;)</span><br><span class="line">driver.find_element_by_id(&apos;search_form_input_homepage&apos;).send_keys(&apos;Nirvana&apos;)</span><br><span class="line">driver.find_element_by_id(&quot;search_button_homepage&quot;).click()</span><br><span class="line">print driver.current_url</span><br><span class="line">driver.quit() #注意要退出</span><br></pre></td></tr></table></figure></p>
+<p>项目地址：<a href="https://github.com/sowish" target="_blank" rel="external">点击</a><br>参考链接：<br><a href="http://ohroot.com/2014/11/11/phantomjs%E5%B0%8F%E8%AF%95%E7%89%9B%E5%88%80/" target="_blank" rel="external">http://ohroot.com/2014/11/11/phantomjs%E5%B0%8F%E8%AF%95%E7%89%9B%E5%88%80/</a></p>
+
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/05/10/ImageMagick漏洞测试/" itemprop="url">
                   ImageMagick 漏洞测试
                 </a>
@@ -777,8 +905,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
+                  <a href="/categories/编程/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
                   </a>
                 </span>
 
@@ -1021,8 +1149,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
+                  <a href="/categories/编程/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
                   </a>
                 </span>
 
@@ -1143,8 +1271,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/PHP/" itemprop="url" rel="index">
-                    <span itemprop="name">PHP</span>
+                  <a href="/categories/编程/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
                   </a>
                 </span>
 
@@ -1266,8 +1394,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
+                  <a href="/categories/编程/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
                   </a>
                 </span>
 
@@ -1339,139 +1467,13 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/04/06/HTTP请求头信息的注入/" itemprop="url">
-                  HTTP请求头信息的注入
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-04-06T12:37:49+08:00" content="2015-04-06">
-              2015-04-06
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/注入/" itemprop="url" rel="index">
-                    <span itemprop="name">注入</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/04/06/HTTP请求头信息的注入/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/06/HTTP请求头信息的注入/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <blockquote>
-<p>常见http可能被污染的参数有这些</p>
-</blockquote>
-<pre><code>- User-agent 浏览器版本 （少）
-- Referer      来源（少）
-- X-Forwarded-For 获取ip（高）
-- client_ip   获取ip（高）
--cookie      获取cookie值（高）
-</code></pre>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/04/06/HTTP请求头信息的注入/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -1510,7 +1512,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-count">11</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1518,7 +1520,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
