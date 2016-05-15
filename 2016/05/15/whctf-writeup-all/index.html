@@ -64,7 +64,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="wps2015, wps2015的博客" />
+  <meta name="keywords" content="ctf," />
 
 
 
@@ -80,15 +80,19 @@
 
 
 
-<meta name="description" content="关注安全">
-<meta property="og:type" content="website">
-<meta property="og:title" content="wps2015的博客">
-<meta property="og:url" content="http://yoursite.com/tags/php/index.html">
+<meta name="description" content="Web题0x01. 信息
+打开是一个代码下载链接，下载下来是wireshark抓的cap包，打开包分析发现两个http的包，get请求下载了zip的压缩包，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Whctf Writeup（web&crypto）">
+<meta property="og:url" content="http://yoursite.com/2016/05/15/whctf-writeup-all/index.html">
 <meta property="og:site_name" content="wps2015的博客">
-<meta property="og:description" content="关注安全">
+<meta property="og:description" content="Web题0x01. 信息
+打开是一个代码下载链接，下载下来是wireshark抓的cap包，打开包分析发现两个http的包，get请求下载了zip的压缩包，">
+<meta property="og:updated_time" content="2016-05-15T12:36:34.257Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="wps2015的博客">
-<meta name="twitter:description" content="关注安全">
+<meta name="twitter:title" content="Whctf Writeup（web&crypto）">
+<meta name="twitter:description" content="Web题0x01. 信息
+打开是一个代码下载链接，下载下来是wireshark抓的cap包，打开包分析发现两个http的包，get请求下载了zip的压缩包，">
 
 
 
@@ -106,7 +110,7 @@
   };
 </script>
 
-  <title> 标签: php | wps2015的博客 </title>
+  <title> Whctf Writeup（web&crypto） | wps2015的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -137,7 +141,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left  ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -235,46 +239,165 @@
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-collapse">
-    <div class="collection-title">
-      <h2 >
-        php
-        <small>标签</small>
-      </h2>
-    </div>
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
 
     
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Whctf Writeup（web&crypto）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-15T00:00:00+08:00" content="2016-05-15">
+              2016-05-15
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/ctf相关/" itemprop="url" rel="index">
+                    <span itemprop="name">ctf相关</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/15/whctf-writeup-all/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/15/whctf-writeup-all/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
       
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+      
+        <h2 id="Web题"><a href="#Web题" class="headerlink" title="Web题"></a>Web题</h2><p>0x01. 信息</p>
+<p>打开是一个代码下载链接，下载下来是wireshark抓的cap包，打开包分析发现两个http的包，get请求下载了zip的压缩包，<a id="more"></a>利用wireshark导出zip包-File-Export Objects-HTTP。发现需要密码打开，官方提示华科官网，解压密码<code>www.hust.edu.cn</code>，flag在flag3.docx中</p>
+<p>0x02. 窃取</p>
+<p>测试地址存在union注入，利用sqlmap在<strong>wh_ct4_hgduyingjkhjhjg</strong>库中发现flag的提示<code>flag is nothere,but I can tell you the flag is xor user&#39;s password.</code>，那么到<strong>web_sqli</strong>库中，将user1和user2的password异或后解密，得到flag:hust</p>
+<p>0x03. 忘了账户和密码</p>
+<p>username: <code>&#39; union select 1,2,3-- -</code> , 三列</p>
+<p>password: 任意</p>
+<p>0x04. find</p>
+<p>右键源代码，发现<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">css/[adwxhyz]&#123;2&#125;ctf[0-9]&#123;7&#125;.css"</span><br></pre></td></tr></table></figure></p>
+<p>前两位字符，后7位数字的正则，大胆猜测前两位是wh，后7位直到官方给了提示（），一个qq号，搜索qq的资料，发现其为1999年5月12的生日，尝试css/whctf1999512.css成功，flag就在里面<code>whctf{Wh3tF_H@rd}</code></p>
+<p>0x05. beat it</p>
+<p>打开又是一个pcap的包下载，三个ipv4的协议包，尝试重组将中间的丢弃，把data组合hex两次转字符串，得到flag<code>whctf{000 here it is the flag 000}</code></p>
+<p>0x06. 密码忘了怎么办？</p>
+<p>登录口sql注入，还是union的，注入发现user表有flag字段，将12,13,14,15行的flag字段组合<br><code>whctf{hello$$##itisme&amp;---&amp;&amp;&amp;}</code></p>
+<p>0x07. 看图说话</p>
+<p>给的提示里ctf页面脚本,猜测存在ctf.php，打开是302跳转，返回包里有张图片链接<br><code>templates/images/xxx/ctf.jpg</code><br>，将图片下载下载利用notepad++打开，flag在最后<code>whctf{today@@isnot09#$tomorrow}</code></p>
+<h2 id="CRYPTO"><a href="#CRYPTO" class="headerlink" title="CRYPTO"></a>CRYPTO</h2><p>0x01 我叫李二狗（一）<br>直接base64解密，然后李二狗是近视，将l换成1，x换成1，md5解密</p>
+<p>0x02 李二狗的梦中情人<br>将隐藏在图片末尾的链接中的图片提取出来，然后convert转换成png格式，diff下得到一个二维码，二维码黑白反转下，得到正确的二维码，扫一下，bingo</p>
+<p>0x03 我叫李二狗（二）<br>给了两个RSA加密，由于其弱公钥，N太小，直接分解大数，破解</p>
+<p>0x04 李二狗的LOL战歌<br>听音乐，感觉音频右声道像电报，然后翻译成摩斯编码，直接得到13位字符，然后用ROT13编码转换下，得到flag</p>
 
-      <h1 class="post-title">
+      
+    </div>
+    
+    <div>
+      
         
-            <a class="post-title-link" href="/2015/05/21/PHP5.5使用Bcrypt加密密码/" itemprop="url">
-              
-                <span itemprop="name">PHP5.5使用Bcrypt加密密码</span>
-              
-            </a>
+      
+    </div>
+
+    <div>
+      
         
-      </h1>
+      
+    </div>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2015-05-21T14:58:55+08:00"
-              content="2015-05-21" >
-          05-21
-        </time>
-      </div>
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ctf/" rel="tag">#ctf</a>
+          
+        </div>
+      
 
-    </header>
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/05/12/利用phantomjs+selenium抓取js执行后的结果/" rel="next" title="利用phantomjs+selenium抓取js执行后的结果">
+                <i class="fa fa-chevron-left"></i> 利用phantomjs+selenium抓取js执行后的结果
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </article>
 
 
-    
-  </div>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -282,6 +405,14 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/05/15/whctf-writeup-all/"
+           data-title="Whctf Writeup（web&crypto）" data-url="http://yoursite.com/2016/05/15/whctf-writeup-all/">
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -301,8 +432,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="https://img.alicdn.com/imgextra/i3/792076116/TB2Z2f9oFXXXXXYXFXXXXXXXXXX_!!792076116.png"
@@ -416,6 +556,17 @@
       </section>
 
       
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Web题"><span class="nav-number">1.</span> <span class="nav-text">Web题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CRYPTO"><span class="nav-number">2.</span> <span class="nav-text">CRYPTO</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
 
     </div>
   </aside>
@@ -511,6 +662,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
 
   
 

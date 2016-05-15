@@ -259,8 +259,8 @@
             
               
                 
-                <a class="post-title-link" href="/2015/04/06/HTTP请求头信息的注入/" itemprop="url">
-                  HTTP请求头信息的注入
+                <a class="post-title-link" href="/2015/05/21/PHP5.5使用Bcrypt加密密码/" itemprop="url">
+                  PHP5.5使用Bcrypt加密密码
                 </a>
               
             
@@ -273,8 +273,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-04-06T12:37:49+08:00" content="2015-04-06">
-              2015-04-06
+            <time itemprop="dateCreated" datetime="2015-05-21T14:58:55+08:00" content="2015-05-21">
+              2015-05-21
             </time>
           </span>
 
@@ -287,8 +287,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/注入/" itemprop="url" rel="index">
-                    <span itemprop="name">注入</span>
+                  <a href="/categories/Web安全/" itemprop="url" rel="index">
+                    <span itemprop="name">Web安全</span>
                   </a>
                 </span>
 
@@ -303,8 +303,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2015/04/06/HTTP请求头信息的注入/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/06/HTTP请求头信息的注入/" itemprop="commentsCount"></span>
+                <a href="/2015/05/21/PHP5.5使用Bcrypt加密密码/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/05/21/PHP5.5使用Bcrypt加密密码/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -328,17 +328,132 @@
 
       
         
-          <blockquote>
-<p>常见http可能被污染的参数有这些</p>
-</blockquote>
-<pre><code>- User-agent 浏览器版本 （少）
-- Referer      来源（少）
-- X-Forwarded-For 获取ip（高）
-- client_ip   获取ip（高）
--cookie      获取cookie值（高）
-</code></pre>
+          <p>在php5.5中，加入了一个新的密码哈希函数，可使用Bcrypt轻松实现加盐的安全密码。</p>
+<p>bcrypt和其他对称或非对称加密方式不同的是，不是直接解密得到明文，也不是二次加密比较密文，而是把明文和存储的密文一块运算得到另一个密文，如果这两个密文相同则验证成功。
           <div class="post-more-link text-center">
-            <a class="btn" href="/2015/04/06/HTTP请求头信息的注入/#more" rel="contents">
+            <a class="btn" href="/2015/05/21/PHP5.5使用Bcrypt加密密码/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/04/07/基于mssql的报错注入的脚本(get)/" itemprop="url">
+                  基于mssql的报错注入的脚本(get)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-04-07T21:02:13+08:00" content="2015-04-07">
+              2015-04-07
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/渗透测试/" itemprop="url" rel="index">
+                    <span itemprop="name">渗透测试</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/04/07/基于mssql的报错注入的脚本(get)/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/07/基于mssql的报错注入的脚本(get)/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>在进行mssql注入的时候，由于各种各样的原因，我们不能使用工具进行值得获取，那么可以自行编写脚本来获取值，python由于其良好的抓取网页的功能，被大家广泛使用。
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/04/07/基于mssql的报错注入的脚本(get)/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -413,7 +528,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-count">12</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -430,7 +545,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">8</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

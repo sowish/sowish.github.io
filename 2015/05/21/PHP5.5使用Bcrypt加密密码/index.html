@@ -88,7 +88,7 @@ bcrypt和其他对称或非对称加密方式不同的是，不是直接解密�
 <meta property="og:site_name" content="wps2015的博客">
 <meta property="og:description" content="在php5.5中，加入了一个新的密码哈希函数，可使用Bcrypt轻松实现加盐的安全密码。
 bcrypt和其他对称或非对称加密方式不同的是，不是直接解密得到明文，也不是二次加密比较密文，而是把明文和存储的密文一块运算得到另一个密文，如果这两个密文相同则验证成功。">
-<meta property="og:updated_time" content="2016-05-12T01:48:04.688Z">
+<meta property="og:updated_time" content="2016-05-15T12:33:55.428Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="PHP5.5使用Bcrypt加密密码">
 <meta name="twitter:description" content="在php5.5中，加入了一个新的密码哈希函数，可使用Bcrypt轻松实现加盐的安全密码。
@@ -286,8 +286,8 @@ bcrypt和其他对称或非对称加密方式不同的是，不是直接解密�
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/编程/" itemprop="url" rel="index">
-                    <span itemprop="name">编程</span>
+                  <a href="/categories/Web安全/" itemprop="url" rel="index">
+                    <span itemprop="name">Web安全</span>
                   </a>
                 </span>
 
@@ -345,7 +345,7 @@ bcrypt和其他对称或非对称加密方式不同的是，不是直接解密�
 <p>下面我们来看看Bcrypt的性能，安全性的提升，肯定是以性能为代价。bcrypt要加强密码安全性，增加运行时间也是肯定的。那我们现在就测试一下Bcrypt与普通md5的速度。</p>
 <p>测试机性能：</p>
 <p>CPU I7 4核 2.3G主频<br>内存 16G ddr3 内存<br>系统 Mac<br>PHP 5.5.15</p>
-<p>现在用下面这段代码分别测试一下md5和Bcrypt在不加盐的情况下的运行速度<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--?php </span><br><span class="line"> $s_time = microtime(<span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">password_hash(<span class="string">'password'</span>,PASSWORD_BCRYPT,[<span class="string">'cost'</span> =&amp;gt; <span class="number">10</span>]);</span><br><span class="line"><span class="comment">// md5('password');</span></span><br><span class="line">$e_time = microtime(<span class="keyword">true</span>);</span><br><span class="line">$run_time = $e_time-$s_time;</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> ($run_time*<span class="number">1000</span>).<span class="string">'ms'</span>;</span><br></pre></td></tr></table></figure></p>
+<p>现在用下面这段代码分别测试一下md5和Bcrypt在不加盐的情况下的运行速度<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--?php</span><br><span class="line"> $s_time = microtime(<span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">password_hash(<span class="string">'password'</span>,PASSWORD_BCRYPT,[<span class="string">'cost'</span> =&amp;gt; <span class="number">10</span>]);</span><br><span class="line"><span class="comment">// md5('password');</span></span><br><span class="line">$e_time = microtime(<span class="keyword">true</span>);</span><br><span class="line">$run_time = $e_time-$s_time;</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> ($run_time*<span class="number">1000</span>).<span class="string">'ms'</span>;</span><br></pre></td></tr></table></figure></p>
 <p>Bcrypt 5次运行结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">68.569183349609ms</span><br><span class="line">68.006992340088ms</span><br><span class="line">69.074869155884ms</span><br><span class="line">68.211078643799ms</span><br><span class="line">68.757057189941ms</span><br></pre></td></tr></table></figure></p>
 <p>md5 5次运行结果</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">0.0040531158447266ms</span><br><span class="line">0.0040531158447266ms</span><br><span class="line">0.0050067901611328ms</span><br><span class="line">0.0040531158447266ms</span><br></pre></td></tr></table></figure>
@@ -462,7 +462,7 @@ bcrypt和其他对称或非对称加密方式不同的是，不是直接解密�
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-count">12</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -479,7 +479,7 @@ bcrypt和其他对称或非对称加密方式不同的是，不是直接解密�
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">8</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
