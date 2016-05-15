@@ -88,7 +88,7 @@
 <meta property="og:site_name" content="wps2015的博客">
 <meta property="og:description" content="Web题0x01. 信息
 打开是一个代码下载链接，下载下来是wireshark抓的cap包，打开包分析发现两个http的包，get请求下载了zip的压缩包，">
-<meta property="og:updated_time" content="2016-05-15T12:36:34.257Z">
+<meta property="og:updated_time" content="2016-05-15T12:46:01.324Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Whctf Writeup（web&crypto）">
 <meta name="twitter:description" content="Web题0x01. 信息
@@ -342,8 +342,8 @@
 <p>登录口sql注入，还是union的，注入发现user表有flag字段，将12,13,14,15行的flag字段组合<br><code>whctf{hello$$##itisme&amp;---&amp;&amp;&amp;}</code></p>
 <p>0x07. 看图说话</p>
 <p>给的提示里ctf页面脚本,猜测存在ctf.php，打开是302跳转，返回包里有张图片链接<br><code>templates/images/xxx/ctf.jpg</code><br>，将图片下载下载利用notepad++打开，flag在最后<code>whctf{today@@isnot09#$tomorrow}</code></p>
-<h2 id="CRYPTO"><a href="#CRYPTO" class="headerlink" title="CRYPTO"></a>CRYPTO</h2><p>0x01 我叫李二狗（一）<br>直接base64解密，然后李二狗是近视，将l换成1，x换成1，md5解密</p>
-<p>0x02 李二狗的梦中情人<br>将隐藏在图片末尾的链接中的图片提取出来，然后convert转换成png格式，diff下得到一个二维码，二维码黑白反转下，得到正确的二维码，扫一下，bingo</p>
+<h2 id="CRYPTO"><a href="#CRYPTO" class="headerlink" title="CRYPTO"></a>CRYPTO</h2><p>0x01 我叫李二狗（一）<br>直接base64解密，然后李二狗是近视，将l换成1，x换成e，md5解密</p>
+<p>0x02 李二狗的梦中情人<br>将隐藏在图片末尾的链接中的图片提取出来，然后convert转换成png格式，diffimg下得到一个二维码，二维码黑白反转下，得到正确的二维码，扫一下，bingo</p>
 <p>0x03 我叫李二狗（二）<br>给了两个RSA加密，由于其弱公钥，N太小，直接分解大数，破解</p>
 <p>0x04 李二狗的LOL战歌<br>听音乐，感觉音频右声道像电报，然后翻译成摩斯编码，直接得到13位字符，然后用ROT13编码转换下，得到flag</p>
 
