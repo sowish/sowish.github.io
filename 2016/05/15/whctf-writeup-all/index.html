@@ -80,18 +80,21 @@
 
 
 
-<meta name="description" content="Web题0x01. 信息
+<meta name="description" content="whctf2016初赛提前结束了，团队的小伙伴们还是很给力的，做出了所有的web及几乎所有（差一道）的crypto题。
+Web题0x01. 信息
 打开是一个代码下载链接，下载下来是wireshark抓的cap包，打开包分析发现两个http的包，get请求下载了zip的压缩包，">
 <meta property="og:type" content="article">
 <meta property="og:title" content="whctf2016初赛Writeup（web&crypto）">
 <meta property="og:url" content="http://yoursite.com/2016/05/15/whctf-writeup-all/index.html">
 <meta property="og:site_name" content="wps2015的博客">
-<meta property="og:description" content="Web题0x01. 信息
+<meta property="og:description" content="whctf2016初赛提前结束了，团队的小伙伴们还是很给力的，做出了所有的web及几乎所有（差一道）的crypto题。
+Web题0x01. 信息
 打开是一个代码下载链接，下载下来是wireshark抓的cap包，打开包分析发现两个http的包，get请求下载了zip的压缩包，">
-<meta property="og:updated_time" content="2016-05-15T12:48:37.709Z">
+<meta property="og:updated_time" content="2016-05-16T07:48:52.969Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="whctf2016初赛Writeup（web&crypto）">
-<meta name="twitter:description" content="Web题0x01. 信息
+<meta name="twitter:description" content="whctf2016初赛提前结束了，团队的小伙伴们还是很给力的，做出了所有的web及几乎所有（差一道）的crypto题。
+Web题0x01. 信息
 打开是一个代码下载链接，下载下来是wireshark抓的cap包，打开包分析发现两个http的包，get请求下载了zip的压缩包，">
 
 
@@ -326,26 +329,27 @@
       
 
       
-        <h2 id="Web题"><a href="#Web题" class="headerlink" title="Web题"></a>Web题</h2><p>0x01. 信息</p>
+        <p>whctf2016初赛提前结束了，团队的小伙伴们还是很给力的，做出了所有的web及几乎所有（差一道）的crypto题。</p>
+<h2 id="Web题"><a href="#Web题" class="headerlink" title="Web题"></a>Web题</h2><p><strong>0x01. 信息</strong></p>
 <p>打开是一个代码下载链接，下载下来是wireshark抓的cap包，打开包分析发现两个http的包，get请求下载了zip的压缩包，<a id="more"></a>利用wireshark导出zip包-File-Export Objects-HTTP。发现需要密码打开，官方提示华科官网，解压密码<code>www.hust.edu.cn</code>，flag在flag3.docx中</p>
-<p>0x02. 窃取</p>
+<p><strong>0x02. 窃取</strong></p>
 <p>测试地址存在union注入，利用sqlmap在<strong>wh_ct4_hgduyingjkhjhjg</strong>库中发现flag的提示<code>flag is nothere,but I can tell you the flag is xor user&#39;s password.</code>，那么到<strong>web_sqli</strong>库中，将user1和user2的password异或后解密，得到flag:hust</p>
-<p>0x03. 忘了账户和密码</p>
+<p><strong>0x03. 忘了账户和密码</strong></p>
 <p>username: <code>&#39; union select 1,2,3-- -</code> , 三列</p>
 <p>password: 任意</p>
-<p>0x04. find</p>
+<p><strong>0x04. find</strong></p>
 <p>右键源代码，发现<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">css/[adwxhyz]&#123;2&#125;ctf[0-9]&#123;7&#125;.css"</span><br></pre></td></tr></table></figure></p>
 <p>前两位字符，后7位数字的正则，大胆猜测前两位是wh，后7位直到官方给了提示（），一个qq号，搜索qq的资料，发现其为1999年5月12的生日，尝试css/whctf1999512.css成功，flag就在里面<code>whctf{Wh3tF_H@rd}</code></p>
-<p>0x05. beat it</p>
+<p><strong>0x05. beat it</strong></p>
 <p>打开又是一个pcap的包下载，三个ipv4的协议包，尝试重组将中间的丢弃，把data组合hex两次转字符串，得到flag<code>whctf{000 here it is the flag 000}</code></p>
-<p>0x06. 密码忘了怎么办？</p>
+<p><strong>0x06. 密码忘了怎么办？</strong></p>
 <p>登录口sql注入，还是union的，注入发现user表有flag字段，将12,13,14,15行的flag字段组合<br><code>whctf{hello$$##itisme&amp;---&amp;&amp;&amp;}</code></p>
-<p>0x07. 看图说话</p>
+<p><strong>0x07. 看图说话</strong></p>
 <p>给的提示里ctf页面脚本,猜测存在ctf.php，打开是302跳转，返回包里有张图片链接<br><code>templates/images/xxx/ctf.jpg</code><br>，将图片下载下载利用notepad++打开，flag在最后<code>whctf{today@@isnot09#$tomorrow}</code></p>
-<h2 id="CRYPTO"><a href="#CRYPTO" class="headerlink" title="CRYPTO"></a>CRYPTO</h2><p>0x01 我叫李二狗（一）<br>直接base64解密，然后李二狗是近视，将l换成1，x换成e，md5解密</p>
-<p>0x02 李二狗的梦中情人<br>将隐藏在图片末尾的链接中的图片提取出来，然后convert转换成png格式，diffimg下得到一个二维码，二维码黑白反转下，得到正确的二维码，扫一下，bingo</p>
-<p>0x03 我叫李二狗（二）<br>给了两个RSA加密，由于其弱公钥，N太小，直接分解大数，破解</p>
-<p>0x04 李二狗的LOL战歌<br>听音乐，感觉音频右声道像电报，然后翻译成摩斯编码，直接得到13位字符，然后用ROT13编码转换下，得到flag</p>
+<h2 id="CRYPTO题"><a href="#CRYPTO题" class="headerlink" title="CRYPTO题"></a>CRYPTO题</h2><p><strong>0x01 我叫李二狗（一）</strong><br>直接base64解密，然后李二狗是近视，将l换成1，x换成e，md5解密</p>
+<p><strong>0x02 李二狗的梦中情人</strong><br>将隐藏在图片末尾的链接中的图片提取出来，然后convert转换成png格式，diffimg下得到一个二维码，二维码黑白反转下，得到正确的二维码，扫一下，bingo</p>
+<p><strong>0x03 我叫李二狗（二）</strong><br>给了两个RSA加密，由于其弱公钥，N太小，直接分解大数，破解</p>
+<p><strong>0x04 李二狗的LOL战歌</strong><br>听音乐，感觉音频右声道像电报，然后翻译成摩斯编码，直接得到13位字符，然后用ROT13编码转换下，得到flag</p>
 
       
     </div>
@@ -562,7 +566,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Web题"><span class="nav-number">1.</span> <span class="nav-text">Web题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CRYPTO"><span class="nav-number">2.</span> <span class="nav-text">CRYPTO</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Web题"><span class="nav-number">1.</span> <span class="nav-text">Web题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CRYPTO题"><span class="nav-number">2.</span> <span class="nav-text">CRYPTO题</span></a></li></ol></div>
             
           </div>
         </section>
