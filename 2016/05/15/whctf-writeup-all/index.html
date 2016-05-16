@@ -88,7 +88,7 @@ Web题">
 <meta property="og:site_name" content="wps2015的博客">
 <meta property="og:description" content="whctf2016初赛提前结束了，团队的小伙伴们还是很给力的，做出了所有的web及几乎所有（差一道）的crypto题。
 Web题">
-<meta property="og:updated_time" content="2016-05-16T07:51:48.053Z">
+<meta property="og:updated_time" content="2016-05-16T08:10:46.792Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="whctf2016初赛Writeup（web&crypto）">
 <meta name="twitter:description" content="whctf2016初赛提前结束了，团队的小伙伴们还是很给力的，做出了所有的web及几乎所有（差一道）的crypto题。
@@ -343,7 +343,7 @@ Web题">
 <p>登录口sql注入，还是union的，注入发现user表有flag字段，将12,13,14,15行的flag字段组合<br><code>whctf{hello$$##itisme&amp;---&amp;&amp;&amp;}</code></p>
 <p><strong>0x07. 看图说话</strong></p>
 <p>给的提示里ctf页面脚本,猜测存在ctf.php，打开是302跳转，返回包里有张图片链接<br><code>templates/images/xxx/ctf.jpg</code><br>，将图片下载下载利用notepad++打开，flag在最后<code>whctf{today@@isnot09#$tomorrow}</code></p>
-<h2 id="CRYPTO题"><a href="#CRYPTO题" class="headerlink" title="CRYPTO题"></a>CRYPTO题</h2><p><strong>0x01 我叫李二狗（一）</strong><br>直接base64解密，然后李二狗是近视，将l换成1，x换成e，md5解密</p>
+<h2 id="CRYPTO题"><a href="#CRYPTO题" class="headerlink" title="CRYPTO题"></a>CRYPTO题</h2><p><strong>0x01 我叫李二狗（一）</strong><br>直接base64解密，然后李二狗是近视，将l换成1，x换成1，o换成0，解密发现是left16加密方式。</p>
 <p><strong>0x02 李二狗的梦中情人</strong><br>将隐藏在图片末尾的链接中的图片提取出来，然后convert转换成png格式，diffimg下得到一个二维码，二维码黑白反转下，得到正确的二维码，扫一下，bingo</p>
 <p><strong>0x03 我叫李二狗（二）</strong><br>给了两个RSA加密，由于其弱公钥，N太小，直接分解大数，破解</p>
 <p><strong>0x04 李二狗的LOL战歌</strong><br>听音乐，感觉音频右声道像电报，然后翻译成摩斯编码，直接得到13位字符，然后用ROT13编码转换下，得到flag</p>
