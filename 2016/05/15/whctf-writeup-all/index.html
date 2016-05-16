@@ -81,21 +81,18 @@
 
 
 <meta name="description" content="whctf2016初赛提前结束了，团队的小伙伴们还是很给力的，做出了所有的web及几乎所有（差一道）的crypto题。
-Web题0x01. 信息
-打开是一个代码下载链接，下载下来是wireshark抓的cap包，打开包分析发现两个http的包，get请求下载了zip的压缩包，">
+Web题">
 <meta property="og:type" content="article">
 <meta property="og:title" content="whctf2016初赛Writeup（web&crypto）">
 <meta property="og:url" content="http://yoursite.com/2016/05/15/whctf-writeup-all/index.html">
 <meta property="og:site_name" content="wps2015的博客">
 <meta property="og:description" content="whctf2016初赛提前结束了，团队的小伙伴们还是很给力的，做出了所有的web及几乎所有（差一道）的crypto题。
-Web题0x01. 信息
-打开是一个代码下载链接，下载下来是wireshark抓的cap包，打开包分析发现两个http的包，get请求下载了zip的压缩包，">
-<meta property="og:updated_time" content="2016-05-16T07:48:52.969Z">
+Web题">
+<meta property="og:updated_time" content="2016-05-16T07:51:48.053Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="whctf2016初赛Writeup（web&crypto）">
 <meta name="twitter:description" content="whctf2016初赛提前结束了，团队的小伙伴们还是很给力的，做出了所有的web及几乎所有（差一道）的crypto题。
-Web题0x01. 信息
-打开是一个代码下载链接，下载下来是wireshark抓的cap包，打开包分析发现两个http的包，get请求下载了zip的压缩包，">
+Web题">
 
 
 
@@ -330,8 +327,8 @@ Web题0x01. 信息
 
       
         <p>whctf2016初赛提前结束了，团队的小伙伴们还是很给力的，做出了所有的web及几乎所有（差一道）的crypto题。</p>
-<h2 id="Web题"><a href="#Web题" class="headerlink" title="Web题"></a>Web题</h2><p><strong>0x01. 信息</strong></p>
-<p>打开是一个代码下载链接，下载下来是wireshark抓的cap包，打开包分析发现两个http的包，get请求下载了zip的压缩包，<a id="more"></a>利用wireshark导出zip包-File-Export Objects-HTTP。发现需要密码打开，官方提示华科官网，解压密码<code>www.hust.edu.cn</code>，flag在flag3.docx中</p>
+<h2 id="Web题"><a href="#Web题" class="headerlink" title="Web题"></a>Web题<a id="more"></a></h2><p><strong>0x01. 信息</strong></p>
+<p>打开是一个代码下载链接，下载下来是wireshark抓的cap包，打开包分析发现两个http的包，get请求下载了zip的压缩包，利用wireshark导出zip包-File-Export Objects-HTTP。发现需要密码打开，官方提示华科官网，解压密码<code>www.hust.edu.cn</code>，flag在flag3.docx中</p>
 <p><strong>0x02. 窃取</strong></p>
 <p>测试地址存在union注入，利用sqlmap在<strong>wh_ct4_hgduyingjkhjhjg</strong>库中发现flag的提示<code>flag is nothere,but I can tell you the flag is xor user&#39;s password.</code>，那么到<strong>web_sqli</strong>库中，将user1和user2的password异或后解密，得到flag:hust</p>
 <p><strong>0x03. 忘了账户和密码</strong></p>
