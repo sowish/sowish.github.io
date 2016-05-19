@@ -80,22 +80,16 @@
 
 
 
-<meta name="description" content="1. CI自带输入类输入类有两个用途：
-
-为了安全性，对输入数据进行预处理">
+<meta name="description" content="最近在学习CI框架，总结了几种CI中常用的参数引入的方式。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CI框架学习一（参数输入）">
 <meta property="og:url" content="http://yoursite.com/2016/05/19/CI框架学习（一）/index.html">
 <meta property="og:site_name" content="wps2015的博客">
-<meta property="og:description" content="1. CI自带输入类输入类有两个用途：
-
-为了安全性，对输入数据进行预处理">
-<meta property="og:updated_time" content="2016-05-19T13:21:46.826Z">
+<meta property="og:description" content="最近在学习CI框架，总结了几种CI中常用的参数引入的方式。">
+<meta property="og:updated_time" content="2016-05-19T13:30:45.700Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CI框架学习一（参数输入）">
-<meta name="twitter:description" content="1. CI自带输入类输入类有两个用途：
-
-为了安全性，对输入数据进行预处理">
+<meta name="twitter:description" content="最近在学习CI框架，总结了几种CI中常用的参数引入的方式。">
 
 
 
@@ -329,9 +323,10 @@
       
 
       
-        <h3 id="1-CI自带输入类"><a href="#1-CI自带输入类" class="headerlink" title="1. CI自带输入类"></a>1. CI自带输入类</h3><p>输入类有两个用途：</p>
+        <p>最近在学习CI框架，总结了几种CI中常用的参数引入的方式。<br><a id="more"></a></p>
+<h3 id="1-CI自带输入类"><a href="#1-CI自带输入类" class="headerlink" title="1. CI自带输入类"></a>1. CI自带输入类</h3><p>输入类有两个用途：</p>
 <blockquote>
-<p>为了安全性，对输入数据进行预处理<a id="more"></a></p>
+<p>为了安全性，对输入数据进行预处理</p>
 <p>提供了一些辅助方法来获取输入数据并处理</p>
 </blockquote>
 <p>在CI框架中，在/application/config/config.php中可以选择开启全局过滤xss</p>
@@ -351,6 +346,7 @@
 </li>
 </ul>
 <p>该方法用于将 URI 的段转换为一个包含键值对的关联数组,第一个参数为位移，默认为3（前两段为控制器和方法）。如下URI <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```php</span><br><span class="line">array (size=2)</span><br><span class="line">  &apos;sid&apos; =&gt; string &apos;1&apos; (length=1)</span><br><span class="line">  &apos;cid&apos; =&gt; string &apos;2&apos; (length=1)</span><br></pre></td></tr></table></figure></p>
+<p>这种方法获取参数也受permitted_uri_chars的影响。</p>
 <h3 id="4-典型的PHP方法"><a href="#4-典型的PHP方法" class="headerlink" title="4. 典型的PHP方法"></a>4. 典型的PHP方法</h3><p>大家最熟悉的<code>$_GET[], $_POST[], $_POST[]</code>等。</p>
 <p>参考:</p>
 <p><a href="http://codeigniter.org.cn/" target="_blank" rel="external">CodeIgniter 用户指南</a></p>
