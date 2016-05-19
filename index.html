@@ -260,7 +260,7 @@
               
                 
                 <a class="post-title-link" href="/2016/05/19/CI框架学习（一）/" itemprop="url">
-                  未命名
+                  CI框架学习一（参数输入）
                 </a>
               
             
@@ -328,34 +328,14 @@
 
       
         
-          
-            <h3 id="1-CI自带输入类"><a href="#1-CI自带输入类" class="headerlink" title="1. CI自带输入类"></a>1. CI自带输入类</h3><p>输入类有两个用途：</p>
+          <h3 id="1-CI自带输入类"><a href="#1-CI自带输入类" class="headerlink" title="1. CI自带输入类"></a>1. CI自带输入类</h3><p>输入类有两个用途：</p>
 <blockquote>
-<p>为了安全性，对输入数据进行预处理</p>
-<p>提供了一些辅助方法来获取输入数据并处理</p>
-</blockquote>
-<p>在CI框架中，在/application/config/config.php中可以选择开启全局过滤xss</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$config[&apos;global_xss_filtering&apos;] = TRUE;</span><br></pre></td></tr></table></figure>
-<p>最常见调用方法如下，第二个参数为TRUE时，可加载xss_clean函数对输入的参数进行过滤，当然只是过滤xss，xss_clean函数定义在/system/core/Security.php，没有针对sql injection做对于的过滤措施。<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$this-&gt;input-&gt;post($index (mixed),[, $xss_clean = <span class="keyword">NULL</span>]])</span><br><span class="line">$this-&gt;input-&gt;get()</span><br><span class="line">$this-&gt;input-&gt;cookie()</span><br><span class="line">$this-&gt;input-&gt;server()</span><br></pre></td></tr></table></figure></p>
-<p>其它的较少使用的如<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$this-&gt;input-&gt;get_post(<span class="string">'some_data'</span>, <span class="keyword">TRUE</span>);  <span class="comment">//先get再post</span></span><br><span class="line">$this-&gt;input-&gt;post_get(<span class="string">'some_data'</span>, <span class="keyword">TRUE</span>);</span><br><span class="line">$this-&gt;input-&gt;ip_address();</span><br><span class="line">$this-&gt;input-&gt;user_agent();</span><br><span class="line">$this-&gt;input-&gt;request_headers();</span><br><span class="line">....</span><br></pre></td></tr></table></figure></p>
-<h3 id="2-URI-分段传递"><a href="#2-URI-分段传递" class="headerlink" title="2. URI 分段传递"></a>2. URI 分段传递</h3><p>当URI多于两个段，多余的段将作为参数传递到你的方法中。例如你的URI是这样<br><code>/index.php/news/view/test</code><br>那么view方法会接受”test”作为参数。<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">view</span><span class="params">($slug = Null)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    $data[<span class="string">'news'</span>] = $this-&gt;news_model-&gt;get_news($slug);</span><br><span class="line">    $data[<span class="string">'title'</span>] = <span class="string">"The detail news"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">empty</span>($data[<span class="string">'news'</span>]))</span><br><span class="line">    &#123;</span><br><span class="line">        show_404();</span><br><span class="line">    &#125;</span><br><span class="line">    $this-&gt;load-&gt;view(<span class="string">'templates/header'</span>, $data);</span><br><span class="line">    $this-&gt;load-&gt;view(<span class="string">'news/index'</span>, $data);</span><br><span class="line">    $this-&gt;load-&gt;view(<span class="string">'templates/footer'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>在/application/config/config.php中，定义了全局的URI参数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$config[&apos;permitted_uri_chars&apos;] = &apos;a-z 0-9~%.:_\-&apos;;</span><br></pre></td></tr></table></figure></p>
-<p>开启后，可自定义允许的URI字符的白名单。</p>
-<h3 id="3-URI类方法获取"><a href="#3-URI类方法获取" class="headerlink" title="3. URI类方法获取"></a>3. URI类方法获取</h3><ul>
-<li>最常用调用方法如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&gt;uri-&gt;segment(n, [, $no_result = NULL]))</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>用于从 URI 中获取指定段。参数 n 为你希望获取的段序号，URI 的段从左到右进行编号。 例如，如果你的完整 URL 是这样的:<br><code>/index.php/news/view/test</code>，那么从index.php开始为0，要获取“test”值，代码如下<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&gt;uri-&gt;segment(<span class="number">3</span>)</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li>还有一个比较好用的方法<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&gt;uri-&gt;uri_to_assoc([$n = <span class="number">3</span>[, $default = <span class="keyword">array</span>()]])</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>该方法用于将 URI 的段转换为一个包含键值对的关联数组,第一个参数为位移，默认为3（前两段为控制器和方法）。如下URI <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```php</span><br><span class="line">array (size=2)</span><br><span class="line">  &apos;sid&apos; =&gt; string &apos;1&apos; (length=1)</span><br><span class="line">  &apos;cid&apos; =&gt; string &apos;2&apos; (length=1)</span><br></pre></td></tr></table></figure></p>
-<h3 id="4-典型的PHP方法"><a href="#4-典型的PHP方法" class="headerlink" title="4. 典型的PHP方法"></a>4. 典型的PHP方法</h3><p>大家最熟悉的<code>$_GET[], $_POST[], $_POST[]</code>等。</p>
-<p>参考:</p>
-<p><a href="http://codeigniter.org.cn/" target="_blank" rel="external">CodeIgniter 用户指南</a></p>
-
-          
+<p>为了安全性，对输入数据进行预处理
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/05/19/CI框架学习（一）/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
