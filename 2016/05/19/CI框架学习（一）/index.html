@@ -80,16 +80,16 @@
 
 
 
-<meta name="description" content="最近在学习CI框架，总结了几种CI中常用的参数引入的方式。">
+<meta name="description" content="对于代码审计来讲，比较重要的是了解其参数输入及数据库操作方式。在阅读了CI开发手册后，我总结了下面的笔记。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CI框架学习一（参数输入）">
+<meta property="og:title" content="CI框架学习一(参数输入/数据库操作)">
 <meta property="og:url" content="http://yoursite.com/2016/05/19/CI框架学习（一）/index.html">
 <meta property="og:site_name" content="wps2015的博客">
-<meta property="og:description" content="最近在学习CI框架，总结了几种CI中常用的参数引入的方式。">
-<meta property="og:updated_time" content="2016-05-20T02:54:57.651Z">
+<meta property="og:description" content="对于代码审计来讲，比较重要的是了解其参数输入及数据库操作方式。在阅读了CI开发手册后，我总结了下面的笔记。">
+<meta property="og:updated_time" content="2016-05-20T09:45:56.594Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="CI框架学习一（参数输入）">
-<meta name="twitter:description" content="最近在学习CI框架，总结了几种CI中常用的参数引入的方式。">
+<meta name="twitter:title" content="CI框架学习一(参数输入/数据库操作)">
+<meta name="twitter:description" content="对于代码审计来讲，比较重要的是了解其参数输入及数据库操作方式。在阅读了CI开发手册后，我总结了下面的笔记。">
 
 
 
@@ -107,7 +107,7 @@
   };
 </script>
 
-  <title> CI框架学习一（参数输入） | wps2015的博客 </title>
+  <title> CI框架学习一(参数输入/数据库操作) | wps2015的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -257,7 +257,7 @@
             
             
               
-                CI框架学习一（参数输入）
+                CI框架学习一(参数输入/数据库操作)
               
             
           </h1>
@@ -323,8 +323,8 @@
       
 
       
-        <p>最近在学习CI框架，总结了几种CI中常用的参数引入的方式。<br><a id="more"></a></p>
-<h3 id="1-CI自带输入类"><a href="#1-CI自带输入类" class="headerlink" title="1. CI自带输入类"></a>1. CI自带输入类</h3><p>输入类有两个用途：</p>
+        <p>对于代码审计来讲，比较重要的是了解其参数输入及数据库操作方式。在阅读了CI开发手册后，我总结了下面的笔记。<br><a id="more"></a></p>
+<h2 id="参数输入"><a href="#参数输入" class="headerlink" title="参数输入"></a>参数输入</h2><h4 id="1-CI自带输入类"><a href="#1-CI自带输入类" class="headerlink" title="1. CI自带输入类"></a>1. CI自带输入类</h4><p>输入类有两个用途：</p>
 <blockquote>
 <p>为了安全性，对输入数据进行预处理</p>
 <p>提供了一些辅助方法来获取输入数据并处理</p>
@@ -333,10 +333,10 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$config[&apos;global_xss_filtering&apos;] = TRUE;</span><br></pre></td></tr></table></figure>
 <p>最常见调用方法如下，第二个参数为TRUE时，可加载xss_clean函数对输入的参数进行过滤，当然只是过滤xss，xss_clean函数定义在/system/core/Security.php，没有针对sql injection做对于的过滤措施。<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$this-&gt;input-&gt;post($index (mixed),[, $xss_clean = <span class="keyword">NULL</span>]])</span><br><span class="line">$this-&gt;input-&gt;get()</span><br><span class="line">$this-&gt;input-&gt;cookie()</span><br><span class="line">$this-&gt;input-&gt;server()</span><br></pre></td></tr></table></figure></p>
 <p>其它的较少使用的如<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$this-&gt;input-&gt;get_post(<span class="string">'some_data'</span>, <span class="keyword">TRUE</span>);  <span class="comment">//先get再post</span></span><br><span class="line">$this-&gt;input-&gt;post_get(<span class="string">'some_data'</span>, <span class="keyword">TRUE</span>);</span><br><span class="line">$this-&gt;input-&gt;ip_address();</span><br><span class="line">$this-&gt;input-&gt;user_agent();</span><br><span class="line">$this-&gt;input-&gt;request_headers();</span><br><span class="line">....</span><br></pre></td></tr></table></figure></p>
-<h3 id="2-URI-分段传递"><a href="#2-URI-分段传递" class="headerlink" title="2. URI 分段传递"></a>2. URI 分段传递</h3><p>当URI多于两个段，多余的段将作为参数传递到你的方法中。例如你的URI是这样<br><code>/index.php/news/view/test</code><br>那么view方法会接受”test”作为参数。<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">view</span><span class="params">($slug = Null)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    $data[<span class="string">'news'</span>] = $this-&gt;news_model-&gt;get_news($slug);</span><br><span class="line">    $data[<span class="string">'title'</span>] = <span class="string">"The detail news"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">empty</span>($data[<span class="string">'news'</span>]))</span><br><span class="line">    &#123;</span><br><span class="line">        show_404();</span><br><span class="line">    &#125;</span><br><span class="line">    $this-&gt;load-&gt;view(<span class="string">'templates/header'</span>, $data);</span><br><span class="line">    $this-&gt;load-&gt;view(<span class="string">'news/index'</span>, $data);</span><br><span class="line">    $this-&gt;load-&gt;view(<span class="string">'templates/footer'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="2-URI-分段传递"><a href="#2-URI-分段传递" class="headerlink" title="2. URI 分段传递"></a>2. URI 分段传递</h4><p>当URI多于两个段，多余的段将作为参数传递到你的方法中。例如你的URI是这样<br><code>/index.php/news/view/test</code><br>那么view方法会接受”test”作为参数。<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">view</span><span class="params">($slug = Null)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    $data[<span class="string">'news'</span>] = $this-&gt;news_model-&gt;get_news($slug);</span><br><span class="line">    $data[<span class="string">'title'</span>] = <span class="string">"The detail news"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">empty</span>($data[<span class="string">'news'</span>]))</span><br><span class="line">    &#123;</span><br><span class="line">        show_404();</span><br><span class="line">    &#125;</span><br><span class="line">    $this-&gt;load-&gt;view(<span class="string">'templates/header'</span>, $data);</span><br><span class="line">    $this-&gt;load-&gt;view(<span class="string">'news/index'</span>, $data);</span><br><span class="line">    $this-&gt;load-&gt;view(<span class="string">'templates/footer'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>在/application/config/config.php中，定义了全局的URI参数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$config[&apos;permitted_uri_chars&apos;] = &apos;a-z 0-9~%.:_\-&apos;;</span><br></pre></td></tr></table></figure></p>
 <p>开启后，可自定义允许的URI字符的白名单。</p>
-<h3 id="3-URI类方法获取"><a href="#3-URI类方法获取" class="headerlink" title="3. URI类方法获取"></a>3. URI类方法获取</h3><blockquote>
+<h4 id="3-URI类方法获取"><a href="#3-URI类方法获取" class="headerlink" title="3. URI类方法获取"></a>3. URI类方法获取</h4><blockquote>
 <p>最常用调用方法如下：</p>
 </blockquote>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&gt;uri-&gt;segment(n, [, $no_result = NULL]))</span><br></pre></td></tr></table></figure>
@@ -347,7 +347,21 @@
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&gt;uri-&gt;uri_to_assoc([$n = <span class="number">3</span>[, $default = <span class="keyword">array</span>()]])</span><br></pre></td></tr></table></figure>
 <p>该方法用于将 URI 的段转换为一个包含键值对的关联数组,第一个参数为位移，默认为3（前两段为控制器和方法）。如下URI <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```php</span><br><span class="line">array (size=2)</span><br><span class="line">  &apos;sid&apos; =&gt; string &apos;1&apos; (length=1)</span><br><span class="line">  &apos;cid&apos; =&gt; string &apos;2&apos; (length=1)</span><br></pre></td></tr></table></figure></p>
 <p>这种方法获取参数也受permitted_uri_chars的影响。</p>
-<h3 id="4-典型的PHP方法"><a href="#4-典型的PHP方法" class="headerlink" title="4. 典型的PHP方法"></a>4. 典型的PHP方法</h3><p>大家最熟悉的<code>$_GET[], $_POST[], $_POST[]</code>等。</p>
+<h4 id="4-典型的PHP方法"><a href="#4-典型的PHP方法" class="headerlink" title="4. 典型的PHP方法"></a>4. 典型的PHP方法</h4><p>大家最熟悉的<code>$_GET[], $_POST[], $_POST[]</code>等。</p>
+<h2 id="数据库操作"><a href="#数据库操作" class="headerlink" title="数据库操作"></a>数据库操作</h2><h4 id="1-基本查询"><a href="#1-基本查询" class="headerlink" title="1. 基本查询"></a>1. 基本查询</h4><p>在CI中提供了一个查询的类库database，需要手工去加载(autoload中未自动加载的话)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&gt;load-&gt;database()</span><br></pre></td></tr></table></figure></p>
+<p>加载后，可以直接<code>$this-&gt;db-&gt;function</code>调用自带的方法了。</p>
+<ul>
+<li>常规查询，query($sql)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&gt;db-&gt;query(&quot;select * from news where id = &apos;&quot;.$id.&quot;&apos;&quot;)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>加入单引号保护后，若变量直接传入仍然不安全。这时可用escape()方法进行转义，escape方法会自动引入单引号。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&gt;db-&gt;query(&quot;select * from news where id = &quot;.$this-&gt;db-&gt;escape($id))</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>参数绑定</li>
+</ul>
+<p>参数绑定会自动转义绑定的参数，生成安全的查询语句<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$sql = &quot;SELECT * FROM some_table WHERE id = ? AND status = ? AND author = ?&quot;;</span><br><span class="line">$this-&gt;db-&gt;query($sql, array(3, &apos;live&apos;, &apos;Rick&apos;));  //传入索引数组</span><br></pre></td></tr></table></figure></p>
+<h4 id="2-查询构造器"><a href="#2-查询构造器" class="headerlink" title="2. 查询构造器"></a>2. 查询构造器</h4><p>CodeIgniter 提供了查询构造器类，查询构造器允许你使用较少的代码来在数据库中 获取、新增或更新数据。有时只需要一两行代码就能完成数据库操作。构造器所有方法的定义位于/system/database/DB_query_builder.php。<br>比较常用的如下：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$this-&gt;db-&gt;get($table, $limit1, $limit2) <span class="comment">// select * from $table limit $limit1, $limit2</span></span><br><span class="line">$this-&gt;db-&gt;get_where(<span class="string">'mytable'</span>, <span class="keyword">array</span>(<span class="string">'id'</span> =&gt; $id), $limit, $offset); <span class="comment">// select * from mytable where id = $id limit $limit, $offset</span></span><br><span class="line">$this-&gt;db-&gt;insert(<span class="string">'mytable'</span>, $data); <span class="comment">//$data为数组</span></span><br><span class="line">$this-&gt;db-&gt;update(<span class="string">'mytable'</span>, $data)  <span class="comment">//搭配下面的where语句设置条件</span></span><br><span class="line">$this-&gt;db-&gt;delete(<span class="string">'mytable'</span>, <span class="keyword">array</span>(<span class="string">'id'</span> =&gt; $id)); <span class="comment">//第二个参数也可用where语句代替</span></span><br></pre></td></tr></table></figure></p>
+<p>部分sql语句编写，需要搭配<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$this-&gt;db-&gt;select(<span class="string">'title, content, date'</span>);  <span class="comment">//选择查询的字段</span></span><br><span class="line">$this-&gt;db-&gt;where(<span class="keyword">array</span>(<span class="string">'name'</span> =&gt; $name, <span class="string">'title'</span> =&gt; $title, <span class="string">'status'</span> =&gt; $status);); <span class="comment">// 查询条件设置</span></span><br><span class="line">$this-&gt;db-&gt;like(<span class="string">'title'</span>, <span class="string">'match'</span>);  <span class="comment">// where `title` like '%match%'</span></span><br><span class="line">$this-&gt;db-&gt;order_by(<span class="string">'title'</span>, <span class="string">'DESC'</span>);</span><br><span class="line">$this-&gt;db-&gt;limit(<span class="number">10</span>, <span class="number">20</span>);</span><br><span class="line">.....</span><br></pre></td></tr></table></figure></p>
+<h4 id="3-经典的php语句"><a href="#3-经典的php语句" class="headerlink" title="3. 经典的php语句"></a>3. 经典的php语句</h4><p>php的mysql扩展函数。</p>
 <p>参考:</p>
 <p><a href="http://codeigniter.org.cn/" target="_blank" rel="external">CodeIgniter 用户指南</a></p>
 
@@ -412,7 +426,7 @@
   <div class="comments" id="comments">
     
       <div class="ds-thread" data-thread-key="2016/05/19/CI框架学习（一）/"
-           data-title="CI框架学习一（参数输入）" data-url="http://yoursite.com/2016/05/19/CI框架学习（一）/">
+           data-title="CI框架学习一(参数输入/数据库操作)" data-url="http://yoursite.com/2016/05/19/CI框架学习（一）/">
       </div>
     
   </div>
@@ -566,7 +580,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-CI自带输入类"><span class="nav-number">1.</span> <span class="nav-text">1. CI自带输入类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-URI-分段传递"><span class="nav-number">2.</span> <span class="nav-text">2. URI 分段传递</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-URI类方法获取"><span class="nav-number">3.</span> <span class="nav-text">3. URI类方法获取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-典型的PHP方法"><span class="nav-number">4.</span> <span class="nav-text">4. 典型的PHP方法</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#参数输入"><span class="nav-number">1.</span> <span class="nav-text">参数输入</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-CI自带输入类"><span class="nav-number">1.0.1.</span> <span class="nav-text">1. CI自带输入类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-URI-分段传递"><span class="nav-number">1.0.2.</span> <span class="nav-text">2. URI 分段传递</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-URI类方法获取"><span class="nav-number">1.0.3.</span> <span class="nav-text">3. URI类方法获取</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-典型的PHP方法"><span class="nav-number">1.0.4.</span> <span class="nav-text">4. 典型的PHP方法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库操作"><span class="nav-number">2.</span> <span class="nav-text">数据库操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-基本查询"><span class="nav-number">2.0.1.</span> <span class="nav-text">1. 基本查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-查询构造器"><span class="nav-number">2.0.2.</span> <span class="nav-text">2. 查询构造器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-经典的php语句"><span class="nav-number">2.0.3.</span> <span class="nav-text">3. 经典的php语句</span></a></li></ol></li></ol></li></ol></div>
             
           </div>
         </section>
