@@ -86,7 +86,7 @@
 <meta property="og:url" content="http://yoursite.com/2016/05/19/CI框架学习（一）/index.html">
 <meta property="og:site_name" content="wps2015的博客">
 <meta property="og:description" content="对于代码审计来讲，比较重要的是了解其参数输入及数据库操作方式。在阅读了CI开发手册后，我总结了下面的笔记。">
-<meta property="og:updated_time" content="2016-05-20T09:45:56.594Z">
+<meta property="og:updated_time" content="2016-05-20T09:49:10.988Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CI框架学习一(参数输入/数据库操作)">
 <meta name="twitter:description" content="对于代码审计来讲，比较重要的是了解其参数输入及数据库操作方式。在阅读了CI开发手册后，我总结了下面的笔记。">
@@ -350,14 +350,14 @@
 <h4 id="4-典型的PHP方法"><a href="#4-典型的PHP方法" class="headerlink" title="4. 典型的PHP方法"></a>4. 典型的PHP方法</h4><p>大家最熟悉的<code>$_GET[], $_POST[], $_POST[]</code>等。</p>
 <h2 id="数据库操作"><a href="#数据库操作" class="headerlink" title="数据库操作"></a>数据库操作</h2><h4 id="1-基本查询"><a href="#1-基本查询" class="headerlink" title="1. 基本查询"></a>1. 基本查询</h4><p>在CI中提供了一个查询的类库database，需要手工去加载(autoload中未自动加载的话)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&gt;load-&gt;database()</span><br></pre></td></tr></table></figure></p>
 <p>加载后，可以直接<code>$this-&gt;db-&gt;function</code>调用自带的方法了。</p>
-<ul>
-<li>常规查询，query($sql)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&gt;db-&gt;query(&quot;select * from news where id = &apos;&quot;.$id.&quot;&apos;&quot;)</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
+<blockquote>
+<p>常规查询，query($sql)</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&gt;db-&gt;query(&quot;select * from news where id = &apos;&quot;.$id.&quot;&apos;&quot;)</span><br></pre></td></tr></table></figure>
 <p>加入单引号保护后，若变量直接传入仍然不安全。这时可用escape()方法进行转义，escape方法会自动引入单引号。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&gt;db-&gt;query(&quot;select * from news where id = &quot;.$this-&gt;db-&gt;escape($id))</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li>参数绑定</li>
-</ul>
+<blockquote>
+<p>参数绑定</p>
+</blockquote>
 <p>参数绑定会自动转义绑定的参数，生成安全的查询语句<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$sql = &quot;SELECT * FROM some_table WHERE id = ? AND status = ? AND author = ?&quot;;</span><br><span class="line">$this-&gt;db-&gt;query($sql, array(3, &apos;live&apos;, &apos;Rick&apos;));  //传入索引数组</span><br></pre></td></tr></table></figure></p>
 <h4 id="2-查询构造器"><a href="#2-查询构造器" class="headerlink" title="2. 查询构造器"></a>2. 查询构造器</h4><p>CodeIgniter 提供了查询构造器类，查询构造器允许你使用较少的代码来在数据库中 获取、新增或更新数据。有时只需要一两行代码就能完成数据库操作。构造器所有方法的定义位于/system/database/DB_query_builder.php。<br>比较常用的如下：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$this-&gt;db-&gt;get($table, $limit1, $limit2) <span class="comment">// select * from $table limit $limit1, $limit2</span></span><br><span class="line">$this-&gt;db-&gt;get_where(<span class="string">'mytable'</span>, <span class="keyword">array</span>(<span class="string">'id'</span> =&gt; $id), $limit, $offset); <span class="comment">// select * from mytable where id = $id limit $limit, $offset</span></span><br><span class="line">$this-&gt;db-&gt;insert(<span class="string">'mytable'</span>, $data); <span class="comment">//$data为数组</span></span><br><span class="line">$this-&gt;db-&gt;update(<span class="string">'mytable'</span>, $data)  <span class="comment">//搭配下面的where语句设置条件</span></span><br><span class="line">$this-&gt;db-&gt;delete(<span class="string">'mytable'</span>, <span class="keyword">array</span>(<span class="string">'id'</span> =&gt; $id)); <span class="comment">//第二个参数也可用where语句代替</span></span><br></pre></td></tr></table></figure></p>
 <p>部分sql语句编写，需要搭配<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$this-&gt;db-&gt;select(<span class="string">'title, content, date'</span>);  <span class="comment">//选择查询的字段</span></span><br><span class="line">$this-&gt;db-&gt;where(<span class="keyword">array</span>(<span class="string">'name'</span> =&gt; $name, <span class="string">'title'</span> =&gt; $title, <span class="string">'status'</span> =&gt; $status);); <span class="comment">// 查询条件设置</span></span><br><span class="line">$this-&gt;db-&gt;like(<span class="string">'title'</span>, <span class="string">'match'</span>);  <span class="comment">// where `title` like '%match%'</span></span><br><span class="line">$this-&gt;db-&gt;order_by(<span class="string">'title'</span>, <span class="string">'DESC'</span>);</span><br><span class="line">$this-&gt;db-&gt;limit(<span class="number">10</span>, <span class="number">20</span>);</span><br><span class="line">.....</span><br></pre></td></tr></table></figure></p>
