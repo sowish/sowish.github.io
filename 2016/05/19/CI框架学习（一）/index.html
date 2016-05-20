@@ -86,7 +86,7 @@
 <meta property="og:url" content="http://yoursite.com/2016/05/19/CI框架学习（一）/index.html">
 <meta property="og:site_name" content="wps2015的博客">
 <meta property="og:description" content="最近在学习CI框架，总结了几种CI中常用的参数引入的方式。">
-<meta property="og:updated_time" content="2016-05-20T02:52:40.638Z">
+<meta property="og:updated_time" content="2016-05-20T02:54:57.651Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CI框架学习一（参数输入）">
 <meta name="twitter:description" content="最近在学习CI框架，总结了几种CI中常用的参数引入的方式。">
@@ -336,15 +336,15 @@
 <h3 id="2-URI-分段传递"><a href="#2-URI-分段传递" class="headerlink" title="2. URI 分段传递"></a>2. URI 分段传递</h3><p>当URI多于两个段，多余的段将作为参数传递到你的方法中。例如你的URI是这样<br><code>/index.php/news/view/test</code><br>那么view方法会接受”test”作为参数。<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">view</span><span class="params">($slug = Null)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    $data[<span class="string">'news'</span>] = $this-&gt;news_model-&gt;get_news($slug);</span><br><span class="line">    $data[<span class="string">'title'</span>] = <span class="string">"The detail news"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">empty</span>($data[<span class="string">'news'</span>]))</span><br><span class="line">    &#123;</span><br><span class="line">        show_404();</span><br><span class="line">    &#125;</span><br><span class="line">    $this-&gt;load-&gt;view(<span class="string">'templates/header'</span>, $data);</span><br><span class="line">    $this-&gt;load-&gt;view(<span class="string">'news/index'</span>, $data);</span><br><span class="line">    $this-&gt;load-&gt;view(<span class="string">'templates/footer'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>在/application/config/config.php中，定义了全局的URI参数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$config[&apos;permitted_uri_chars&apos;] = &apos;a-z 0-9~%.:_\-&apos;;</span><br></pre></td></tr></table></figure></p>
 <p>开启后，可自定义允许的URI字符的白名单。</p>
-<h3 id="3-URI类方法获取"><a href="#3-URI类方法获取" class="headerlink" title="3. URI类方法获取"></a>3. URI类方法获取</h3><ul>
-<li>最常用调用方法如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&gt;uri-&gt;segment(n, [, $no_result = NULL]))</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
+<h3 id="3-URI类方法获取"><a href="#3-URI类方法获取" class="headerlink" title="3. URI类方法获取"></a>3. URI类方法获取</h3><blockquote>
+<p>最常用调用方法如下：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&gt;uri-&gt;segment(n, [, $no_result = NULL]))</span><br></pre></td></tr></table></figure>
 <p>用于从 URI 中获取指定段。参数 n 为你希望获取的段序号，URI 的段从左到右进行编号。 例如，如果你的完整 URL 是这样的:<br><code>/index.php/news/view/test</code>，那么从index.php开始为0，要获取“test”值，代码如下<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&gt;uri-&gt;segment(<span class="number">3</span>)</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li>还有一个比较好用的方法<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&gt;uri-&gt;uri_to_assoc([$n = <span class="number">3</span>[, $default = <span class="keyword">array</span>()]])</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
+<blockquote>
+<p>还有一个比较好用的方法</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&gt;uri-&gt;uri_to_assoc([$n = <span class="number">3</span>[, $default = <span class="keyword">array</span>()]])</span><br></pre></td></tr></table></figure>
 <p>该方法用于将 URI 的段转换为一个包含键值对的关联数组,第一个参数为位移，默认为3（前两段为控制器和方法）。如下URI <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```php</span><br><span class="line">array (size=2)</span><br><span class="line">  &apos;sid&apos; =&gt; string &apos;1&apos; (length=1)</span><br><span class="line">  &apos;cid&apos; =&gt; string &apos;2&apos; (length=1)</span><br></pre></td></tr></table></figure></p>
 <p>这种方法获取参数也受permitted_uri_chars的影响。</p>
 <h3 id="4-典型的PHP方法"><a href="#4-典型的PHP方法" class="headerlink" title="4. 典型的PHP方法"></a>4. 典型的PHP方法</h3><p>大家最熟悉的<code>$_GET[], $_POST[], $_POST[]</code>等。</p>
