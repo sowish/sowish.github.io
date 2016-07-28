@@ -88,10 +88,12 @@
 <meta property="og:url" content="http://yoursite.com/2016/07/28/LNScan/index.html">
 <meta property="og:site_name" content="wps2015的博客">
 <meta property="og:description" content="前言对于信息安全工作者，快速了解一个ip段、ip列表或者域名列表的信息（端口、标题、敏感文件等），是进行安全检测的重要一环，LNScan正是为此而生，敏感文件扫描模块改自BBScan.">
-<meta property="og:updated_time" content="2016-07-28T08:34:09.557Z">
+<meta property="og:image" content="https://img.alicdn.com/imgextra/i3/792076116/TB2SbKbtFXXXXaeXpXXXXXXXXXX_!!792076116.png">
+<meta property="og:updated_time" content="2016-07-28T08:49:27.794Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LNScan--一个高效的信息探测脚本">
 <meta name="twitter:description" content="前言对于信息安全工作者，快速了解一个ip段、ip列表或者域名列表的信息（端口、标题、敏感文件等），是进行安全检测的重要一环，LNScan正是为此而生，敏感文件扫描模块改自BBScan.">
+<meta name="twitter:image" content="https://img.alicdn.com/imgextra/i3/792076116/TB2SbKbtFXXXXaeXpXXXXXXXXXX_!!792076116.png">
 
 
 
@@ -332,8 +334,10 @@
 <li>敏感文件扫描支持多web端口</li>
 <li>扫描结束后生成格式鲜明的html报告，方便查看</li>
 </ul>
+<p>扫描报告如下图：</p>
+<p><img src="https://img.alicdn.com/imgextra/i3/792076116/TB2SbKbtFXXXXaeXpXXXXXXXXXX_!!792076116.png" alt=""></p>
 <h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip段/文件 =&gt; title&amp;常见端口扫描 =&gt; 提取web端口 =&gt; 敏感文件扫描 =&gt; 生成report</span><br></pre></td></tr></table></figure>
-<h3 id="计划"><a href="#计划" class="headerlink" title="计划"></a>计划</h3><p>对一个大型的企业来说，使用layer等工具扫描二级域名，获取的ip/域名并不完全；若发现很多子域名分布在不同的C段，那么针对每个C段扫描就显得任务很重。本工具计划针对导入的ip/域名，进行人为的ip扩展（前后相邻ip或者利用掩码划分更小的段），更大限度的命中目标企业ip。</p>
+<h3 id="改进"><a href="#改进" class="headerlink" title="改进"></a>改进</h3><p>对一个大型的企业来说，使用layer等工具扫描二级域名，获取的ip/域名并不完全；若发现很多子域名分布在不同的C段，那么针对每个C段扫描就显得任务很重。本工具计划针对导入的ip/域名，进行人为的ip扩展（前后相邻ip或者利用掩码划分更小的段），更大限度的命中目标企业ip。</p>
 <h3 id="地址"><a href="#地址" class="headerlink" title="地址"></a>地址</h3><p><a href="https://github.com/sowish/LNScan" target="_blank" rel="external">LNScan</a></p>
 
       
@@ -558,7 +562,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特点"><span class="nav-number">2.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#流程"><span class="nav-number">3.</span> <span class="nav-text">流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#计划"><span class="nav-number">4.</span> <span class="nav-text">计划</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#地址"><span class="nav-number">5.</span> <span class="nav-text">地址</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特点"><span class="nav-number">2.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#流程"><span class="nav-number">3.</span> <span class="nav-text">流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#改进"><span class="nav-number">4.</span> <span class="nav-text">改进</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#地址"><span class="nav-number">5.</span> <span class="nav-text">地址</span></a></li></ol></div>
             
           </div>
         </section>
