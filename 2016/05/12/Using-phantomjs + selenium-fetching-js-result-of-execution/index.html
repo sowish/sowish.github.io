@@ -82,16 +82,16 @@
 
 
 
-<meta name="description" content="&amp;emsp;&amp;emsp;如题，其实我的问题很简单，就是在写爬虫的时候拿到网页的信息包含类似”\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c”的字符串，实际上这是unicode的中文编码，对应的中文为“新浪微博注册”。其实我就是想找一个函数让这一串东西显示中文而已，没想到百度了白天找到合适的。">
+<meta name="description" content="0x01 问题需求有需要写一个接口需要可以抓取360webscan的网站评分及漏洞情况，本来以为一个简单的爬虫就能搞定的。哪想到把网页抓下来后一下子就懵逼了，先看获取分数的地方">
 <meta property="og:type" content="article">
-<meta property="og:title" content="python unicode字节串转成中文问题  （转）">
-<meta property="og:url" content="http://wps2015.org/2015/06/18/python unicode字节串转成中文问题/index.html">
+<meta property="og:title" content="利用phantomjs+selenium抓取js执行后的结果">
+<meta property="og:url" content="http://wps2015.org/2016/05/12/Using-phantomjs + selenium-fetching-js-result-of-execution/index.html">
 <meta property="og:site_name" content="wps2015的博客">
-<meta property="og:description" content="&amp;emsp;&amp;emsp;如题，其实我的问题很简单，就是在写爬虫的时候拿到网页的信息包含类似”\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c”的字符串，实际上这是unicode的中文编码，对应的中文为“新浪微博注册”。其实我就是想找一个函数让这一串东西显示中文而已，没想到百度了白天找到合适的。">
-<meta property="og:updated_time" content="2016-05-15T12:34:08.251Z">
+<meta property="og:description" content="0x01 问题需求有需要写一个接口需要可以抓取360webscan的网站评分及漏洞情况，本来以为一个简单的爬虫就能搞定的。哪想到把网页抓下来后一下子就懵逼了，先看获取分数的地方">
+<meta property="og:updated_time" content="2016-05-12T07:44:28.859Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="python unicode字节串转成中文问题  （转）">
-<meta name="twitter:description" content="&amp;emsp;&amp;emsp;如题，其实我的问题很简单，就是在写爬虫的时候拿到网页的信息包含类似”\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c”的字符串，实际上这是unicode的中文编码，对应的中文为“新浪微博注册”。其实我就是想找一个函数让这一串东西显示中文而已，没想到百度了白天找到合适的。">
+<meta name="twitter:title" content="利用phantomjs+selenium抓取js执行后的结果">
+<meta name="twitter:description" content="0x01 问题需求有需要写一个接口需要可以抓取360webscan的网站评分及漏洞情况，本来以为一个简单的爬虫就能搞定的。哪想到把网页抓下来后一下子就懵逼了，先看获取分数的地方">
 
 
 
@@ -109,7 +109,7 @@
   };
 </script>
 
-  <title> python unicode字节串转成中文问题  （转） | wps2015的博客 </title>
+  <title> 利用phantomjs+selenium抓取js执行后的结果 | wps2015的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -122,7 +122,7 @@
     var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
-      hm.src = "//hm.baidu.com/hm.js?a27da60a049d14abf452f4a716cbe0e7";
+      hm.src = "//hm.baidu.com/hm.js?65b1db686913b39658c3aa88f2765a8d";
       var s = document.getElementsByTagName("script")[0];
       s.parentNode.insertBefore(hm, s);
     })();
@@ -257,7 +257,7 @@
             
             
               
-                python unicode字节串转成中文问题  （转）
+                利用phantomjs+selenium抓取js执行后的结果
               
             
           </h1>
@@ -269,8 +269,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-06-18T10:14:26+08:00" content="2015-06-18">
-              2015-06-18
+            <time itemprop="dateCreated" datetime="2016-05-12T10:29:30+08:00" content="2016-05-12">
+              2016-05-12
             </time>
           </span>
 
@@ -299,8 +299,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2015/06/18/python unicode字节串转成中文问题/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/18/python unicode字节串转成中文问题/" itemprop="commentsCount"></span>
+                <a href="/2016/05/12/Using-phantomjs + selenium-fetching-js-result-of-execution/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/12/Using-phantomjs + selenium-fetching-js-result-of-execution/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -323,11 +323,14 @@
       
 
       
-        <p>&emsp;&emsp;如题，其实我的问题很简单，就是在写爬虫的时候拿到网页的信息包含类似”\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c”的字符串，实际上这是unicode的中文编码，对应的中文为“新浪微博注册”。其实我就是想找一个函数让这一串东西显示中文而已，没想到百度了白天找到合适的。<a id="more"></a>遇到这种问题千万不要用什么 “python编码” “unicode中文编码” “unicode解码”这样的关键字去搜，一大堆网页出来毫不相关。<br>&emsp;&emsp;其实这个问题一个函数搞定，如下：<br>Example 1:<br>&gt;&gt;&gt; s = r”\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c”<br>&gt;&gt;&gt; s<br>‘\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c’<br>&gt;&gt;&gt; print s<br>\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c<br>&gt;&gt;&gt; s = s.decode(“unicode_escape”); #就是这个函数<br>&gt;&gt;&gt; print s</p>
-<p>Example 2:<br>&gt;&gt;&gt; str<em> = “Russopho\xe9bic, clichd and just pl\xe9ain stupid.”<br>&gt;&gt;&gt; print str</em><br>Russopho?bic, clichd and just pl?ain stupid.<br>&gt;&gt;&gt; str<em> = str</em>.decode(“unicode<em>escape”)<br>&gt;&gt;&gt; print str</em><br>&emsp;&emsp;这个方法解决了我在插入数据到mongodb时遇到的“bson.errors.InvalidStringData: strings in documents must be valid UTF-8”问题。<br>&emsp;&emsp;附上关于这个问题的相关博客链接：<a href="http://www.cnblogs.com/yangze/archive/2010/11/16/1878469.html" target="_blank" rel="external">戳这里</a>。另外还有一个与unicode字节串有关的问题，遇到这样的错误提示：Unicode equal comparison failed to convert both arguments to Unicode - interpreting them as being unequal。说明我们在对两个字符（串）进行对比的时候等号两边的类型<br>不一样，可能是一边是unicode字节串，一边是字符串。详见<a href="http://stackoverflow.com/questions/3400171/python-utf-8-comparison。" target="_blank" rel="external">http://stackoverflow.com/questions/3400171/python-utf-8-comparison。</a></p>
-<p>小结：<br>以后遇到奇葩问题要想好关键字再搜，不然很有可能一无所获。</p>
+        <p>0x01 问题需求<br>有需要写一个接口需要可以抓取360webscan的网站评分及漏洞情况，本来以为一个简单的爬虫就能搞定的。哪想到把网页抓下来后一下子就懵逼了，先看获取分数的地方<a id="more"></a><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$.ajax(&#123;  	</span><br><span class="line"></span><br><span class="line">				url : <span class="string">"/webscore/index"</span>,</span><br><span class="line"></span><br><span class="line">				type: <span class="string">'POST'</span>,</span><br><span class="line"></span><br><span class="line">				dataType:  <span class="string">'json'</span>,</span><br><span class="line"></span><br><span class="line">				data:<span class="string">'isxujia='</span>+isxujia+<span class="string">'&amp;iscuangai='</span>+iscuangai+<span class="string">'&amp;isviolation='</span>+isviolation+<span class="string">'&amp;isguama='</span>+isguama+<span class="string">'&amp;high='</span>+high+<span class="string">'&amp;mid='</span>+mid+<span class="string">'&amp;low='</span>+low+<span class="string">'&amp;info='</span>+info+<span class="string">'&amp;domain=www.natco.top&amp;pangzhu='</span>+pangzhu,</span><br><span class="line"></span><br><span class="line">				success: <span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</span><br></pre></td></tr></table></figure></p>
+<p>先看这一段ajax请求，把url的参数连同isxujia（是否虚假）等参数向服务器请求后，获取得分。那么isxujia等参数从哪里来？再往上看<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">$.ajax(&#123;</span><br><span class="line"></span><br><span class="line">			  url: <span class="string">"/index/gettrojan"</span>,</span><br><span class="line"></span><br><span class="line">			  type:<span class="string">"POST"</span>,</span><br><span class="line"></span><br><span class="line">			  dataType:<span class="string">"json"</span>,</span><br><span class="line"></span><br><span class="line">			  data:<span class="string">"url="</span>+url+<span class="string">"&amp;token=34e08ea449361738107148de883678c4&amp;time=1462934864"</span>,</span><br><span class="line"></span><br><span class="line">			  success: <span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;	</span><br><span class="line"></span><br><span class="line">			        <span class="keyword">var</span> type = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line">					<span class="keyword">var</span> st = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line">					<span class="keyword">var</span> sc = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line">					<span class="keyword">var</span> ssc = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line">					<span class="keyword">var</span> trojan_list = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line">					<span class="keyword">var</span> isxujia = <span class="number">0</span>;</span><br></pre></td></tr></table></figure></p>
+<p>简单的看了下，就是这个ajax请求（带token）返回的type，st等参数经过一些条件判断，计算isxujia是否为1。由于有token，这个地方就没办法自己在python里将计算过程复现了。剩下的路就是要抓取js渲染过后的页面值了，网上最成熟的方法就是phantomjs+selenium。</p>
 <hr>
-<p>转：<a href="http://windkeepblow.blog.163.com/blog/static/1914883312013988185783/" target="_blank" rel="external">http://windkeepblow.blog.163.com/blog/static/1914883312013988185783/</a></p>
+<p>0x02 环境配置<br><strong>Selenium</strong>是一个用于Web应用程序测试的工具。Selenium测试直接运行在浏览器中，就像真正的用户在操作一样。支持的浏览器包括IE、Mozilla Firefox、Chrome等。<br><strong>Phantom JS</strong>是一个服务器端的 JavaScript API 的 WebKit。其支持各种Web标准： DOM 处理, CSS 选择器, JSON, Canvas, 和 SVG。<br>在kali2.0环境下，先安装Selenium: <code>sudo apt-get install selenium</code><br>再安装Phantom JS，官方网站下载页面：<a href="http://phantomjs.org/download.html" target="_blank" rel="external">传送门</a>，根据自己的系统版本下载，并配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/share</span><br><span class="line">sudo wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2</span><br><span class="line">sudo tar -xvf phantomjs-2.1.1-linux-x86_64.tar.bz2</span><br><span class="line">sudo ln -s /usr/local/share/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/local/share/phantomjs</span><br><span class="line">sudo ln -s /usr/local/share/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/local/bin/phantomjs</span><br><span class="line">sudo ln -s /usr/local/share/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/bin/phantomjs</span><br></pre></td></tr></table></figure></p>
+<p>0x03 demo<br>这里phantomjs的可执行路径为’/usr/bin/phantomjs’，下面是个小的demo<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#coding=utf-8</span></span><br><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"></span><br><span class="line">driver = webdriver.PhantomJS(executable_path=<span class="string">'/usr/bin/phantomjs'</span>) <span class="comment">#注意这里的执行路径</span></span><br><span class="line">driver.get(<span class="string">"http://phperz.com/"</span>)</span><br><span class="line">driver.find_element_by_id(<span class="string">'search_form_input_homepage'</span>).send_keys(<span class="string">'Nirvana'</span>)</span><br><span class="line">driver.find_element_by_id(<span class="string">"search_button_homepage"</span>).click()</span><br><span class="line"><span class="keyword">print</span> driver.current_url</span><br><span class="line">driver.quit() <span class="comment">#注意要退出</span></span><br></pre></td></tr></table></figure></p>
+<p>主要是通过selenium获取js渲染后的dom节点的值。</p>
+<p>参考链接：<br><a href="http://ohroot.com/2014/11/11/phantomjs%E5%B0%8F%E8%AF%95%E7%89%9B%E5%88%80/" target="_blank" rel="external">http://ohroot.com/2014/11/11/phantomjs%E5%B0%8F%E8%AF%95%E7%89%9B%E5%88%80/</a></p>
 
       
     </div>
@@ -357,16 +360,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/05/21/PHP5.5使用Bcrypt加密密码/" rel="next" title="PHP5.5使用Bcrypt加密密码">
-                <i class="fa fa-chevron-left"></i> PHP5.5使用Bcrypt加密密码
+              <a href="/2016/05/12/test-of-ImageMagick/" rel="next" title="ImageMagick 漏洞测试">
+                <i class="fa fa-chevron-left"></i> ImageMagick 漏洞测试
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/07/13/DNS域传送漏洞利用方法/" rel="prev" title="DNS域传送漏洞利用方法">
-                DNS域传送漏洞利用方法 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/05/15/whctf-writeup-all/" rel="prev" title="whctf2016初赛Writeup（web&crypto）">
+                whctf2016初赛Writeup（web&crypto） <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -393,8 +396,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2015/06/18/python unicode字节串转成中文问题/"
-           data-title="python unicode字节串转成中文问题  （转）" data-url="http://wps2015.org/2015/06/18/python unicode字节串转成中文问题/">
+      <div class="ds-thread" data-thread-key="2016/05/12/Using-phantomjs + selenium-fetching-js-result-of-execution/"
+           data-title="利用phantomjs+selenium抓取js执行后的结果" data-url="http://wps2015.org/2016/05/12/Using-phantomjs + selenium-fetching-js-result-of-execution/">
       </div>
     
   </div>

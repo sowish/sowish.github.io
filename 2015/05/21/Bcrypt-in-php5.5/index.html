@@ -64,7 +64,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="DNS," />
+  <meta name="keywords" content="php," />
 
 
 
@@ -82,20 +82,19 @@
 
 
 
-<meta name="description" content="其实利用方法分为手工和工具两种，我们可以利用BT5下面的工具Dnsenum或者是其它工具，手工的话就利用nslookup即可。">
+<meta name="description" content="在php5.5中，加入了一个新的密码哈希函数，可使用Bcrypt轻松实现加盐的安全密码。
+bcrypt和其他对称或非对称加密方式不同的是，不是直接解密得到明文，也不是二次加密比较密文，而是把明文和存储的密文一块运算得到另一个密文，如果这两个密文相同则验证成功。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="DNS域传送漏洞利用方法">
-<meta property="og:url" content="http://wps2015.org/2015/07/13/DNS域传送漏洞利用方法/index.html">
+<meta property="og:title" content="PHP5.5使用Bcrypt加密密码">
+<meta property="og:url" content="http://wps2015.org/2015/05/21/Bcrypt-in-php5.5/index.html">
 <meta property="og:site_name" content="wps2015的博客">
-<meta property="og:description" content="其实利用方法分为手工和工具两种，我们可以利用BT5下面的工具Dnsenum或者是其它工具，手工的话就利用nslookup即可。">
-<meta property="og:image" content="http://www.wooyun.org/upload/201202/15161935b7b1610dcdc653216971d50b16c5e88f.jpg">
-<meta property="og:image" content="http://www.wooyun.org/upload/201202/1516215365c2c8081bb7ba32c7a37bab4b020d78.jpg">
-<meta property="og:image" content="http://www.wooyun.org/upload/201202/15162218a04914ae310f75e599a22b128ec49f4b.jpg">
-<meta property="og:updated_time" content="2016-05-15T12:32:47.829Z">
+<meta property="og:description" content="在php5.5中，加入了一个新的密码哈希函数，可使用Bcrypt轻松实现加盐的安全密码。
+bcrypt和其他对称或非对称加密方式不同的是，不是直接解密得到明文，也不是二次加密比较密文，而是把明文和存储的密文一块运算得到另一个密文，如果这两个密文相同则验证成功。">
+<meta property="og:updated_time" content="2016-05-15T12:33:55.428Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DNS域传送漏洞利用方法">
-<meta name="twitter:description" content="其实利用方法分为手工和工具两种，我们可以利用BT5下面的工具Dnsenum或者是其它工具，手工的话就利用nslookup即可。">
-<meta name="twitter:image" content="http://www.wooyun.org/upload/201202/15161935b7b1610dcdc653216971d50b16c5e88f.jpg">
+<meta name="twitter:title" content="PHP5.5使用Bcrypt加密密码">
+<meta name="twitter:description" content="在php5.5中，加入了一个新的密码哈希函数，可使用Bcrypt轻松实现加盐的安全密码。
+bcrypt和其他对称或非对称加密方式不同的是，不是直接解密得到明文，也不是二次加密比较密文，而是把明文和存储的密文一块运算得到另一个密文，如果这两个密文相同则验证成功。">
 
 
 
@@ -113,7 +112,7 @@
   };
 </script>
 
-  <title> DNS域传送漏洞利用方法 | wps2015的博客 </title>
+  <title> PHP5.5使用Bcrypt加密密码 | wps2015的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -126,7 +125,7 @@
     var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
-      hm.src = "//hm.baidu.com/hm.js?a27da60a049d14abf452f4a716cbe0e7";
+      hm.src = "//hm.baidu.com/hm.js?65b1db686913b39658c3aa88f2765a8d";
       var s = document.getElementsByTagName("script")[0];
       s.parentNode.insertBefore(hm, s);
     })();
@@ -261,7 +260,7 @@
             
             
               
-                DNS域传送漏洞利用方法
+                PHP5.5使用Bcrypt加密密码
               
             
           </h1>
@@ -273,8 +272,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-07-13T11:10:37+08:00" content="2015-07-13">
-              2015-07-13
+            <time itemprop="dateCreated" datetime="2015-05-21T14:58:55+08:00" content="2015-05-21">
+              2015-05-21
             </time>
           </span>
 
@@ -303,8 +302,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2015/07/13/DNS域传送漏洞利用方法/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/13/DNS域传送漏洞利用方法/" itemprop="commentsCount"></span>
+                <a href="/2015/05/21/Bcrypt-in-php5.5/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/05/21/Bcrypt-in-php5.5/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -327,19 +326,31 @@
       
 
       
-        <p>其实利用方法分为手工和工具两种，我们可以利用BT5下面的工具Dnsenum或者是其它工具，手工的话就利用nslookup即可。<a id="more"></a></p>
-<p><strong>1、使用工具来获取DNS信息</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /pentest/enumeration/dns/dnsenum</span><br><span class="line">./dnsenum.pl –enum domain.com</span><br></pre></td></tr></table></figure>
-<p>这样就可以简单的利用了。</p>
-<p><strong>2、使用手工的方法，推荐。</strong><br>方法如下图。查询过程如图所显示:</p>
-<p>[<img src="http://www.wooyun.org/upload/201202/15161935b7b1610dcdc653216971d50b16c5e88f.jpg" alt="1259002Mo"><br>查询结果保存在189store.com.txt中<br>使用如下指令查看<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">view 189store.com.txt</span><br></pre></td></tr></table></figure></p>
-<p>有74条记录</p>
-<p>[<img src="http://www.wooyun.org/upload/201202/1516215365c2c8081bb7ba32c7a37bab4b020d78.jpg" alt="125900JRF">]<br>[<img src="http://www.wooyun.org/upload/201202/15162218a04914ae310f75e599a22b128ec49f4b.jpg" alt="125901P6x">]</p>
-<p><strong>3.漏洞证明：</strong></p>
-<p>见上面的详细说明</p>
-<p><strong>4.修复方案：</strong></p>
-<p>ns.westidc.com.cn（221.236.9.9） 与 ns.westidc.net.cn（210.77.146.30） 都没有做访问控制<br>定义ACL(访问控制列表)来限制在域名服务器之间的区域传送<br>编辑/etc/named.conf<br>在189store.com的zone配置中设置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">allow-transfer &#123; localhost; 221.236.9.9; &#125;;</span><br><span class="line">或</span><br><span class="line">allow-transfer &#123; localhost; 210.77.146.30; &#125;;</span><br></pre></td></tr></table></figure></p>
-<p>原文：<a href="http://www.waitalone.cn/post/DNSTransfer.html" target="_blank" rel="external">http://www.waitalone.cn/post/DNSTransfer.html</a></p>
+        <p>在php5.5中，加入了一个新的密码哈希函数，可使用Bcrypt轻松实现加盐的安全密码。</p>
+<p>bcrypt和其他对称或非对称加密方式不同的是，不是直接解密得到明文，也不是二次加密比较密文，而是把明文和存储的密文一块运算得到另一个密文，如果这两个密文相同则验证成功。<a id="more"></a></p>
+<p>官方手册在这里： <a href="http://cn2.php.net/manual/zh/book.password.php" target="_blank" rel="external">http://cn2.php.net/manual/zh/book.password.php</a></p>
+<p>生成密钥</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$hash = password_hash(<span class="string">'password'</span>,PASSWORD_BCRYPT,[<span class="string">'cost'</span> =&amp;gt; <span class="number">10</span>]);</span><br><span class="line"><span class="keyword">echo</span> $hash;</span><br></pre></td></tr></table></figure>
+<p>password_hash() —-加密密码<br>第一个参数：需要加密的密码<br>第二个参数：密码算法常量 (<a href="http://cn2.php.net/manual/zh/password.constants.php" target="_blank" rel="external">http://cn2.php.net/manual/zh/password.constants.php</a>)<br>第三个参数：数组类型。支持两个选项：salt在散列密码时加的盐（干扰字符串）。cost用来指明算法递归的层数。</p>
+<p>上面代码每次运行生成的密钥不同，大致效果如下。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$<span class="number">2</span>y$<span class="number">10</span>$bWNfw6QbjmjyCDBc9lrZRuBjraxBzN7eAuozS6D3r4QxJn0tgXRwe</span><br></pre></td></tr></table></figure>
+<p>生成的密钥长度为60位，所以设计数据库的时候需要注意。</p>
+<p>验证密钥</p>
+<p>懒得存数据库再去取了，直接把刚生成的密钥复制过来了~~</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$hash = <span class="string">'$2y$10$bWNfw6QbjmjyCDBc9lrZRuBjraxBzN7eAuozS6D3r4QxJn0tgXRwe'</span>;</span><br><span class="line">$res = password_verify(<span class="string">'password'</span>,$hash);</span><br><span class="line">var_dump($res);</span><br></pre></td></tr></table></figure>
+<p>如果没有天灾人祸意外发生的话。你会看到下面的输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bool(true)</span><br></pre></td></tr></table></figure>
+<p>这就成功了。</p>
+<p>性能</p>
+<p>下面我们来看看Bcrypt的性能，安全性的提升，肯定是以性能为代价。bcrypt要加强密码安全性，增加运行时间也是肯定的。那我们现在就测试一下Bcrypt与普通md5的速度。</p>
+<p>测试机性能：</p>
+<p>CPU I7 4核 2.3G主频<br>内存 16G ddr3 内存<br>系统 Mac<br>PHP 5.5.15</p>
+<p>现在用下面这段代码分别测试一下md5和Bcrypt在不加盐的情况下的运行速度<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--?php</span><br><span class="line"> $s_time = microtime(<span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">password_hash(<span class="string">'password'</span>,PASSWORD_BCRYPT,[<span class="string">'cost'</span> =&amp;gt; <span class="number">10</span>]);</span><br><span class="line"><span class="comment">// md5('password');</span></span><br><span class="line">$e_time = microtime(<span class="keyword">true</span>);</span><br><span class="line">$run_time = $e_time-$s_time;</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> ($run_time*<span class="number">1000</span>).<span class="string">'ms'</span>;</span><br></pre></td></tr></table></figure></p>
+<p>Bcrypt 5次运行结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">68.569183349609ms</span><br><span class="line">68.006992340088ms</span><br><span class="line">69.074869155884ms</span><br><span class="line">68.211078643799ms</span><br><span class="line">68.757057189941ms</span><br></pre></td></tr></table></figure></p>
+<p>md5 5次运行结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">0.0040531158447266ms</span><br><span class="line">0.0040531158447266ms</span><br><span class="line">0.0050067901611328ms</span><br><span class="line">0.0040531158447266ms</span><br></pre></td></tr></table></figure>
+<p>测试结果</p>
+<p>Bcrypt 加密一个密文平均值在68毫秒左右，md5 加密一个密文平均值在0.004毫秒左右，性能大约差距16000倍。<br>采用md5 一秒大约能加密 250000个密文<br>采用Bcrypt 一秒大约能加密 14个密文<br>所以，如果你要将Bcrypt用到你的程序中去的话。小应用还好，如果是大应用。您就得按倍数增加服务器了。<br>如果不是给五角大楼写程序，其实md5+salt安全性已经足够了。</p>
 
       
     </div>
@@ -360,7 +371,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/DNS/" rel="tag">#DNS</a>
+            <a href="/tags/php/" rel="tag">#php</a>
           
         </div>
       
@@ -369,16 +380,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/06/18/python unicode字节串转成中文问题/" rel="next" title="python unicode字节串转成中文问题  （转）">
-                <i class="fa fa-chevron-left"></i> python unicode字节串转成中文问题  （转）
+              <a href="/2015/04/07/script-of-mssql-error-based/" rel="next" title="基于mssql的报错注入的脚本(get)">
+                <i class="fa fa-chevron-left"></i> 基于mssql的报错注入的脚本(get)
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/07/15/Mysql布尔盲注脚本/" rel="prev" title="Mysql布尔盲注脚本">
-                Mysql布尔盲注脚本 <i class="fa fa-chevron-right"></i>
+              <a href="/2015/06/18/the-problem-of-python-chinese/" rel="prev" title="python unicode字节串转成中文问题  （转）">
+                python unicode字节串转成中文问题  （转） <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -405,8 +416,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2015/07/13/DNS域传送漏洞利用方法/"
-           data-title="DNS域传送漏洞利用方法" data-url="http://wps2015.org/2015/07/13/DNS域传送漏洞利用方法/">
+      <div class="ds-thread" data-thread-key="2015/05/21/Bcrypt-in-php5.5/"
+           data-title="PHP5.5使用Bcrypt加密密码" data-url="http://wps2015.org/2015/05/21/Bcrypt-in-php5.5/">
       </div>
     
   </div>

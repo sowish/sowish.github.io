@@ -64,7 +64,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="注入技巧," />
+  <meta name="keywords" content="python," />
 
 
 
@@ -82,34 +82,16 @@
 
 
 
-<meta name="description" content="常见http可能被污染的参数有这些
-
-- User-agent 浏览器版本 （少）
-- Referer      来源（少）
-- X-Forwarded-For 获取ip（高）
-- client_ip   获取ip（高）
--cookie      获取cookie值（高）">
+<meta name="description" content="&amp;emsp;&amp;emsp;如题，其实我的问题很简单，就是在写爬虫的时候拿到网页的信息包含类似”\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c”的字符串，实际上这是unicode的中文编码，对应的中文为“新浪微博注册”。其实我就是想找一个函数让这一串东西显示中文而已，没想到百度了白天找到合适的。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="HTTP请求头信息的注入">
-<meta property="og:url" content="http://wps2015.org/2014/09/10/HTTP请求头信息的注入/index.html">
+<meta property="og:title" content="python unicode字节串转成中文问题  （转）">
+<meta property="og:url" content="http://wps2015.org/2015/06/18/the-problem-of-python-chinese/index.html">
 <meta property="og:site_name" content="wps2015的博客">
-<meta property="og:description" content="常见http可能被污染的参数有这些
-
-- User-agent 浏览器版本 （少）
-- Referer      来源（少）
-- X-Forwarded-For 获取ip（高）
-- client_ip   获取ip（高）
--cookie      获取cookie值（高）">
-<meta property="og:updated_time" content="2016-05-15T12:39:16.766Z">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;如题，其实我的问题很简单，就是在写爬虫的时候拿到网页的信息包含类似”\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c”的字符串，实际上这是unicode的中文编码，对应的中文为“新浪微博注册”。其实我就是想找一个函数让这一串东西显示中文而已，没想到百度了白天找到合适的。">
+<meta property="og:updated_time" content="2016-05-15T12:34:08.251Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="HTTP请求头信息的注入">
-<meta name="twitter:description" content="常见http可能被污染的参数有这些
-
-- User-agent 浏览器版本 （少）
-- Referer      来源（少）
-- X-Forwarded-For 获取ip（高）
-- client_ip   获取ip（高）
--cookie      获取cookie值（高）">
+<meta name="twitter:title" content="python unicode字节串转成中文问题  （转）">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;如题，其实我的问题很简单，就是在写爬虫的时候拿到网页的信息包含类似”\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c”的字符串，实际上这是unicode的中文编码，对应的中文为“新浪微博注册”。其实我就是想找一个函数让这一串东西显示中文而已，没想到百度了白天找到合适的。">
 
 
 
@@ -127,7 +109,7 @@
   };
 </script>
 
-  <title> HTTP请求头信息的注入 | wps2015的博客 </title>
+  <title> python unicode字节串转成中文问题  （转） | wps2015的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -140,7 +122,7 @@
     var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
-      hm.src = "//hm.baidu.com/hm.js?a27da60a049d14abf452f4a716cbe0e7";
+      hm.src = "//hm.baidu.com/hm.js?65b1db686913b39658c3aa88f2765a8d";
       var s = document.getElementsByTagName("script")[0];
       s.parentNode.insertBefore(hm, s);
     })();
@@ -275,7 +257,7 @@
             
             
               
-                HTTP请求头信息的注入
+                python unicode字节串转成中文问题  （转）
               
             
           </h1>
@@ -287,8 +269,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2014-09-10T00:00:00+08:00" content="2014-09-10">
-              2014-09-10
+            <time itemprop="dateCreated" datetime="2015-06-18T10:14:26+08:00" content="2015-06-18">
+              2015-06-18
             </time>
           </span>
 
@@ -301,8 +283,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Web安全/" itemprop="url" rel="index">
-                    <span itemprop="name">Web安全</span>
+                  <a href="/categories/编程/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
                   </a>
                 </span>
 
@@ -317,8 +299,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2014/09/10/HTTP请求头信息的注入/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/09/10/HTTP请求头信息的注入/" itemprop="commentsCount"></span>
+                <a href="/2015/06/18/the-problem-of-python-chinese/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/18/the-problem-of-python-chinese/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -341,34 +323,11 @@
       
 
       
-        <blockquote>
-<p>常见http可能被污染的参数有这些</p>
-</blockquote>
-<pre><code>- User-agent 浏览器版本 （少）
-- Referer      来源（少）
-- X-Forwarded-For 获取ip（高）
-- client_ip   获取ip（高）
--cookie      获取cookie值（高）
-</code></pre><a id="more"></a>
-<h3 id="一-cookie注入"><a href="#一-cookie注入" class="headerlink" title="一. cookie注入"></a>一. cookie注入</h3><ol>
-<li>原理： 在ASP中,request对象获取客户端提交数据常用的是get和post两种方式,同时request对象可以不通过集合来获得数据,即直接使用”request(“name”)”. 但它效率低下,容易出错,当我们省略具体的集合名称时,asp是按QueryString(get),Form(post),Cookie,Severvariable,集合的顺序来搜索的.cookie是保存在客户端的一个文本文件,可以进行修改,这样一来,就可以利用Request.cookie方式来提交变量的值,从而利用系统的漏洞进行注入攻击.</li>
-<li>条件1是程序对get和post方式提交的数据进行了过滤，但未对cookie提交的数据库进行过滤。条件2，在1的基础上还需要程序对提交数据获取方式是直接request(“xxx”)的方式，未指明使用request对象的具体方法进行获取。</li>
-<li><p>首先 我们需要找到一个注入点，如果是使用get方式提交的参数，要更改成cookie方式提交，我们首先要访问正常的存在注入点的页面，等页面完全打开之后，在开发者环境的console栏中，输入alert(document.cookie=”id=”+escape(“x”)); 这里的“id=”便是注入点中注入参数，x便是页面的参数的数值了，这两处要根据实际情况来定义。写完之后按下回车网页中会弹出一个对话框现在更改好了cookie后我们就要试下能不能正常访问了，现在在另外一个窗口中重新打开那个注入点既是将“id=x”去掉后的，然后看是否能正常访问。如果去掉之后能够继续访问 那么说明可以进行cookie注入，这样就说明程序在使用request对象获取数据的时候并未指明具体使用什么方法来获取，而是直接使用request(“xx”)的方式。<br>4.实例 <a href="http://sef.xjtu.edu.cn/news_content.asp?id=2074" target="_blank" rel="external">http://sef.xjtu.edu.cn/news_content.asp?id=2074</a></p>
-<h3 id="二-X-Forwarded-For注入"><a href="#二-X-Forwarded-For注入" class="headerlink" title="二.  X-Forwarded-For注入()"></a>二.  X-Forwarded-For注入()</h3><ol>
-<li>X-Forwarded-For是HTTP头的一个字段。它被认为是客户端通过HTTP代理或者负载均衡器连接到web服务端获取源ip地址的一个标准。</li>
-<li>X-Forwarded-For注入常见于检测用户ip是否合法，进行sql查询的时没有过滤获取ip的参数。</li>
-<li>利用方法，可以用firefox中的X-Forwarded-For Header插件。或者将抓的头信息的包保存在sqlmap的根路径，比如test.txt，python sqlmap.py -r test.txt –level 3</li>
-</ol>
-</li>
-<li><p>实例：<a href="http://www.alexa.cn/" target="_blank" rel="external">http://www.alexa.cn/</a></p>
-<h3 id="三-User-agent注入"><a href="#三-User-agent注入" class="headerlink" title="三.  User-agent注入"></a>三.  User-agent注入</h3><p>用户代理（user agent）是记录软件程序的客户端信息的HTTP头字段，他可以用来统计目标和违规协议。在HTTP头中应该包含它，这个字段的第一个空格前面是软件的产品名称，后面有一个可选的斜杠和版本号。并不是所有的应用程序都会被获取到user-agent信息，但是有些应用程序利用它存储一些信息（如：购物车）。在这种情况下，我们就有必要研究下user-agent头存在的问题了。HTTP查询实例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">GET /index.php HTTP/1.1</span><br><span class="line">Host: [host]</span><br><span class="line">User-Agent: aaa’ or 1/*</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h3 id="四-Referer注入"><a href="#四-Referer注入" class="headerlink" title="四. Referer注入"></a>四. Referer注入</h3><p>Referer是另外一个当应用程序没有过滤存储到数据库时，容易发生SQL注入的HTTP头。它是一个允许客户端指定的可选头部字段，通过它我们可以获取到提交请求URI的服务器情况。它允许服务器产生一系列的回退链接文档，像感兴趣的内容，日志等。它也允许跟踪那些坏链接以便维护。</p>
-<p>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">GET /index.php HTTP/1.1</span><br><span class="line">Host: [host]</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.101 Safari/537.36</span><br><span class="line"></span><br><span class="line">Referer: http://www.yaboukir.com&apos;</span><br></pre></td></tr></table></figure></p>
-<p>实例：<a href="http://baike.cardbaobao.com/index.php?user-login" target="_blank" rel="external">http://baike.cardbaobao.com/index.php?user-login</a></p>
-<h3 id="五-防止消息头注入漏洞"><a href="#五-防止消息头注入漏洞" class="headerlink" title="五. 防止消息头注入漏洞"></a>五. 防止消息头注入漏洞</h3><p>&emsp;&emsp;防止HTTP消息头注入漏洞的最有效方法是，不将用户控制的输入插入到应用程序返回的HTTP消息头中。通常我们可以用一些较为安全的方法代替这种行为。<br>&emsp;&emsp;如果不可避免地要在HTTP消息头中插入用户控制的数据，那么应用程序应采取以下这种双重深层防御方法防止漏洞产认。应用程序应根据情形，对插入的数据进行尽可能严格的确认。例如，如果根据用户输入设定一个cookie值，那么应当限制这个值仅包含字母字符，最大长度为6B。<br>&emsp;&emsp;应对插入消息头的每一个数据进行过滤，检测可能的恶意字符。实际上，任何ASCII码小于0x20的字符都应被视为可疑的恶意字符，应用程序应拒绝包含这些字符的请求。通过对所有应用程序内容使用 HTTPS，应用程序即可防止攻击者利用任何残留的消息头注入漏洞”毒害”代理服务器缓存。</p>
+        <p>&emsp;&emsp;如题，其实我的问题很简单，就是在写爬虫的时候拿到网页的信息包含类似”\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c”的字符串，实际上这是unicode的中文编码，对应的中文为“新浪微博注册”。其实我就是想找一个函数让这一串东西显示中文而已，没想到百度了白天找到合适的。<a id="more"></a>遇到这种问题千万不要用什么 “python编码” “unicode中文编码” “unicode解码”这样的关键字去搜，一大堆网页出来毫不相关。<br>&emsp;&emsp;其实这个问题一个函数搞定，如下：<br>Example 1:<br>&gt;&gt;&gt; s = r”\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c”<br>&gt;&gt;&gt; s<br>‘\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c’<br>&gt;&gt;&gt; print s<br>\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c<br>&gt;&gt;&gt; s = s.decode(“unicode_escape”); #就是这个函数<br>&gt;&gt;&gt; print s</p>
+<p>Example 2:<br>&gt;&gt;&gt; str<em> = “Russopho\xe9bic, clichd and just pl\xe9ain stupid.”<br>&gt;&gt;&gt; print str</em><br>Russopho?bic, clichd and just pl?ain stupid.<br>&gt;&gt;&gt; str<em> = str</em>.decode(“unicode<em>escape”)<br>&gt;&gt;&gt; print str</em><br>&emsp;&emsp;这个方法解决了我在插入数据到mongodb时遇到的“bson.errors.InvalidStringData: strings in documents must be valid UTF-8”问题。<br>&emsp;&emsp;附上关于这个问题的相关博客链接：<a href="http://www.cnblogs.com/yangze/archive/2010/11/16/1878469.html" target="_blank" rel="external">戳这里</a>。另外还有一个与unicode字节串有关的问题，遇到这样的错误提示：Unicode equal comparison failed to convert both arguments to Unicode - interpreting them as being unequal。说明我们在对两个字符（串）进行对比的时候等号两边的类型<br>不一样，可能是一边是unicode字节串，一边是字符串。详见<a href="http://stackoverflow.com/questions/3400171/python-utf-8-comparison。" target="_blank" rel="external">http://stackoverflow.com/questions/3400171/python-utf-8-comparison。</a></p>
+<p>小结：<br>以后遇到奇葩问题要想好关键字再搜，不然很有可能一无所获。</p>
+<hr>
+<p>转：<a href="http://windkeepblow.blog.163.com/blog/static/1914883312013988185783/" target="_blank" rel="external">http://windkeepblow.blog.163.com/blog/static/1914883312013988185783/</a></p>
 
       
     </div>
@@ -389,7 +348,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/注入技巧/" rel="tag">#注入技巧</a>
+            <a href="/tags/python/" rel="tag">#python</a>
           
         </div>
       
@@ -398,12 +357,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2015/05/21/Bcrypt-in-php5.5/" rel="next" title="PHP5.5使用Bcrypt加密密码">
+                <i class="fa fa-chevron-left"></i> PHP5.5使用Bcrypt加密密码
+              </a>
+            
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/04/07/基于mssql的报错注入的脚本(get)/" rel="prev" title="基于mssql的报错注入的脚本(get)">
-                基于mssql的报错注入的脚本(get) <i class="fa fa-chevron-right"></i>
+              <a href="/2015/07/13/DNS-domain-and-the-exploit/" rel="prev" title="DNS域传送漏洞利用方法">
+                DNS域传送漏洞利用方法 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -430,8 +393,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2014/09/10/HTTP请求头信息的注入/"
-           data-title="HTTP请求头信息的注入" data-url="http://wps2015.org/2014/09/10/HTTP请求头信息的注入/">
+      <div class="ds-thread" data-thread-key="2015/06/18/the-problem-of-python-chinese/"
+           data-title="python unicode字节串转成中文问题  （转）" data-url="http://wps2015.org/2015/06/18/the-problem-of-python-chinese/">
       </div>
     
   </div>
@@ -592,7 +555,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-cookie注入"><span class="nav-number">1.</span> <span class="nav-text">一. cookie注入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二-X-Forwarded-For注入"><span class="nav-number">2.</span> <span class="nav-text">二.  X-Forwarded-For注入()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三-User-agent注入"><span class="nav-number">3.</span> <span class="nav-text">三.  User-agent注入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四-Referer注入"><span class="nav-number">4.</span> <span class="nav-text">四. Referer注入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五-防止消息头注入漏洞"><span class="nav-number">5.</span> <span class="nav-text">五. 防止消息头注入漏洞</span></a></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
         </section>
