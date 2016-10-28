@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://wps2015.org/"/>
-  <updated>2016-10-28T08:26:02.133Z</updated>
+  <updated>2016-10-28T08:27:57.748Z</updated>
   <id>http://wps2015.org/</id>
   
   <author>
@@ -20,9 +20,9 @@
     <link href="http://wps2015.org/2016/10/28/how-to-requests-chinese-in-python/"/>
     <id>http://wps2015.org/2016/10/28/how-to-requests-chinese-in-python/</id>
     <published>2016-10-27T16:00:00.000Z</published>
-    <updated>2016-10-28T08:26:02.133Z</updated>
+    <updated>2016-10-28T08:27:57.748Z</updated>
     
-    <content type="html"><![CDATA[<p>Requests是用Python语言编写，使用的是urllib3，拥有了它的所有特性，Requests 支持 HTTP 连接保持和连接池，支持使用 cookie 保持会话，支持文件上传，支持自动确定响应内容的编码，支持国际化的 URL 和 POST 数据自动编码。现代、国际化、人性化。正是由于它的强大，所以现在被广泛的用于爬虫等方面，但是在对中文网页进行抓取的时候，或多或少会遇到一些编码问题，本文就这些问题讨论一下。</p>
+    <content type="html"><![CDATA[<p>Requests是用Python语言编写，使用的是urllib3，拥有了它的所有特性，Requests 支持 HTTP 连接保持和连接池，支持使用 cookie 保持会话，支持文件上传，支持自动确定响应内容的编码，支持国际化的 URL 和 POST 数据自动编码。现代、国际化、人性化。正是由于它的强大，所以现在被广泛的用于爬虫等方面，但是在对中文网页进行抓取的时候，或多或少会遇到一些编码问题，本文就这些问题讨论一下。<a id="more"></a></p>
 <h4 id="简单demo"><a href="#简单demo" class="headerlink" title="简单demo"></a>简单demo</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">r = requests.get(<span class="string">"http://www.scusec.org"</span>)</span><br><span class="line"><span class="keyword">print</span> r.encoding       <span class="comment"># Requests推测使用的编码格式</span></span><br><span class="line"><span class="keyword">print</span> r.text           <span class="comment"># 字符串方式的响应体，会自动根据响应头部的字符编码进行解码</span></span><br><span class="line"><span class="keyword">print</span> r.content        <span class="comment"># 字节方式的响应体，会自动为你解码 gzip 和 deflate 压缩</span></span><br></pre></td></tr></table></figure>
 <p>请求发出后，Requests默认会基于 HTTP 头部对响应的编码作出有根据的推测。当你使用 r.text 获取返回的内容时，Requests会使用其推测的编码格式进行解码。而当使用 r.content，则会获取原始的字节方式的响应体。</p>
 <h4 id="Requests默认识别编码"><a href="#Requests默认识别编码" class="headerlink" title="Requests默认识别编码"></a>Requests默认识别编码</h4><p>在 <code>C:\Python27\Lib\site-packages\requests\utils.py</code>中，发现默认encoding的获取方式<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Try charset from content-type</span></span><br><span class="line">encoding = get_encoding_from_headers(r.headers)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_encoding_from_headers</span><span class="params">(headers)</span>:</span></span><br><span class="line">    <span class="string">"""Returns encodings from given HTTP Header Dict.</span><br><span class="line"></span><br><span class="line">    :param headers: dictionary to extract encoding from.</span><br><span class="line">    """</span></span><br><span class="line"></span><br><span class="line">    content_type = headers.get(<span class="string">'content-type'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> content_type:</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">None</span></span><br><span class="line"></span><br><span class="line">    content_type, params = cgi.parse_header(content_type)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="string">'charset'</span> <span class="keyword">in</span> params:</span><br><span class="line">        <span class="keyword">return</span> params[<span class="string">'charset'</span>].strip(<span class="string">"'\""</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="string">'text'</span> <span class="keyword">in</span> content_type:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">'ISO-8859-1'</span></span><br></pre></td></tr></table></figure></p>
@@ -48,7 +48,7 @@
     
     <summary type="html">
     
-      &lt;p&gt;Requests是用Python语言编写，使用的是urllib3，拥有了它的所有特性，Requests 支持 HTTP 连接保持和连接池，支持使用 cookie 保持会话，支持文件上传，支持自动确定响应内容的编码，支持国际化的 URL 和 POST 数据自动编码。现代、国际
+      &lt;p&gt;Requests是用Python语言编写，使用的是urllib3，拥有了它的所有特性，Requests 支持 HTTP 连接保持和连接池，支持使用 cookie 保持会话，支持文件上传，支持自动确定响应内容的编码，支持国际化的 URL 和 POST 数据自动编码。现代、国际化、人性化。正是由于它的强大，所以现在被广泛的用于爬虫等方面，但是在对中文网页进行抓取的时候，或多或少会遇到一些编码问题，本文就这些问题讨论一下。
     
     </summary>
     
