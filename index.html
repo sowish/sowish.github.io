@@ -259,6 +259,153 @@
             
               
                 
+                <a class="post-title-link" href="/2016/11/08/the-test-of-Tar-extract-pathname-bypass/" itemprop="url">
+                  Tar解压路径绕过漏洞分析（CVE-2016-6321）
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-11-08T00:00:00+08:00" content="2016-11-08">
+              2016-11-08
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/漏洞分析/" itemprop="url" rel="index">
+                    <span itemprop="name">漏洞分析</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/11/08/the-test-of-Tar-extract-pathname-bypass/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/08/the-test-of-Tar-extract-pathname-bypass/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>安全研究人员Harry Sintonen等发现了linux中利用tar解压时存在目录传送绕过漏洞，原始漏洞分析在<a href="https://sintonen.fi/advisories/tar-extract-pathname-bypass.txt" target="_blank" rel="external">此处</a></p>
+<h4 id="影响范围"><a href="#影响范围" class="headerlink" title="影响范围"></a>影响范围</h4><ul>
+<li>GNU tar 1.14 to 1.29 (包含1.29)</li>
+<li>Red Hat、Alpine Linux、Red Star OS等（任何使用GNU tar的linux）</li>
+</ul>
+<h4 id="漏洞原因"><a href="#漏洞原因" class="headerlink" title="漏洞原因"></a>漏洞原因</h4><p>利用tar指令在解压压缩包时，遇到文件名为<code>..</code>时，会将<code>..</code>及之前的目录结构去掉以使得文件名变得更加安全；并且使得剩下的文件名与解压目录成相对路径，但这同样会导致安全问题。</p>
+<h4 id="漏洞测试"><a href="#漏洞测试" class="headerlink" title="漏洞测试"></a>漏洞测试</h4><p>下载测试<a href="https://sintonen.fi/advisories/tar-poc.tar" target="_blank" rel="external">exp</a>，以root权限执行tar指令</p>
+<ul>
+<li>在根目录下解压，不指定解压文件<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:/# tar xvf tar-poc.tar</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>可以发现<code>etc/mod/../</code>被删除后，在当前目录（根目录）下的相对地址为<code>etc/shadow</code>，从而得到解压后的绝对地址为<code>/etc/shadow</code>，导致shadow被覆盖了。<br><img src="https://img.alicdn.com/imgextra/i1/792076116/TB230wYbZeJ.eBjy0FiXXXqapXa_!!792076116.png" alt=""></p>
+<ul>
+<li>在任一目录下解压，不指定解压文件<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:/home/wps2015# tar xvf tar-poc.tar</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>可以看到文件被解压到了当前目录下的<code>etc/shadow</code><br><img src="https://img.alicdn.com/imgextra/i4/792076116/TB2j3Q5czm2.eBjSZFtXXX56VXa_!!792076116.png" alt=""></p>
+<ul>
+<li>在任意目录下解压，指定解压目录”-C /“<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:/home/wps2015# tar xvf tar-poc.tar -C /</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>可以看到<code>/etc/shadow</code>被覆盖成功<br><img src="https://img.alicdn.com/imgextra/i4/792076116/TB2IiE6cp5N.eBjSZFKXXX_QVXa_!!792076116.png" alt=""></p>
+<ul>
+<li>在任意目录下解压，指定解压文件<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:/home/wps2015# tar xvf tar-poc.tar etc/motd/</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>指定解压文件也可以解压成功<br><img src="https://img.alicdn.com/imgextra/i4/792076116/TB2hwZYbY1K.eBjSsphXXcJOXXa_!!792076116.png" alt=""></p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>该漏洞需要满足较多条件，如需要较高权限（root），需要在指定目录下解压文件等。</p>
+
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/10/28/how-to-requests-chinese-in-python/" itemprop="url">
                   解决Requests抓取中文网页乱码问题
                 </a>
@@ -287,8 +434,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/编程/" itemprop="url" rel="index">
-                    <span itemprop="name">编程</span>
+                  <a href="/categories/编程之美/" itemprop="url" rel="index">
+                    <span itemprop="name">编程之美</span>
                   </a>
                 </span>
 
@@ -748,7 +895,7 @@
               
                 
                 <a class="post-title-link" href="/2016/07/28/LNScan/" itemprop="url">
-                  LNScan--一个高效的信息探测脚本
+                  未命名
                 </a>
               
             
@@ -761,30 +908,11 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-28T00:00:00+08:00" content="2016-07-28">
+            <time itemprop="dateCreated" datetime="2016-07-28T15:15:14+08:00" content="2016-07-28">
               2016-07-28
             </time>
           </span>
 
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/工具/" itemprop="url" rel="index">
-                    <span itemprop="name">工具</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
           
 
           
@@ -816,7 +944,9 @@
 
       
         
-          <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>对于信息安全工作者，快速了解一个ip段、ip列表或者域名列表的信息（端口、标题、敏感文件等），是进行安全检测的重要一环，LNScan正是为此而生，敏感文件扫描模块改自<a href="https://github.com/lijiejie/BBScan">BBScan</a>.<br>
+          <hr>
+<p>title: LNScan–一个高效的信息探测脚本<br>tags: python<br>categories: 神器而已</p>
+<h2 id="date-2016-07-28"><a href="#date-2016-07-28" class="headerlink" title="date: 2016-07-28"></a>date: 2016-07-28</h2><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>对于信息安全工作者，快速了解一个ip段、ip列表或者域名列表的信息（端口、标题、敏感文件等），是进行安全检测的重要一环，LNScan正是为此而生，敏感文件扫描模块改自<a href="https://github.com/lijiejie/BBScan">BBScan</a>.<br>
           <div class="post-more-link text-center">
             <a class="btn" href="/2016/07/28/LNScan/#more" rel="contents">
               阅读全文 &raquo;
@@ -1141,8 +1271,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/ctf相关/" itemprop="url" rel="index">
-                    <span itemprop="name">ctf相关</span>
+                  <a href="/categories/CTF/" itemprop="url" rel="index">
+                    <span itemprop="name">CTF</span>
                   </a>
                 </span>
 
@@ -1264,8 +1394,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/编程/" itemprop="url" rel="index">
-                    <span itemprop="name">编程</span>
+                  <a href="/categories/编程之美/" itemprop="url" rel="index">
+                    <span itemprop="name">编程之美</span>
                   </a>
                 </span>
 
@@ -1308,128 +1438,6 @@
           <p>0x01 问题需求<br>有需要写一个接口需要可以抓取360webscan的网站评分及漏洞情况，本来以为一个简单的爬虫就能搞定的。哪想到把网页抓下来后一下子就懵逼了，先看获取分数的地方
           <div class="post-more-link text-center">
             <a class="btn" href="/2016/05/12/Using-phantomjs + selenium-fetching-js-result-of-execution/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/05/12/test-of-ImageMagick/" itemprop="url">
-                  ImageMagick 漏洞测试
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-12T00:00:00+08:00" content="2016-05-12">
-              2016-05-12
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Web安全/" itemprop="url" rel="index">
-                    <span itemprop="name">Web安全</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/05/12/test-of-ImageMagick/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/12/test-of-ImageMagick/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>&emsp;&emsp;5月3日，图像处理软件ImageMagick就被公布出一个严重的0day漏洞(CVE-2016-3714)，攻击者通过此漏洞可执行任意命令，最终窃取重要信息取得服务器控制权。
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/05/12/test-of-ImageMagick/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1504,7 +1512,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">19</span>
+              <span class="site-state-item-count">20</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1512,7 +1520,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1521,7 +1529,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

