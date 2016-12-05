@@ -64,7 +64,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="python," />
+  <meta name="keywords" content="xss," />
 
 
 
@@ -82,18 +82,16 @@
 
 
 
-<meta name="description" content="前言对于信息安全工作者，快速了解一个ip段、ip列表或者域名列表的信息（端口、标题、敏感文件等），是进行安全检测的重要一环，LNScan正是为此而生，敏感文件扫描模块改自BBScan.">
+<meta name="description" content="关注安全">
 <meta property="og:type" content="article">
-<meta property="og:title" content="LNScan--一个高效的信息探测脚本">
-<meta property="og:url" content="http://wps2015.org/2016/07/28/LNScan/index.html">
+<meta property="og:title" content="wps2015的博客">
+<meta property="og:url" content="http://wps2015.org/2016/11/29/how-to-diy-xss-payload/index.html">
 <meta property="og:site_name" content="wps2015的博客">
-<meta property="og:description" content="前言对于信息安全工作者，快速了解一个ip段、ip列表或者域名列表的信息（端口、标题、敏感文件等），是进行安全检测的重要一环，LNScan正是为此而生，敏感文件扫描模块改自BBScan.">
-<meta property="og:image" content="https://img.alicdn.com/imgextra/i3/792076116/TB2SbKbtFXXXXaeXpXXXXXXXXXX_!!792076116.png">
-<meta property="og:updated_time" content="2016-11-09T03:45:11.125Z">
+<meta property="og:description" content="关注安全">
+<meta property="og:updated_time" content="2016-11-29T09:48:08.081Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="LNScan--一个高效的信息探测脚本">
-<meta name="twitter:description" content="前言对于信息安全工作者，快速了解一个ip段、ip列表或者域名列表的信息（端口、标题、敏感文件等），是进行安全检测的重要一环，LNScan正是为此而生，敏感文件扫描模块改自BBScan.">
-<meta name="twitter:image" content="https://img.alicdn.com/imgextra/i3/792076116/TB2SbKbtFXXXXaeXpXXXXXXXXXX_!!792076116.png">
+<meta name="twitter:title" content="wps2015的博客">
+<meta name="twitter:description" content="关注安全">
 
 
 
@@ -111,7 +109,7 @@
   };
 </script>
 
-  <title> LNScan--一个高效的信息探测脚本 | wps2015的博客 </title>
+  <title>  | wps2015的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -259,7 +257,7 @@
             
             
               
-                LNScan--一个高效的信息探测脚本
+                
               
             
           </h1>
@@ -271,8 +269,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-28T00:00:00+08:00" content="2016-07-28">
-              2016-07-28
+            <time itemprop="dateCreated" datetime="2016-11-29T00:00:00+08:00" content="2016-11-29">
+              2016-11-29
             </time>
           </span>
 
@@ -285,8 +283,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/神器而已/" itemprop="url" rel="index">
-                    <span itemprop="name">神器而已</span>
+                  <a href="/categories/Web安全/" itemprop="url" rel="index">
+                    <span itemprop="name">Web安全</span>
                   </a>
                 </span>
 
@@ -301,8 +299,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/07/28/LNScan/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/28/LNScan/" itemprop="commentsCount"></span>
+                <a href="/2016/11/29/how-to-diy-xss-payload/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/29/how-to-diy-xss-payload/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -325,29 +323,7 @@
       
 
       
-        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>对于信息安全工作者，快速了解一个ip段、ip列表或者域名列表的信息（端口、标题、敏感文件等），是进行安全检测的重要一环，LNScan正是为此而生，敏感文件扫描模块改自<a href="https://github.com/lijiejie/BBScan" target="_blank" rel="external">BBScan</a>.</p>
-<a id="more"></a>
-<h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><ul>
-<li><p>快速高效，多进程 + 多线程结合</p>
-</li>
-<li><p>支持指定ip段，或者文件导入（ip/域名）</p>
-</li>
-<li><p>敏感文件扫描支持多web端口</p>
-</li>
-<li><p>扫描结束后生成格式鲜明的html报告，方便查看</p>
-</li>
-</ul>
-<p>扫描报告如下图：</p>
-<p><img src="https://img.alicdn.com/imgextra/i3/792076116/TB2SbKbtFXXXXaeXpXXXXXXXXXX_!!792076116.png" alt=""></p>
-<h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">ip段/文件 =&gt; title&amp;常见端口扫描 =&gt; 提取web端口 =&gt; 敏感文件扫描 =&gt; 生成report</span><br></pre></td></tr></table></figure>
-<h3 id="改进"><a href="#改进" class="headerlink" title="改进"></a>改进</h3><p>对一个大型的企业来说，使用layer等工具扫描二级域名，获取的ip/域名并不完全；若发现很多子域名分布在不同的C段，那么针对每个C段扫描就显得任务很重。本工具计划针对导入的ip/域名，进行人为的ip扩展（前后相邻ip或者利用掩码划分更小的段），更大限度的命中目标企业ip。</p>
-<hr>
-<p><strong>最新进展</strong></p>
-<ol>
-<li>ip扩展完成，可利用<code>&quot;--extend num&quot;</code>指令，进行指定小子网的ip扩展，如<code>&quot;--extend 30&quot;</code>;主要针对利用<code>-f</code>文件导入的方式；</li>
-</ol>
-<h3 id="地址"><a href="#地址" class="headerlink" title="地址"></a>地址</h3><p><a href="https://github.com/sowish/LNScan" target="_blank" rel="external">LNScan传送门</a></p>
-
+        
       
     </div>
     
@@ -367,7 +343,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/python/" rel="tag">#python</a>
+            <a href="/tags/xss/" rel="tag">#xss</a>
           
         </div>
       
@@ -376,17 +352,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/06/27/unusual-xss/" rel="next" title="不常见的xss利用探索">
-                <i class="fa fa-chevron-left"></i> 不常见的xss利用探索
+              <a href="/2016/11/08/the-test-of-Tar-extract-pathname-bypass/" rel="next" title="Tar解压路径绕过漏洞分析（CVE-2016-6321）">
+                <i class="fa fa-chevron-left"></i> Tar解压路径绕过漏洞分析（CVE-2016-6321）
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/08/05/code-audit-of-zcncms1/" rel="prev" title="代码审计——zcncms后台SQL注入(一)">
-                代码审计——zcncms后台SQL注入(一) <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -412,8 +384,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/07/28/LNScan/"
-           data-title="LNScan--一个高效的信息探测脚本" data-url="http://wps2015.org/2016/07/28/LNScan/">
+      <div class="ds-thread" data-thread-key="2016/11/29/how-to-diy-xss-payload/"
+           data-title="" data-url="http://wps2015.org/2016/11/29/how-to-diy-xss-payload/">
       </div>
     
   </div>
@@ -578,7 +550,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特点"><span class="nav-number">2.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#流程"><span class="nav-number">3.</span> <span class="nav-text">流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#改进"><span class="nav-number">4.</span> <span class="nav-text">改进</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#地址"><span class="nav-number">5.</span> <span class="nav-text">地址</span></a></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
         </section>
