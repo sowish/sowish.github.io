@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://wps2015.org/"/>
-  <updated>2016-12-12T01:45:16.536Z</updated>
+  <updated>2016-12-12T01:48:20.639Z</updated>
   <id>http://wps2015.org/</id>
   
   <author>
@@ -17,10 +17,10 @@
   
   <entry>
     <title>XSS常见利用代码及原理</title>
-    <link href="http://wps2015.org/2016/11/29/usually-used-xss-code/"/>
-    <id>http://wps2015.org/2016/11/29/usually-used-xss-code/</id>
-    <published>2016-11-28T16:00:00.000Z</published>
-    <updated>2016-12-12T01:45:16.536Z</updated>
+    <link href="http://wps2015.org/2016/12/12/usually-used-xss-code/"/>
+    <id>http://wps2015.org/2016/12/12/usually-used-xss-code/</id>
+    <published>2016-12-11T16:00:00.000Z</published>
+    <updated>2016-12-12T01:48:20.639Z</updated>
     
     <content type="html"><![CDATA[<p>XSS是一种经常出现在Web应用中的计算机安全漏洞，它允许恶意Web用户将代码植入到提供给其它用户使用的页面中。常见的利用方式有cookie获取、基础认证钓鱼、表单劫持等。通常，在发现XSS漏洞后，会利用跨站平台里面的payload来进行攻击。但是，要更好的理解XSS的危害，还是需要自己动手来写并理解XSS的攻击代码。<a id="more"></a><br><strong>ps. 本文所涉及代码仅做测试使用，请不要用于非法用途！</strong></p>
 <h3 id="Cookie偷取"><a href="#Cookie偷取" class="headerlink" title="Cookie偷取"></a>Cookie偷取</h3><p>XSS最常见的手段大概就是获取Cookie了吧。</p>
