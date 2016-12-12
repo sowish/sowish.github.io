@@ -64,7 +64,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="php," />
+  <meta name="keywords" content="wps2015, wps2015的博客" />
 
 
 
@@ -82,19 +82,15 @@
 
 
 
-<meta name="description" content="在php5.5中，加入了一个新的密码哈希函数，可使用Bcrypt轻松实现加盐的安全密码。
-bcrypt和其他对称或非对称加密方式不同的是，不是直接解密得到明文，也不是二次加密比较密文，而是把明文和存储的密文一块运算得到另一个密文，如果这两个密文相同则验证成功。">
-<meta property="og:type" content="article">
-<meta property="og:title" content="PHP5.5使用Bcrypt加密密码">
-<meta property="og:url" content="http://wps2015.org/2015/05/21/Bcrypt-in-php5.5/index.html">
+<meta name="description" content="关注安全">
+<meta property="og:type" content="website">
+<meta property="og:title" content="wps2015的博客">
+<meta property="og:url" content="http://wps2015.org/page/3/index.html">
 <meta property="og:site_name" content="wps2015的博客">
-<meta property="og:description" content="在php5.5中，加入了一个新的密码哈希函数，可使用Bcrypt轻松实现加盐的安全密码。
-bcrypt和其他对称或非对称加密方式不同的是，不是直接解密得到明文，也不是二次加密比较密文，而是把明文和存储的密文一块运算得到另一个密文，如果这两个密文相同则验证成功。">
-<meta property="og:updated_time" content="2016-11-08T01:47:30.205Z">
+<meta property="og:description" content="关注安全">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="PHP5.5使用Bcrypt加密密码">
-<meta name="twitter:description" content="在php5.5中，加入了一个新的密码哈希函数，可使用Bcrypt轻松实现加盐的安全密码。
-bcrypt和其他对称或非对称加密方式不同的是，不是直接解密得到明文，也不是二次加密比较密文，而是把明文和存储的密文一块运算得到另一个密文，如果这两个密文相同则验证成功。">
+<meta name="twitter:title" content="wps2015的博客">
+<meta name="twitter:description" content="关注安全">
 
 
 
@@ -112,7 +108,7 @@ bcrypt和其他对称或非对称加密方式不同的是，不是直接解密�
   };
 </script>
 
-  <title> PHP5.5使用Bcrypt加密密码 | wps2015的博客 </title>
+  <title> wps2015的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -143,7 +139,9 @@ bcrypt和其他对称或非对称加密方式不同的是，不是直接解密�
     
   
 
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
+  <div class="container one-collumn sidebar-position-left 
+   page-home 
+ ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -238,9 +236,9 @@ bcrypt和其他对称或非对称加密方式不同的是，不是直接解密�
         <div class="content-wrap">
           <div id="content" class="content">
             
-
-  <div id="posts" class="posts-expand">
+  <section id="posts" class="posts-expand">
     
+      
 
   
   
@@ -260,7 +258,10 @@ bcrypt和其他对称或非对称加密方式不同的是，不是直接解密�
             
             
               
-                PHP5.5使用Bcrypt加密密码
+                
+                <a class="post-title-link" href="/2014/09/10/sql-injection-in-http-headers/" itemprop="url">
+                  HTTP请求头信息的注入
+                </a>
               
             
           </h1>
@@ -272,8 +273,8 @@ bcrypt和其他对称或非对称加密方式不同的是，不是直接解密�
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-05-21T14:58:55+08:00" content="2015-05-21">
-              2015-05-21
+            <time itemprop="dateCreated" datetime="2014-09-10T00:00:00+08:00" content="2014-09-10">
+              2014-09-10
             </time>
           </span>
 
@@ -302,8 +303,8 @@ bcrypt和其他对称或非对称加密方式不同的是，不是直接解密�
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2015/05/21/Bcrypt-in-php5.5/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/05/21/Bcrypt-in-php5.5/" itemprop="commentsCount"></span>
+                <a href="/2014/09/10/sql-injection-in-http-headers/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/09/10/sql-injection-in-http-headers/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -326,87 +327,54 @@ bcrypt和其他对称或非对称加密方式不同的是，不是直接解密�
       
 
       
-        <p>在php5.5中，加入了一个新的密码哈希函数，可使用Bcrypt轻松实现加盐的安全密码。</p>
-<p>bcrypt和其他对称或非对称加密方式不同的是，不是直接解密得到明文，也不是二次加密比较密文，而是把明文和存储的密文一块运算得到另一个密文，如果这两个密文相同则验证成功。<a id="more"></a></p>
-<p>官方手册在这里： <a href="http://cn2.php.net/manual/zh/book.password.php" target="_blank" rel="external">http://cn2.php.net/manual/zh/book.password.php</a></p>
-<p>生成密钥</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$hash = password_hash(<span class="string">'password'</span>,PASSWORD_BCRYPT,[<span class="string">'cost'</span> =&amp;gt; <span class="number">10</span>]);</span><br><span class="line"><span class="keyword">echo</span> $hash;</span><br></pre></td></tr></table></figure>
-<p>password_hash() —-加密密码<br>第一个参数：需要加密的密码<br>第二个参数：密码算法常量 (<a href="http://cn2.php.net/manual/zh/password.constants.php" target="_blank" rel="external">http://cn2.php.net/manual/zh/password.constants.php</a>)<br>第三个参数：数组类型。支持两个选项：salt在散列密码时加的盐（干扰字符串）。cost用来指明算法递归的层数。</p>
-<p>上面代码每次运行生成的密钥不同，大致效果如下。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$<span class="number">2</span>y$<span class="number">10</span>$bWNfw6QbjmjyCDBc9lrZRuBjraxBzN7eAuozS6D3r4QxJn0tgXRwe</span><br></pre></td></tr></table></figure>
-<p>生成的密钥长度为60位，所以设计数据库的时候需要注意。</p>
-<p>验证密钥</p>
-<p>懒得存数据库再去取了，直接把刚生成的密钥复制过来了~~</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$hash = <span class="string">'$2y$10$bWNfw6QbjmjyCDBc9lrZRuBjraxBzN7eAuozS6D3r4QxJn0tgXRwe'</span>;</span><br><span class="line">$res = password_verify(<span class="string">'password'</span>,$hash);</span><br><span class="line">var_dump($res);</span><br></pre></td></tr></table></figure>
-<p>如果没有天灾人祸意外发生的话。你会看到下面的输出</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bool(true)</span><br></pre></td></tr></table></figure>
-<p>这就成功了。</p>
-<p>性能</p>
-<p>下面我们来看看Bcrypt的性能，安全性的提升，肯定是以性能为代价。bcrypt要加强密码安全性，增加运行时间也是肯定的。那我们现在就测试一下Bcrypt与普通md5的速度。</p>
-<p>测试机性能：</p>
-<p>CPU I7 4核 2.3G主频<br>内存 16G ddr3 内存<br>系统 Mac<br>PHP 5.5.15</p>
-<p>现在用下面这段代码分别测试一下md5和Bcrypt在不加盐的情况下的运行速度<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--?php</span><br><span class="line"> $s_time = microtime(<span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">password_hash(<span class="string">'password'</span>,PASSWORD_BCRYPT,[<span class="string">'cost'</span> =&amp;gt; <span class="number">10</span>]);</span><br><span class="line"><span class="comment">// md5('password');</span></span><br><span class="line">$e_time = microtime(<span class="keyword">true</span>);</span><br><span class="line">$run_time = $e_time-$s_time;</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> ($run_time*<span class="number">1000</span>).<span class="string">'ms'</span>;</span><br></pre></td></tr></table></figure></p>
-<p>Bcrypt 5次运行结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">68.569183349609ms</span><br><span class="line">68.006992340088ms</span><br><span class="line">69.074869155884ms</span><br><span class="line">68.211078643799ms</span><br><span class="line">68.757057189941ms</span><br></pre></td></tr></table></figure></p>
-<p>md5 5次运行结果</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">0.0040531158447266ms</span><br><span class="line">0.0040531158447266ms</span><br><span class="line">0.0050067901611328ms</span><br><span class="line">0.0040531158447266ms</span><br></pre></td></tr></table></figure>
-<p>测试结果</p>
-<p>Bcrypt 加密一个密文平均值在68毫秒左右，md5 加密一个密文平均值在0.004毫秒左右，性能大约差距16000倍。<br>采用md5 一秒大约能加密 250000个密文<br>采用Bcrypt 一秒大约能加密 14个密文<br>所以，如果你要将Bcrypt用到你的程序中去的话。小应用还好，如果是大应用。您就得按倍数增加服务器了。<br>如果不是给五角大楼写程序，其实md5+salt安全性已经足够了。</p>
-
+        
+          <blockquote>
+<p>常见http可能被污染的参数有这些</p>
+</blockquote>
+<pre><code>- User-agent 浏览器版本 （少）
+- Referer      来源（少）
+- X-Forwarded-For 获取ip（高）
+- client_ip   获取ip（高）
+-cookie      获取cookie值（高）
+</code></pre>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014/09/10/sql-injection-in-http-headers/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
       
     </div>
     
     <div>
       
-        
-      
     </div>
 
     <div>
-      
-        
       
     </div>
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/php/" rel="tag">#php</a>
-          
-        </div>
+
       
 
       
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2015/04/07/script-of-mssql-error-based/" rel="next" title="基于mssql的报错注入的脚本(get)">
-                <i class="fa fa-chevron-left"></i> 基于mssql的报错注入的脚本(get)
-              </a>
-            
-          </div>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2015/06/18/the-problem-of-python-chinese/" rel="prev" title="python unicode字节串转成中文问题  （转）">
-                python unicode字节串转成中文问题  （转） <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
       
-
-      
+        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
+    
+  </section>
 
-    <div class="post-spread">
-      
-    </div>
-  </div>
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+  </nav>
+
 
 
           </div>
@@ -414,14 +382,6 @@ bcrypt和其他对称或非对称加密方式不同的是，不是直接解密�
 
 
           
-  <div class="comments" id="comments">
-    
-      <div class="ds-thread" data-thread-key="2015/05/21/Bcrypt-in-php5.5/"
-           data-title="PHP5.5使用Bcrypt加密密码" data-url="http://wps2015.org/2015/05/21/Bcrypt-in-php5.5/">
-      </div>
-    
-  </div>
-
 
         </div>
         
@@ -441,17 +401,8 @@ bcrypt和其他对称或非对称加密方式不同的是，不是直接解密�
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel ">
+      <section class="site-overview sidebar-panel  sidebar-panel-active ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="https://img.alicdn.com/imgextra/i3/792076116/TB2Z2f9oFXXXXXYXFXXXXXXXXXX_!!792076116.png"
@@ -462,7 +413,7 @@ bcrypt和其他对称或非对称加密方式不同的是，不是直接解密�
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">20</span>
+              <span class="site-state-item-count">21</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -576,17 +527,6 @@ bcrypt和其他对称或非对称加密方式不同的是，不是直接解密�
       </section>
 
       
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-            
-              
-            
-            
-              <p class="post-toc-empty">此文章未包含目录</p>
-            
-          </div>
-        </section>
-      
 
     </div>
   </aside>
@@ -682,10 +622,6 @@ bcrypt和其他对称或非对称加密方式不同的是，不是直接解密�
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
-
-
 
   
 

