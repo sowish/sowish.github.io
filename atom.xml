@@ -460,10 +460,10 @@
     <link href="http://wps2015.org/2016/05/15/whctf-writeup-all/"/>
     <id>http://wps2015.org/2016/05/15/whctf-writeup-all/</id>
     <published>2016-05-14T16:00:00.000Z</published>
-    <updated>2016-11-08T01:44:24.472Z</updated>
+    <updated>2016-12-23T02:21:48.128Z</updated>
     
-    <content type="html"><![CDATA[<p>whctf2016初赛提前结束了，团队的小伙伴们还是很给力的，做出了所有的web及几乎所有（差一道）的crypto题。</p>
-<h2 id="Web题"><a href="#Web题" class="headerlink" title="Web题"></a>Web题<a id="more"></a></h2><p><strong>0x01. 信息</strong></p>
+    <content type="html"><![CDATA[<p>whctf2016初赛提前结束了，团队的小伙伴们还是很给力的，做出了所有的web及几乎所有（差一道）的crypto题。<a id="more"></a></p>
+<h2 id="Web题"><a href="#Web题" class="headerlink" title="Web题"></a>Web题</h2><p><strong>0x01. 信息</strong></p>
 <p>打开是一个代码下载链接，下载下来是wireshark抓的cap包，打开包分析发现两个http的包，get请求下载了zip的压缩包，利用wireshark导出zip包-File-Export Objects-HTTP。发现需要密码打开，官方提示华科官网，解压密码<code>www.hust.edu.cn</code>，flag在flag3.docx中</p>
 <p><strong>0x02. 窃取</strong></p>
 <p>测试地址存在union注入，利用sqlmap在<strong>wh_ct4_hgduyingjkhjhjg</strong>库中发现flag的提示<code>flag is nothere,but I can tell you the flag is xor user&#39;s password.</code>，那么到<strong>web_sqli</strong>库中，将user1和user2的password异或后解密，得到flag:hust</p>
@@ -487,8 +487,7 @@
     
     <summary type="html">
     
-      &lt;p&gt;whctf2016初赛提前结束了，团队的小伙伴们还是很给力的，做出了所有的web及几乎所有（差一道）的crypto题。&lt;/p&gt;
-&lt;h2 id=&quot;Web题&quot;&gt;&lt;a href=&quot;#Web题&quot; class=&quot;headerlink&quot; title=&quot;Web题&quot;&gt;&lt;/a&gt;Web题
+      &lt;p&gt;whctf2016初赛提前结束了，团队的小伙伴们还是很给力的，做出了所有的web及几乎所有（差一道）的crypto题。
     
     </summary>
     
