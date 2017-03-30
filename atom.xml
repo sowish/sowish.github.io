@@ -147,7 +147,7 @@
     <link href="http://wps2015.org/2016/10/17/summary-of-cross-domain/"/>
     <id>http://wps2015.org/2016/10/17/summary-of-cross-domain/</id>
     <published>2016-10-16T16:00:00.000Z</published>
-    <updated>2016-10-28T07:23:48.947Z</updated>
+    <updated>2017-03-22T01:27:33.276Z</updated>
     
     <content type="html"><![CDATA[<p>最近面试问的挺多的一个问题，就是JavaScript的跨域问题。在这里，对跨域的一些方法做个总结。由于浏览器的同源策略，不同域名、不同端口、不同协议都会构成跨域；但在实际的业务中，很多场景需要进行跨域传递信息，这样就催生出多种跨域方法。<br><a id="more"></a></p>
 <h3 id="1-具备src的标签"><a href="#1-具备src的标签" class="headerlink" title="1. 具备src的标签"></a>1. 具备src的标签</h3><ul>
